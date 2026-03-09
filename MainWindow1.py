@@ -8,12 +8,17 @@ from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
 from OptionsBuildupDialog import OptionsBuildupDialog
+from BoxShieldDialog import BoxShieldDialog
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.load_ui()
+
+        # shield menu setup
+        self.BoxShieldDialog = BoxShieldDialog()
+        self.actionBox.triggered.connect(self.BoxShieldDialog.exec)
 
         # options menu setup
         self.OptionsGroupsDialog = OptionsGroupsDialog()

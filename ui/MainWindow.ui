@@ -65,8 +65,29 @@
     <property name="title">
      <string>&amp;Source</string>
     </property>
-    <addaction name="actionBody"/>
-    <addaction name="actionPhotons"/>
+    <widget class="QMenu" name="menuBody">
+     <property name="title">
+      <string>Body</string>
+     </property>
+     <addaction name="actionLine_Source"/>
+     <addaction name="actionPoint_Source"/>
+     <addaction name="actionSpherical_Source"/>
+     <addaction name="actionBox_Source"/>
+     <addaction name="actionX_Aligned_Cylinder_Source"/>
+     <addaction name="actionY_Aligned_Cylinder_Source"/>
+     <addaction name="actionZ_Aligned_Cylinder_Source"/>
+    </widget>
+    <widget class="QMenu" name="menuPhotons">
+     <property name="title">
+      <string>Photons</string>
+     </property>
+     <addaction name="actionBy_Isotope"/>
+     <addaction name="actionBy_Energy"/>
+     <addaction name="actionImport"/>
+    </widget>
+    <addaction name="menuBody"/>
+    <addaction name="menuPhotons"/>
+    <addaction name="actionQuadrature"/>
    </widget>
    <widget class="QMenu" name="menuShield">
     <property name="title">
@@ -126,16 +147,6 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionBody">
-   <property name="text">
-    <string>Body</string>
-   </property>
-  </action>
-  <action name="actionPhotons">
-   <property name="text">
-    <string>Photons</string>
-   </property>
-  </action>
   <action name="actionRemove">
    <property name="enabled">
     <bool>false</bool>
@@ -146,17 +157,17 @@
   </action>
   <action name="actionBuildup_Material">
    <property name="text">
-    <string>Buildup Material</string>
+    <string>Buildup Material ...</string>
    </property>
   </action>
   <action name="actionDaughters">
    <property name="text">
-    <string>Daughters</string>
+    <string>Daughters ...</string>
    </property>
   </action>
   <action name="actionEnergy_Groups">
    <property name="text">
-    <string>Energy Groups</string>
+    <string>Energy Groups ...</string>
    </property>
   </action>
   <action name="actionPython_Script">
@@ -171,7 +182,7 @@
   </action>
   <action name="location">
    <property name="text">
-    <string>location ...</string>
+    <string>Location ...</string>
    </property>
   </action>
   <action name="actionZapMeNot_Help">
@@ -232,6 +243,61 @@
   <action name="actionCappedCylinder">
    <property name="text">
     <string>Capped Cylinder</string>
+   </property>
+  </action>
+  <action name="actionLine_Source">
+   <property name="text">
+    <string>Line Source</string>
+   </property>
+  </action>
+  <action name="actionPoint_Source">
+   <property name="text">
+    <string>Point Source</string>
+   </property>
+  </action>
+  <action name="actionSpherical_Source">
+   <property name="text">
+    <string>Spherical Source</string>
+   </property>
+  </action>
+  <action name="actionBox_Source">
+   <property name="text">
+    <string>Box Source</string>
+   </property>
+  </action>
+  <action name="actionX_Aligned_Cylinder_Source">
+   <property name="text">
+    <string>X-Aligned Cylinder Source</string>
+   </property>
+  </action>
+  <action name="actionY_Aligned_Cylinder_Source">
+   <property name="text">
+    <string>Y-Aligned Cylinder Source</string>
+   </property>
+  </action>
+  <action name="actionZ_Aligned_Cylinder_Source">
+   <property name="text">
+    <string>Z-Aligned Cylinder Source</string>
+   </property>
+  </action>
+  <action name="actionBy_Isotope">
+   <property name="text">
+    <string>By Isotope</string>
+   </property>
+  </action>
+  <action name="actionBy_Energy">
+   <property name="text">
+    <string>By Energy</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import ...</string>
+   </property>
+  </action>
+  <action name="actionQuadrature">
+   <property name="text">
+    <string>Quadrature ...</string>
    </property>
   </action>
  </widget>

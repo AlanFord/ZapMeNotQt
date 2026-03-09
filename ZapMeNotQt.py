@@ -15,7 +15,8 @@ dummy_material = Material('water')
 # retrieve a list of materials that have buildup factors
 for name in Material._library.keys():
     properties = Material._library.get(name)
-    materials.append(name)
+    density = properties.get("density")
+    materials[name] = density
     gp_data = properties.get("gp-coeff")
     if gp_data is not None:
         buildup_factor_materials.append(name)
