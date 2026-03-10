@@ -9,21 +9,20 @@ from pathlib import Path
 from libraries import materials
 
 
-class BoxShieldDialog(PyQt6.QtWidgets.QDialog):
+class SphereShieldDialog(PyQt6.QtWidgets.QDialog):
     def __init__(self):
-        super(BoxShieldDialog, self).__init__()
+        super(SphereShieldDialog, self).__init__()
         self.load_ui()
-        self.setWindowTitle("Box Shield")
+        self.setWindowTitle("Sphere Shield")
         self.material.addItems(materials.keys())
         self.material.setCurrentIndex(0)
         self.density.setText(str(materials[self.material.currentText()]))
         self.physical_validator = QDoubleValidator(0, 1e8, 5, self)
         self.density.setValidator(self.physical_validator)
 
-        self.groupBox_2.setTitle("Box Center:")
-        self.groupBox_3.setTitle("Box Dimensions:")
-        self.radius1.setVisible(False)
-        self.radius1Label.setVisible(False)
+        self.groupBox_2.setTitle("Sphere Center:")
+        self.groupBox_3.setVisible(False)
+        self.radius1Label.setText("Radius:")
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
 

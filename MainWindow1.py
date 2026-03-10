@@ -9,6 +9,8 @@ from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
 from OptionsBuildupDialog import OptionsBuildupDialog
 from BoxShieldDialog import BoxShieldDialog
+from SphereShieldDialog import SphereShieldDialog
+from XSlabShieldDialog import XSlabShieldDialog
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow):
@@ -19,6 +21,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         # shield menu setup
         self.BoxShieldDialog = BoxShieldDialog()
         self.actionBox.triggered.connect(self.BoxShieldDialog.exec)
+        self.SphereShieldDialog = SphereShieldDialog()
+        self.actionSphere.triggered.connect(self.SphereShieldDialog.exec)
+        self.XSlabShieldDialog = XSlabShieldDialog()
+        self.actionSemiInfiniteXSlab.triggered.connect(self.XSlabShieldDialog.exec)
 
         # options menu setup
         self.OptionsGroupsDialog = OptionsGroupsDialog()
