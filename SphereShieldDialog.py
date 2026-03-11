@@ -25,6 +25,8 @@ class SphereShieldDialog(PyQt6.QtWidgets.QDialog):
         self.radius1Label.setText("Radius:")
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
+        # shrink the height of the dialog to fit the visible widgets
+        self.resize(self.size().width(), 4)
 
         self.material.currentIndexChanged.connect(self.on_material_selected)
 

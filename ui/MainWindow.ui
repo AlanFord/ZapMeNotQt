@@ -97,10 +97,8 @@
      <property name="title">
       <string>Add</string>
      </property>
-     <addaction name="actionSemiInfiniteShield"/>
      <addaction name="actionSemiInfiniteXSlab"/>
      <addaction name="actionSphere"/>
-     <addaction name="actionShell"/>
      <addaction name="actionBox"/>
      <addaction name="actionInfiniteAnnulus"/>
      <addaction name="actionXAlignedInfiniteAnnulus"/>

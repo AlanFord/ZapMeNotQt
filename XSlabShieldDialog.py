@@ -24,6 +24,9 @@ class XSlabShieldDialog(PyQt6.QtWidgets.QDialog):
         self.groupBox_3.setVisible(False)
         self.radius1Label.setText("X-start (cm):")
         self.radius2Label.setText("X-end (cm):")
+        self.shellButton.setVisible(False)
+        # shrink the height of the dialog to fit the visible widgets
+        self.resize(self.size().width(), 4)
 
         self.material.currentIndexChanged.connect(self.on_material_selected)
 
