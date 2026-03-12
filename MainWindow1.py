@@ -8,9 +8,10 @@ from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
 from OptionsBuildupDialog import OptionsBuildupDialog
-from BoxShieldDialog import BoxShieldDialog
-from SphereShieldDialog import SphereShieldDialog
-from XSlabShieldDialog import XSlabShieldDialog
+from BoxDialog import BoxDialog
+from SphereDialog import SphereDialog
+from XSlabDialog import XSlabDialog
+from AnnulusDialog import AnnulusShieldDialog
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow):
@@ -19,12 +20,14 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.load_ui()
 
         # shield menu setup
-        self.BoxShieldDialog = BoxShieldDialog()
+        self.BoxShieldDialog = BoxDialog()
         self.actionBox.triggered.connect(self.BoxShieldDialog.exec)
-        self.SphereShieldDialog = SphereShieldDialog()
+        self.SphereShieldDialog = SphereDialog()
         self.actionSphere.triggered.connect(self.SphereShieldDialog.exec)
-        self.XSlabShieldDialog = XSlabShieldDialog()
+        self.XSlabShieldDialog = XSlabDialog()
         self.actionSemiInfiniteXSlab.triggered.connect(self.XSlabShieldDialog.exec)
+        self.AnnulusShieldDialog = AnnulusShieldDialog()
+        self.actionInfiniteAnnulus.triggered.connect(self.AnnulusShieldDialog.exec)
 
         # options menu setup
         self.OptionsGroupsDialog = OptionsGroupsDialog()
