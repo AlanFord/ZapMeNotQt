@@ -1,15 +1,14 @@
 from GenericBodyDialog import GenericBodyDialog
-from ShellDialog import ShellDialog
 
 
-class SphereDialog(GenericBodyDialog):
+class ShellDialog(GenericBodyDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Sphere")
+        self.setWindowTitle("Shell")
 
-        self.groupBox_2.setTitle("Sphere Center:")
+        self.groupBox_2.setVisible(False)
         self.groupBox_3.setVisible(False)
-        self.radius1Label.setText("Radius (cm):")
+        self.radius1Label.setText("Thickness (cm):")
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
         # shrink the height of the dialog to fit the visible widgets

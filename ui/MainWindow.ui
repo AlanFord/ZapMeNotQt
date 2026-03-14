@@ -102,9 +102,12 @@
      <addaction name="actionBox"/>
      <addaction name="actionInfiniteAnnulus"/>
      <addaction name="actionXAlignedInfiniteAnnulus"/>
-     <addaction name="actionYAlignedInfinteAnnulus"/>
+     <addaction name="actionYAlignedInfiniteAnnulus"/>
      <addaction name="actionZAlignedInfiniteAnnulus"/>
      <addaction name="actionCappedCylinder"/>
+     <addaction name="actionX_Aligned_Cylinder"/>
+     <addaction name="actionY_Aligned_Cylinder"/>
+     <addaction name="actionZ_Aligned_Cylinder"/>
     </widget>
     <addaction name="menuAdd"/>
     <addaction name="actionRemove"/>
@@ -228,7 +231,7 @@
     <string>X-Aligned Infinite Annulus</string>
    </property>
   </action>
-  <action name="actionYAlignedInfinteAnnulus">
+  <action name="actionYAlignedInfiniteAnnulus">
    <property name="text">
     <string>Y-Aligned Infinte Annulus</string>
    </property>
@@ -296,6 +299,21 @@
   <action name="actionQuadrature">
    <property name="text">
     <string>Quadrature ...</string>
+   </property>
+  </action>
+  <action name="actionX_Aligned_Cylinder">
+   <property name="text">
+    <string>X-Aligned Cylinder</string>
+   </property>
+  </action>
+  <action name="actionY_Aligned_Cylinder">
+   <property name="text">
+    <string>Y-Aligned Cylinder</string>
+   </property>
+  </action>
+  <action name="actionZ_Aligned_Cylinder">
+   <property name="text">
+    <string>Z-Aligned Cylinder</string>
    </property>
   </action>
  </widget>
