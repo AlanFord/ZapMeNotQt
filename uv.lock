@@ -2648,7 +2648,8 @@ wheels = [
 
 [[package]]
 name = "zapmenot"
-source = { directory = "../../../Desktop/github/ZapMeNot" }
+version = "0.2.1"
+source = { path = "../../../Desktop/github/ZapMeNot/dist/zapmenot-0.2.1-py3-none-any.whl" }
 dependencies = [
     { name = "ipywidgets" },
     { name = "jupyterlab" },
@@ -2659,6 +2660,9 @@ dependencies = [
     { name = "trame" },
     { name = "trame-vtk" },
     { name = "trame-vuetify" },
+]
+wheels = [
+    { filename = "zapmenot-0.2.1-py3-none-any.whl", hash = "sha256:c45537796723efba984722bd33c706868736793fd0d1aade104b19b5f56dc5ed" },
 ]
 
 [package.metadata]
@@ -2698,7 +2702,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "pyqt6", specifier = ">=6.10.2" },
-    { name = "zapmenot", directory = "../../../Desktop/github/ZapMeNot" },
+    { name = "zapmenot", path = "../../../Desktop/github/ZapMeNot/dist/zapmenot-0.2.1-py3-none-any.whl" },
 ]
 
 [package.metadata.requires-dev]

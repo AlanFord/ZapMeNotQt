@@ -15,4 +15,4 @@ dev = [
 ]
 
 [tool.uv.sources]
-zapmenot = { path = "../../../Desktop/github/ZapMeNot" }
+zapmenot = { path = "../../../Desktop/github/ZapMeNot/dist/zapmenot-0.2.1-py3-none-any.whl" }
