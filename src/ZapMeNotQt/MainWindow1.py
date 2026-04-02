@@ -20,6 +20,8 @@ from XAlignedAnnulusDialog import XAlignedAnnulusDialog
 from YAlignedAnnulusDialog import YAlignedAnnulusDialog
 from ZAlignedAnnulusDialog import ZAlignedAnnulusDialog
 
+import libraries
+
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow):
     def __init__(self):
@@ -27,28 +29,17 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.load_ui()
 
         # shield menu setup
-        self.BoxShieldDialog = BoxDialog()
-        self.actionBox.triggered.connect(self.BoxShieldDialog.exec)
-        self.SphereShieldDialog = SphereDialog()
-        self.actionSphere.triggered.connect(self.SphereShieldDialog.exec)
-        self.XSlabShieldDialog = XSlabDialog()
-        self.actionSemiInfiniteXSlab.triggered.connect(self.XSlabShieldDialog.exec)
-        self.AnnulusDialog = AnnulusDialog()
-        self.actionInfiniteAnnulus.triggered.connect(self.AnnulusDialog.exec)
-        self.CappedCylinderDialog = CappedCylinderDialog()
-        self.actionCappedCylinder.triggered.connect(self.CappedCylinderDialog.exec)
-        self.XAlignedCylinderDialog = XAlignedCylinderDialog()
-        self.actionX_Aligned_Cylinder.triggered.connect(self.XAlignedCylinderDialog.exec)
-        self.YAlignedCylinderDialog = YAlignedCylinderDialog()
-        self.actionY_Aligned_Cylinder.triggered.connect(self.YAlignedCylinderDialog.exec)
-        self.ZAlignedCylinderDialog = ZAlignedCylinderDialog()
-        self.actionZ_Aligned_Cylinder.triggered.connect(self.ZAlignedCylinderDialog.exec)
-        self.XAlignedAnnulusDialog = XAlignedAnnulusDialog()
-        self.actionXAlignedInfiniteAnnulus.triggered.connect(self.XAlignedAnnulusDialog.exec)
-        self.YAlignedAnnulusDialog = YAlignedAnnulusDialog()
-        self.actionYAlignedInfiniteAnnulus.triggered.connect(self.YAlignedAnnulusDialog.exec)
-        self.ZAlignedAnnulusDialog = ZAlignedAnnulusDialog()
-        self.actionZAlignedInfiniteAnnulus.triggered.connect(self.ZAlignedAnnulusDialog.exec)
+        self.actionBox.triggered.connect(self.addBoxShieldSelected)
+        self.actionSphere.triggered.connect(self.addSphereShieldSelected)
+        self.actionSemiInfiniteXSlab.triggered.connect(self.addXSlabShieldSelected)
+        self.actionInfiniteAnnulus.triggered.connect(self.addAnnulusShieldSelected)
+        self.actionCappedCylinder.triggered.connect(self.addCappedCylinderShieldSelected)
+        self.actionX_Aligned_Cylinder.triggered.connect(self.addXAlignedCylinderShieldSelected)
+        self.actionY_Aligned_Cylinder.triggered.connect(self.addYAlignedCylinderShieldSelected)
+        self.actionZ_Aligned_Cylinder.triggered.connect(self.addZAlignedCylinderShieldSelected)
+        self.actionXAlignedInfiniteAnnulus.triggered.connect(self.addXAlignedAnnulusShieldSelected)
+        self.actionYAlignedInfiniteAnnulus.triggered.connect(self.addYAlignedAnnulusShieldSelected)
+        self.actionZAlignedInfiniteAnnulus.triggered.connect(self.addZAlignedAnnulusShieldSelected)
 
         # options menu setup
         self.OptionsGroupsDialog = OptionsGroupsDialog()
@@ -69,3 +60,55 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def addBoxShieldSelected(self):
+        BoxDialog().exec()
+        self.updateSummary()
+
+    def addSphereShieldSelected(self):
+        SphereDialog().exec()
+        self.updateSummary()
+
+    def addXSlabShieldSelected(self):
+        XSlabDialog().exec()
+        self.updateSummary()
+
+    def addAnnulusShieldSelected(self):
+        AnnulusDialog().exec()
+        self.updateSummary()
+
+    def addCappedCylinderShieldSelected(self):
+        CappedCylinderDialog().exec()
+        self.updateSummary()
+
+    def addXAlignedCylinderShieldSelected(self):
+        XAlignedCylinderDialog().exec()
+        self.updateSummary()
+
+    def addYAlignedCylinderShieldSelected(self):
+        YAlignedCylinderDialog().exec()
+        self.updateSummary()
+
+    def addZAlignedCylinderShieldSelected(self):
+        ZAlignedCylinderDialog().exec()
+        self.updateSummary()
+
+    def addXAlignedAnnulusShieldSelected(self):
+        XAlignedAnnulusDialog().exec()
+        self.updateSummary()
+
+    def addYAlignedAnnulusShieldSelected(self):
+        YAlignedAnnulusDialog().exec()
+        self.updateSummary()
+
+    def addZAlignedAnnulusShieldSelected(self):
+        ZAlignedAnnulusDialog().exec()
+        self.updateSummary()
+
+    def updateSummary(self):
+        bodyText = "Model Summary: \n\n"
+
+        bodyText += "***Shields*** \n"
+        for key in libraries.shield_dict.keys():
+            bodyText = bodyText + libraries.shield_dict[key].summarize() + "\n"
+        self.summaryDescription.setText(bodyText)

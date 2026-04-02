@@ -3,3 +3,7 @@
 buildup_factor_materials: list[str] = []
 materials = {}
 isotopes: list[str] = []
+
+shield_dict = {}
+source = None
+detector = None
