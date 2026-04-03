@@ -13,7 +13,6 @@ class ShellDialog(GenericBodyDialog):
         self.radius2Label.setVisible(False)
         self.name_label.setVisible(False)
         self.name_field.setVisible(False)
-        self.shellButton.setVisible(False)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
 

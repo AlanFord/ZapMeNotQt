@@ -12,7 +12,6 @@ class AnnulusDialog(GenericBodyDialog):
         self.groupBox_3.setTitle("Annulus Axis:")
         self.radius1Label.setText("Inner Radius (cm):")
         self.radius2Label.setText("Outer Radius (cm):")
-        self.shellButton.setVisible(False)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.accepted.connect(self.on_dialog_accepted)

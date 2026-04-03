@@ -1,4 +1,5 @@
 import PyQt6.QtWidgets
+import PyQt6.QtCore
 from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures
@@ -15,11 +16,14 @@ class SphereDialog(GenericBodyDialog):
         self.radius1Label.setText("Radius (cm):")
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
+        self.shellCheckBox.setVisible(True)
+        self.shellButton.setVisible(True)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.ShellDialog = ShellDialog()
         self.shell = None
         self.shellButton.clicked.connect(self.the_button_was_clicked)
+        self.shellCheckBox.stateChanged.connect(self.shellCheckBox_changed)
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self):
@@ -32,7 +36,10 @@ class SphereDialog(GenericBodyDialog):
         sphere.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        sphere.shell = self.shell
+        if self.shellCheckBox.isChecked():
+            sphere.shell = self.shell
+        else:
+            self.shell = None
         libraries.shield_dict[sphere.name] = sphere
 
     def the_button_was_clicked(self):
@@ -44,4 +51,11 @@ class SphereDialog(GenericBodyDialog):
             self.shell.density = self.ShellDialog.density.text()
             self.shell.material = self.ShellDialog.material.currentText()
             self.shell.thickness = self.ShellDialog.radius1.text()
+    
+    def shellCheckBox_changed(self):
+        if self.shellCheckBox.isChecked():
+            self.shellButton.setEnabled(True)
+        else:
+            self.shellButton.setEnabled(False)
+
         

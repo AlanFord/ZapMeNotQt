@@ -20,6 +20,9 @@ class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
         self.density.setValidator(self.physical_validator)
         self.material.currentIndexChanged.connect(self.on_material_selected)
         self.name_field.addItems(shield_dict.keys())
+        # set the shell features to not visible as most dialogs won't use these
+        self.shellCheckBox.setVisible(False)
+        self.shellButton.setVisible(False)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /

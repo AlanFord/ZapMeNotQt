@@ -12,7 +12,6 @@ class XSlabDialog(GenericBodyDialog):
         self.groupBox_3.setVisible(False)
         self.radius1Label.setText("X-start (cm):")
         self.radius2Label.setText("X-end (cm):")
-        self.shellButton.setVisible(False)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.accepted.connect(self.on_dialog_accepted)

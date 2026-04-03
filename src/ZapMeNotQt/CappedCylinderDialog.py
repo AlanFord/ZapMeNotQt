@@ -13,7 +13,6 @@ class CappedCylinderDialog(GenericBodyDialog):
         self.radius1Label.setText("Radius (cm):")
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
-        self.shellButton.setVisible(False)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.accepted.connect(self.on_dialog_accepted)

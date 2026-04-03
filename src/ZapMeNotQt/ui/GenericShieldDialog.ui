@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>289</width>
-    <height>563</height>
+    <width>298</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -162,7 +162,17 @@
       <widget class="QLineEdit" name="radius2"/>
      </item>
      <item row="2" column="0">
+      <widget class="QCheckBox" name="shellCheckBox">
+       <property name="text">
+        <string>Include Shell</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
       <widget class="QPushButton" name="shellButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Shell ...</string>
        </property>
