@@ -1,3 +1,4 @@
+import PyQt6.QtWidgets
 from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures
@@ -17,6 +18,7 @@ class SphereDialog(GenericBodyDialog):
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.ShellDialog = ShellDialog()
+        self.shell = None
         self.shellButton.clicked.connect(self.the_button_was_clicked)
         self.accepted.connect(self.on_dialog_accepted)
 
@@ -30,7 +32,16 @@ class SphereDialog(GenericBodyDialog):
         sphere.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
+        sphere.shell = self.shell
         libraries.shield_dict[sphere.name] = sphere
 
     def the_button_was_clicked(self):
-        self.ShellDialog.exec()
+        returnCode = self.ShellDialog.exec()
+        print("return code is ", returnCode)
+        # if returnCode is PyQt6.QtWidgets.QDialog.accepted:
+        if returnCode == 1:
+            self.shell = dataStructures.ShellShield()
+            self.shell.density = self.ShellDialog.density.text()
+            self.shell.material = self.ShellDialog.material.currentText()
+            self.shell.thickness = self.ShellDialog.radius1.text()
+        

@@ -38,6 +38,7 @@ class SphereShield(ShieldData):
     def __init__(self):
         super().__init__()
         self.description = "Sphere"
+        self.shell = None
 
     def summarize(self):
         bodyText = "Name: " + self.name + "\n"
@@ -49,8 +50,25 @@ class SphereShield(ShieldData):
             self.vector1[1] + " " + \
             self.vector1[2] + "\n"
         bodyText += "Radius: " + self.radius1 + "\n"
+        if self.shell is not None:
+            bodyText += "Shell: \n"
+            bodyText += self.shell.summarize()
+        else:
+            bodyText += "Shell: None \n"
         return bodyText
 
+
+class ShellShield():
+    def __init__(self):
+        self.material = None
+        self.density = None
+        self.thickness = None
+
+    def summarize(self):
+        bodyText =  "    Material: " + self.material + "\n"
+        bodyText += "    Density: " + self.density + "\n"
+        bodyText += "    Thickness: " + self.thickness + "\n"
+        return bodyText
 
 
 class BoxShield(ShieldData):
@@ -231,10 +249,3 @@ class ZCylinderShield(ShieldData):
         bodyText += "Length: " + self.radius1 + "\n"
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
-
-
-class ShellShield():
-    def __init__(self):
-        self.material = None
-        self.density = None
-        self.thickness = None
