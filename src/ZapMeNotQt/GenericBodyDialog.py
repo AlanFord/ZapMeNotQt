@@ -6,7 +6,7 @@ from PyQt6 import uic
 from PyQt6.QtGui import QDoubleValidator
 from pathlib import Path
 
-from libraries import materials
+from libraries import materials, shield_dict
 
 
 class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
@@ -19,6 +19,7 @@ class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
         self.physical_validator = QDoubleValidator(0, 1e8, 5, self)
         self.density.setValidator(self.physical_validator)
         self.material.currentIndexChanged.connect(self.on_material_selected)
+        self.name_field.addItems(shield_dict.keys())
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /
