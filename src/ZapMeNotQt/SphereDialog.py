@@ -3,7 +3,7 @@ import PyQt6.QtCore
 from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures
-import libraries
+from libraries import shield_dict
 
 
 class SphereDialog(GenericBodyDialog):
@@ -20,10 +20,11 @@ class SphereDialog(GenericBodyDialog):
         self.shellButton.setVisible(True)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
-        self.ShellDialog = ShellDialog()
+        self.hasAShell = False
         self.shell = None
         self.shellButton.clicked.connect(self.the_button_was_clicked)
         self.shellCheckBox.stateChanged.connect(self.shellCheckBox_changed)
+        self.shellDialog = ShellDialog()
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self):
@@ -36,21 +37,22 @@ class SphereDialog(GenericBodyDialog):
         sphere.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        if self.shellCheckBox.isChecked():
+        if self.hasAShell:
             sphere.shell = self.shell
         else:
-            self.shell = None
-        libraries.shield_dict[sphere.name] = sphere
+            sphere.shell = None
+        shield_dict[sphere.name] = sphere
 
     def the_button_was_clicked(self):
-        returnCode = self.ShellDialog.exec()
+        returnCode = self.shellDialog.exec()
         print("return code is ", returnCode)
         # if returnCode is PyQt6.QtWidgets.QDialog.accepted:
         if returnCode == 1:
+            self.hasAShell = True
             self.shell = dataStructures.ShellShield()
-            self.shell.density = self.ShellDialog.density.text()
-            self.shell.material = self.ShellDialog.material.currentText()
-            self.shell.thickness = self.ShellDialog.radius1.text()
+            self.shell.density = self.shellDialog.density.text()
+            self.shell.material = self.shellDialog.material.currentText()
+            self.shell.thickness = self.shellDialog.radius1.text()
     
     def shellCheckBox_changed(self):
         if self.shellCheckBox.isChecked():
@@ -58,4 +60,19 @@ class SphereDialog(GenericBodyDialog):
         else:
             self.shellButton.setEnabled(False)
 
-        
+    def on_name_selected(self):
+        super().on_name_selected()
+        new_name = self.name_field.currentText()
+        if new_name in shield_dict:
+            existing_shield = shield_dict[new_name]
+            # loading the existing shield data into the dialog
+            if existing_shield.shell is not None:
+                index = self.shellDialog.material.findText(existing_shield.material)
+                if index != -1:
+                    self.shellDialog.material.setCurrentIndex(index)
+                self.shellDialog.density.setText(existing_shield.shell.density)
+                self.shellDialog.radius1.setText(existing_shield.shell.thickness)
+                self.shellCheckBox.setChecked(True)
+            else:
+                self.shellCheckBox.setChecked(False)
+

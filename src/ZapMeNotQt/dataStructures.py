@@ -4,14 +4,14 @@ import abc
 class ShieldData(abc.ABC):
     def __init__(self):
         super().__init__()
-        self.description = None
-        self.name = None
-        self.material = None
-        self.density = None
-        self.vector1 = None
-        self.vector2 = None
-        self.radius1 = None
-        self.radius2 = None
+        self.description = ""
+        self.name = ""
+        self.material = ""
+        self.density = ""
+        self.vector1 = ["","",""]
+        self.vector2 = ["","",""]
+        self.radius1 = ""
+        self.radius2 = ""
         self.shell = None
 
     @abc.abstractmethod
