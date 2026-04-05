@@ -9,6 +9,8 @@ class ShellDialog(GenericBodyDialog):
         self.groupBox_2.setVisible(False)
         self.groupBox_3.setVisible(False)
         self.radius1Label.setText("Thickness (cm):")
+        # change the validator
+        self.radius1.setValidator(self.positive_validator)
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
         self.name_label.setVisible(False)

@@ -16,16 +16,25 @@ class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
         self.material.addItems(materials.keys())
         self.material.setCurrentIndex(0)
         self.density.setText(str(materials[self.material.currentText()]))
-        self.physical_validator = QDoubleValidator(0, 1e8, 5, self)
-        self.density.setValidator(self.physical_validator)
         self.material.currentIndexChanged.connect(self.on_material_selected)
         self.name_field.currentIndexChanged.connect(self.on_name_selected)
         self.name_field.addItems(shield_dict.keys())
         # set the shell features to not visible as most dialogs won't use these
         self.shellCheckBox.setVisible(False)
         self.shellButton.setVisible(False)
-        # TODO:  move this to a subclass
-        # self.ShellDialog = ShellDialog()
+        #validators
+        self.double_validator = QDoubleValidator(self)
+        self.positive_validator = QDoubleValidator(self)
+        self.positive_validator.setBottom(0)
+        self.density.setValidator(self.positive_validator)
+        self.radius1.setValidator(self.positive_validator)
+        self.radius2.setValidator(self.positive_validator)
+        self.triplet1X.setValidator(self.double_validator)
+        self.triplet1Y.setValidator(self.double_validator)
+        self.triplet1Z.setValidator(self.double_validator)
+        self.triplet2X.setValidator(self.double_validator)
+        self.triplet2Y.setValidator(self.double_validator)
+        self.triplet2Z.setValidator(self.double_validator)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /

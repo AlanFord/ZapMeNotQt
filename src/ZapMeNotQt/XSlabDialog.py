@@ -12,6 +12,9 @@ class XSlabDialog(GenericBodyDialog):
         self.groupBox_3.setVisible(False)
         self.radius1Label.setText("X-start (cm):")
         self.radius2Label.setText("X-end (cm):")
+        # change the validators
+        self.radius1.setValidator(self.double_validator)
+        self.radius2.setValidator(self.double_validator)
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.accepted.connect(self.on_dialog_accepted)
