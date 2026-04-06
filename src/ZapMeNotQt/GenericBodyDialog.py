@@ -1,9 +1,10 @@
 import os
 
 from PyQt6.QtWidgets import QDialog, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase
+from PyQt6.QtCore import QFile, QIODeviceBase, QRegularExpression
 from PyQt6 import uic
-from PyQt6.QtGui import QDoubleValidator
+from PyQt6.QtGui import QValidator, QDoubleValidator, \
+    QRegularExpressionValidator
 from pathlib import Path
 
 from libraries import materials, shield_dict
@@ -23,6 +24,9 @@ class GenericBodyDialog(QDialog):
         self.shellCheckBox.setVisible(False)
         self.shellButton.setVisible(False)
         # validators
+        # TODO: improve the regex to accept strings with embedded whitespace
+        self.name_validator = QRegularExpressionValidator(
+            QRegularExpression('[^\\s]+'), self)
         self.double_validator = QDoubleValidator(self)
         self.positive_validator = QDoubleValidator(self)
         self.positive_validator.setBottom(0)
@@ -36,8 +40,8 @@ class GenericBodyDialog(QDialog):
         self.triplet2Y.setValidator(self.double_validator)
         self.triplet2Z.setValidator(self.double_validator)
 
-        self.buttonBox.accepted.disconnect(self.accept)
-        self.buttonBox.accepted.connect(self.validate_doubles)
+        # self.buttonBox.accepted.disconnect(self.accept)
+        # self.buttonBox.accepted.connect(self.validate_doubles)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /
@@ -68,22 +72,32 @@ class GenericBodyDialog(QDialog):
             self.triplet2Y.setText(existing_shield.vector2[1])
             self.triplet2Z.setText(existing_shield.vector2[2])
 
-    def validate_doubles(self):
-        print("validating")
-        for field in [
-                        self.triplet1X, self.triplet1Y, self.triplet1Z,
-                        self.triplet2X, self.triplet2Y, self.triplet2Z,
-                        self.radius1, self.radius2, self.density]:
-            if not field.isHidden():
-                # Get the text from the line edit
-                text = field.text()
-                # Check if the value is valid
-                try:
+    def accept(self):
+        try:
+            for field in [
+                            self.triplet1X, self.triplet1Y, self.triplet1Z,
+                            self.triplet2X, self.triplet2Y, self.triplet2Z,
+                            self.radius1, self.radius2, self.density]:
+                if not field.isHidden():
+                    # Get the text from the line edit
+                    text = field.text()
+                    # Check if the value is valid
                     float(text)
-                    self.accept()
-                except ValueError:
-                    # This handles cases where the text isn't a valid float
-                    QMessageBox.critical(self, "Error",
-                                         "The value " + text +
-                                         " is an invalid number format!")
-                    self.ignore()
+        except ValueError:
+            # This handles cases where the text isn't a valid float
+            if text == "":
+                text = "A blank field"
+            else:
+                text = "The value " + text
+            QMessageBox.critical(self, "Error",
+                                 text + " is an invalid number format.")
+        else:
+            rcode = self.name_validator.validate(self.name_field.currentText(),
+                                                 0)
+            if rcode[0] == QValidator.State.Acceptable:
+                super().accept()
+            else:
+                QMessageBox.critical(self, "Error",
+                                     "Please enter a name for the new shield" +
+                                     "or select an existing name to modify " +
+                                     "a shield.  White space not allowed.")

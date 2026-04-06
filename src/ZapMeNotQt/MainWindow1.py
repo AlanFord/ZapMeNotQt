@@ -1,6 +1,7 @@
 import os
 
 import PyQt6.QtWidgets
+from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from pathlib import Path
@@ -48,7 +49,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionDaughters.triggered.connect(self.OptionsProgenyDialog.exec)
         self.OptionsBuildupDialog = OptionsBuildupDialog()
         self.actionBuildup_Material.triggered.connect(self.OptionsBuildupDialog.exec)
-        
+
         # detector menu setup
         self.detectorDialog = DetectorDialog()
         self.location.triggered.connect(self.detectorDialog.exec)
@@ -66,8 +67,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.updateSummary()
 
     def addSphereShieldSelected(self):
-        SphereDialog().exec()
-        self.updateSummary()
+        if SphereDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addXSlabShieldSelected(self):
         XSlabDialog().exec()
