@@ -1,6 +1,6 @@
 import os
 
-import PyQt6.QtWidgets
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from PyQt6.QtGui import QDoubleValidator
@@ -9,7 +9,7 @@ from pathlib import Path
 from libraries import materials, shield_dict
 
 
-class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
+class GenericBodyDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.load_ui()
@@ -22,7 +22,7 @@ class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
         # set the shell features to not visible as most dialogs won't use these
         self.shellCheckBox.setVisible(False)
         self.shellButton.setVisible(False)
-        #validators
+        # validators
         self.double_validator = QDoubleValidator(self)
         self.positive_validator = QDoubleValidator(self)
         self.positive_validator.setBottom(0)
@@ -35,6 +35,9 @@ class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
         self.triplet2X.setValidator(self.double_validator)
         self.triplet2Y.setValidator(self.double_validator)
         self.triplet2Z.setValidator(self.double_validator)
+
+        self.buttonBox.accepted.disconnect(self.accept)
+        self.buttonBox.accepted.connect(self.validate_doubles)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /
@@ -64,3 +67,23 @@ class GenericBodyDialog(PyQt6.QtWidgets.QDialog):
             self.triplet2X.setText(existing_shield.vector2[0])
             self.triplet2Y.setText(existing_shield.vector2[1])
             self.triplet2Z.setText(existing_shield.vector2[2])
+
+    def validate_doubles(self):
+        print("validating")
+        for field in [
+                        self.triplet1X, self.triplet1Y, self.triplet1Z,
+                        self.triplet2X, self.triplet2Y, self.triplet2Z,
+                        self.radius1, self.radius2, self.density]:
+            if not field.isHidden():
+                # Get the text from the line edit
+                text = field.text()
+                # Check if the value is valid
+                try:
+                    float(text)
+                    self.accept()
+                except ValueError:
+                    # This handles cases where the text isn't a valid float
+                    QMessageBox.critical(self, "Error",
+                                         "The value " + text +
+                                         " is an invalid number format!")
+                    self.ignore()
