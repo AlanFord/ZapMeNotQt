@@ -62,6 +62,7 @@ class SphereDialog(GenericBodyDialog):
         else:
             self.shellButton.setEnabled(False)
 
+    # override on_name_selected to include the sphere shell
     def on_name_selected(self):
         super().on_name_selected()
         new_name = self.name_field.currentText()

@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-import libraries
+from libraries import shield_dict
 
 
 class XAlignedCylinderDialog(GenericBodyDialog):
@@ -12,6 +12,10 @@ class XAlignedCylinderDialog(GenericBodyDialog):
         self.groupBox_3.setVisible(False)
         self.radius1Label.setText("Length (cm):")
         self.radius2Label.setText("Radius (cm):")
+        # hide any qtextedit fields that should not be validated
+        self.triplet2X.hide()
+        self.triplet2Y.hide()
+        self.triplet2Z.hide()
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.accepted.connect(self.on_dialog_accepted)
@@ -27,5 +31,5 @@ class XAlignedCylinderDialog(GenericBodyDialog):
         shield.vector1 = [self.triplet1X.text(),
                            self.triplet1Y.text(),
                            self.triplet1Z.text()]
-        libraries.shield_dict[shield.name] = shield
+        shield_dict[shield.name] = shield
 

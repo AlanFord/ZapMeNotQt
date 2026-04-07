@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-import libraries
+from libraries import shield_dict
 
 
 class CappedCylinderDialog(GenericBodyDialog):
@@ -13,6 +13,8 @@ class CappedCylinderDialog(GenericBodyDialog):
         self.radius1Label.setText("Radius (cm):")
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
+        # hide any qtextedit fields that should not be validated
+        self.radius2.hide()
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
         self.accepted.connect(self.on_dialog_accepted)
@@ -30,5 +32,5 @@ class CappedCylinderDialog(GenericBodyDialog):
         shield.vector2 = [self.triplet2X.text(),
                            self.triplet2Y.text(),
                            self.triplet2Z.text()]
-        libraries.shield_dict[shield.name] = shield
+        shield_dict[shield.name] = shield
 

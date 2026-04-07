@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-import libraries
+from libraries import shield_dict
 
 
 class AnnulusDialog(GenericBodyDialog):
@@ -30,4 +30,4 @@ class AnnulusDialog(GenericBodyDialog):
         shield.vector2 = [self.triplet2X.text(),
                            self.triplet2Y.text(),
                            self.triplet2Z.text()]
-        libraries.shield_dict[shield.name] = shield
+        shield_dict[shield.name] = shield

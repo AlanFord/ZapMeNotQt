@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-import libraries
+from libraries import shield_dict
 
 
 class BoxDialog(GenericBodyDialog):
@@ -14,6 +14,9 @@ class BoxDialog(GenericBodyDialog):
         self.radius1Label.setVisible(False)
         self.radius2.setVisible(False)
         self.radius2Label.setVisible(False)
+        # hide any qtextedit fields that should not be validated
+        self.radius1.hide()
+        self.radius2.hide()
         # change the validators
         self.radius1.setValidator(self.double_validator)
         self.triplet2X.setValidator(self.positive_validator)
@@ -35,5 +38,4 @@ class BoxDialog(GenericBodyDialog):
         shield.vector2 = [self.triplet2X.text(),
                            self.triplet2Y.text(),
                            self.triplet2Z.text()]
-        libraries.shield_dict[shield.name] = shield
-
+        shield_dict[shield.name] = shield
