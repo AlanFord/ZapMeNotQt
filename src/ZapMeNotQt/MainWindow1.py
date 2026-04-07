@@ -63,48 +63,48 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.close()
 
     def addBoxShieldSelected(self):
-        BoxDialog().exec()
-        self.updateSummary()
+        if BoxDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addSphereShieldSelected(self):
         if SphereDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
     def addXSlabShieldSelected(self):
-        XSlabDialog().exec()
-        self.updateSummary()
+        if XSlabDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addAnnulusShieldSelected(self):
-        AnnulusDialog().exec()
-        self.updateSummary()
+        if AnnulusDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addCappedCylinderShieldSelected(self):
-        CappedCylinderDialog().exec()
-        self.updateSummary()
+        if CappedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addXAlignedCylinderShieldSelected(self):
-        XAlignedCylinderDialog().exec()
-        self.updateSummary()
+        if XAlignedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addYAlignedCylinderShieldSelected(self):
-        YAlignedCylinderDialog().exec()
-        self.updateSummary()
+        if YAlignedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addZAlignedCylinderShieldSelected(self):
-        ZAlignedCylinderDialog().exec()
-        self.updateSummary()
+        if ZAlignedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addXAlignedAnnulusShieldSelected(self):
-        XAlignedAnnulusDialog().exec()
-        self.updateSummary()
+        if XAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addYAlignedAnnulusShieldSelected(self):
-        YAlignedAnnulusDialog().exec()
-        self.updateSummary()
+        if YAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addZAlignedAnnulusShieldSelected(self):
-        ZAlignedAnnulusDialog().exec()
-        self.updateSummary()
+        if ZAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def updateSummary(self):
         bodyText = "Model Summary: \n\n"
