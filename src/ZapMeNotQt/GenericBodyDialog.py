@@ -73,6 +73,10 @@ class GenericBodyDialog(QDialog):
             self.triplet2Z.setText(existing_shield.vector2[2])
 
     def accept(self):
+        # first check the QTextFields for properly formatted
+        #   numbers.  Then, if the shield name field is visible, 
+        #   check for a valid shield name.  Call the dialog
+        #   accept method only if all fields are valid.
         try:
             for field in [
                             self.triplet1X, self.triplet1Y, self.triplet1Z,
@@ -94,13 +98,13 @@ class GenericBodyDialog(QDialog):
         else:
             if self.name_field.isVisible():
                 rcode = self.name_validator.validate(self.name_field.currentText(),
-                                                    0)
+                                                     0)
                 if rcode[0] == QValidator.State.Acceptable:
                     super().accept()
                 else:
                     QMessageBox.critical(self, "Error",
-                                        "Please enter a name for the new shield" +
-                                        " or select an existing name to modify " +
-                                        "a shield.  White space not allowed.")
+                                         "Please enter a name for the new shield" +
+                                         " or select an existing name to modify " +
+                                         "a shield.  White space not allowed.")
             else:
                 super().accept()
