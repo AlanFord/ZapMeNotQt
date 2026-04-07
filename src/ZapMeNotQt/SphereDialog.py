@@ -1,3 +1,4 @@
+from PyQt6.QtWidgets import QDialog
 from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures
@@ -46,10 +47,7 @@ class SphereDialog(GenericBodyDialog):
         shield_dict[sphere.name] = sphere
 
     def the_shell_button_was_clicked(self):
-        returnCode = self.shellDialog.exec()
-        print("return code is ", returnCode)
-        # if returnCode is PyQt6.QtWidgets.QDialog.accepted:
-        if returnCode == 1:
+        if self.shellDialog.exec() == QDialog.DialogCode.Accepted:
             self.hasAShell = True
             self.shell = dataStructures.ShellShield()
             self.shell.density = self.shellDialog.density.text()
