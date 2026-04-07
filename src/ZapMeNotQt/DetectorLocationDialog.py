@@ -1,23 +1,23 @@
 import os
 
-import PyQt6.QtWidgets
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from PyQt6.QtGui import QDoubleValidator
 from pathlib import Path
+import libraries
+import dataStructures
 
 
-class DetectorDialog(PyQt6.QtWidgets.QDialog):
+class DetectorDialog(QDialog):
     def __init__(self):
         super(DetectorDialog, self).__init__()
         self.load_ui()
-        self.x_text.setValidator(QDoubleValidator())
-        self.y_text.setValidator(QDoubleValidator())
-        self.z_text.setValidator(QDoubleValidator())
-        self.accepted.connect(self.log_new_values)
-        self.x_value = "0.0"
-        self.y_value = "0.0"
-        self.z_value = "0.0"
+        self.double_validator = QDoubleValidator(self)
+        self.x_text.setValidator(self.double_validator)
+        self.y_text.setValidator(self.double_validator)
+        self.z_text.setValidator(self.double_validator)
+        self.accepted.connect(self.on_dialog_accepted)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent / "ui/DetectorLocationDialog.ui")
@@ -26,7 +26,29 @@ class DetectorDialog(PyQt6.QtWidgets.QDialog):
         uic.loadUi(ui_file, self)
         ui_file.close()
 
-    def log_new_values(self):
-        self.x_value = self.x_text.text
-        self.y_value = self.y_text.text
-        self.z_value = self.z_text.text
+    def accept(self):
+        # check the QTextFields for properly formatted
+        #   numbers.  Call the dialog
+        #   accept method only if all fields are valid.
+        try:
+            for field in [self.x_text, self.x_text, self.x_text]:
+                # Get the text from the line edit
+                text = field.text()
+                # Check if the value is valid
+                float(text)
+        except ValueError:
+            # This handles cases where the text isn't a valid float
+            if text == "":
+                text = "A blank field"
+            else:
+                text = "The value " + text
+            QMessageBox.critical(self, "Error",
+                                 text + " is an invalid number format.")
+        else:
+            super().accept()
+
+    def on_dialog_accepted(self):
+        print("running detector on_dialog_accepted")
+        libraries.detector = dataStructures.LocationData(self.x_text.text(),
+                                                       self.x_text.text(),
+                                                       self.x_text.text())

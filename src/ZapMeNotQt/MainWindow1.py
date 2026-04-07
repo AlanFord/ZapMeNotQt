@@ -52,8 +52,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
 
         # detector menu setup
         self.detectorDialog = DetectorDialog()
-        self.location.triggered.connect(self.detectorDialog.exec)
-        self.summaryDescription.setPlainText("Nothing to see, Folks!")
+        self.location.triggered.connect(self.addDetectorSelected)
+        self.summaryDescription.setPlainText("Start building your model!")
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent / "ui/MainWindow.ui")
@@ -61,6 +61,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def addDetectorSelected(self):
+        if DetectorDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addBoxShieldSelected(self):
         if BoxDialog().exec() == QDialog.DialogCode.Accepted:
@@ -109,7 +113,14 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
     def updateSummary(self):
         bodyText = "Model Summary: \n\n"
 
+        bodyText += "***Detector*** \n"
+        print(libraries.detector)
+        if libraries.detector is not None:
+            bodyText += libraries.detector.summarize() + "\n"
+        else:
+            bodyText += "\n"
+
         bodyText += "***Shields*** \n"
         for key in libraries.shield_dict.keys():
-            bodyText = bodyText + libraries.shield_dict[key].summarize() + "\n"
+            bodyText += libraries.shield_dict[key].summarize() + "\n"
         self.summaryDescription.setText(bodyText)

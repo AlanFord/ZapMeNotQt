@@ -74,7 +74,7 @@ class GenericBodyDialog(QDialog):
 
     def accept(self):
         # first check the QTextFields for properly formatted
-        #   numbers.  Then, if the shield name field is visible, 
+        #   numbers.  Then, if the shield name field is visible,
         #   check for a valid shield name.  Call the dialog
         #   accept method only if all fields are valid.
         try:

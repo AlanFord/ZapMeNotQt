@@ -1,5 +1,17 @@
 import abc
 
+class LocationData():
+    def __init__(self, x, y, z):
+        self.x_value = x
+        self.y_value = y
+        self.z_value = z
+
+    def summarize(self):
+        bodyText  = "X: " + self.x_value + "\n"
+        bodyText += "Y: " + self.y_value + "\n"
+        bodyText += "Z: " + self.z_value + "\n"
+        return bodyText
+
 
 class ShieldData(abc.ABC):
     def __init__(self):
