@@ -1,5 +1,6 @@
 import abc
 
+
 class LocationData():
     def __init__(self, x, y, z):
         self.x_value = x
@@ -7,7 +8,7 @@ class LocationData():
         self.z_value = z
 
     def summarize(self):
-        bodyText  = "X: " + self.x_value + "\n"
+        bodyText = "X: " + self.x_value + "\n"
         bodyText += "Y: " + self.y_value + "\n"
         bodyText += "Z: " + self.z_value + "\n"
         return bodyText
@@ -20,8 +21,8 @@ class ShieldData(abc.ABC):
         self.name = ""
         self.material = ""
         self.density = ""
-        self.vector1 = ["","",""]
-        self.vector2 = ["","",""]
+        self.vector1 = ["", "", ""]
+        self.vector2 = ["", "", ""]
         self.radius1 = ""
         self.radius2 = ""
         self.shell = None
@@ -77,7 +78,7 @@ class ShellShield():
         self.thickness = None
 
     def summarize(self):
-        bodyText =  "    Material: " + self.material + "\n"
+        bodyText = "    Material: " + self.material + "\n"
         bodyText += "    Density: " + self.density + "\n"
         bodyText += "    Thickness: " + self.thickness + "\n"
         return bodyText

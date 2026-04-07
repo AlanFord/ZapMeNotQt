@@ -53,6 +53,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         # detector menu setup
         self.detectorDialog = DetectorDialog()
         self.location.triggered.connect(self.addDetectorSelected)
+
         self.summaryDescription.setPlainText("Start building your model!")
 
     def load_ui(self):
