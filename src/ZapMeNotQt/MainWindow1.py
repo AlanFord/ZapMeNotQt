@@ -1,7 +1,7 @@
 import os
 
 import PyQt6.QtWidgets
-from PyQt6.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from pathlib import Path
@@ -21,6 +21,7 @@ from ZAlignedCylinderDialog import ZAlignedCylinderDialog
 from XAlignedAnnulusDialog import XAlignedAnnulusDialog
 from YAlignedAnnulusDialog import YAlignedAnnulusDialog
 from ZAlignedAnnulusDialog import ZAlignedAnnulusDialog
+from RemoveShieldDialog import RemoveShieldDialog
 
 import libraries
 
@@ -42,6 +43,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionXAlignedInfiniteAnnulus.triggered.connect(self.addXAlignedAnnulusShieldSelected)
         self.actionYAlignedInfiniteAnnulus.triggered.connect(self.addYAlignedAnnulusShieldSelected)
         self.actionZAlignedInfiniteAnnulus.triggered.connect(self.addZAlignedAnnulusShieldSelected)
+        self.actionRemove.triggered.connect(self.removeShieldSelected)
 
         # options menu setup
         self.actionEnergy_Groups.triggered.connect(self.energyGroupsSelected)
@@ -54,7 +56,6 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.location.triggered.connect(self.addDetectorSelected)
 
         self.updateSummary()
-        # self.summaryDescription.setPlainText("Start building your model!")
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent / "ui/MainWindow.ui")
@@ -62,6 +63,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def removeShieldSelected(self):
+        if RemoveShieldDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def progenySelected(self):
         if OptionsProgenyDialog().exec() == QDialog.DialogCode.Accepted:
@@ -160,7 +165,9 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         keys = libraries.shield_dict.keys()
         if not keys:
             bodyText += "None Specified\n"
+            self.actionRemove.setEnabled(False)
         else:
+            self.actionRemove.setEnabled(True)
             for key in keys:
                 bodyText += libraries.shield_dict[key].summarize() + "\n"
         self.summaryDescription.setText(bodyText)
