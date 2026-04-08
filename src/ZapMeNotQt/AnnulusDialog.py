@@ -25,9 +25,9 @@ class AnnulusDialog(GenericBodyDialog):
         shield.radius1 = self.radius1.text()
         shield.radius2 = self.radius2.text()
         shield.vector1 = [self.triplet1X.text(),
-                           self.triplet1Y.text(),
-                           self.triplet1Z.text()]
+                          self.triplet1Y.text(),
+                          self.triplet1Z.text()]
         shield.vector2 = [self.triplet2X.text(),
-                           self.triplet2Y.text(),
-                           self.triplet2Z.text()]
+                          self.triplet2Y.text(),
+                          self.triplet2Z.text()]
         shield_dict[shield.name] = shield

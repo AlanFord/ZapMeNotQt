@@ -24,8 +24,6 @@ dummy_isotope = Isotope('cs-137')
 for name in Isotope._library.keys():
     isotopes.append(name)
 
-
-
 app = QApplication(sys.argv)
 
 window = MainWindow()

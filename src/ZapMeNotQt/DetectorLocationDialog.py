@@ -48,7 +48,6 @@ class DetectorDialog(QDialog):
             super().accept()
 
     def on_dialog_accepted(self):
-        print("running detector on_dialog_accepted")
         libraries.detector = dataStructures.LocationData(self.x_text.text(),
                                                          self.x_text.text(),
                                                          self.x_text.text())

@@ -32,4 +32,3 @@ class YAlignedCylinderDialog(GenericBodyDialog):
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
         shield_dict[shield.name] = shield
-

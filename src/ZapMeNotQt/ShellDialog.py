@@ -23,4 +23,3 @@ class ShellDialog(GenericBodyDialog):
         self.radius2.hide()
         # shrink the height of the dialog to fit the visible widgets
         self.resize(self.size().width(), 4)
-
