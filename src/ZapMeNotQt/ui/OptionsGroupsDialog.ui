@@ -15,7 +15,7 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
-    <widget class="QRadioButton" name="standardRadioButton">
+    <widget class="QRadioButton" name="StandardButton">
      <property name="text">
       <string>Standard Groups</string>
      </property>
@@ -25,14 +25,14 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QRadioButton" name="radioButton_2">
+    <widget class="QRadioButton" name="ThirtyButton">
      <property name="text">
       <string>30 Energy Groups</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QRadioButton" name="radioButton_3">
+    <widget class="QRadioButton" name="DiscreteButton">
      <property name="text">
       <string>Discrete Photon Energies</string>
      </property>

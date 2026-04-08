@@ -4,6 +4,14 @@ buildup_factor_materials: list[str] = []
 materials = {}
 isotopes: list[str] = []
 
+# these data are used to track user input
 shield_dict = {}
 source = None
 detector = None
+buildup_material = "None"
+filler_material = "None"
+progeny = False
+# 0=standard hybrid
+# 1=30 groups
+# 2=discrete
+groups = 0

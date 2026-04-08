@@ -125,6 +125,7 @@
     <addaction name="actionBuildup_Material"/>
     <addaction name="actionDaughters"/>
     <addaction name="actionEnergy_Groups"/>
+    <addaction name="actionFiller_Material"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -314,6 +315,11 @@
   <action name="actionZ_Aligned_Cylinder">
    <property name="text">
     <string>Z-Aligned Cylinder</string>
+   </property>
+  </action>
+  <action name="actionFiller_Material">
+   <property name="text">
+    <string>Filler Material ...</string>
    </property>
   </action>
  </widget>

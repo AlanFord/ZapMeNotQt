@@ -9,6 +9,7 @@ from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
 from OptionsBuildupDialog import OptionsBuildupDialog
+from OptionsFillerDialog import OptionsFillerDialog
 from BoxDialog import BoxDialog
 from SphereDialog import SphereDialog
 from XSlabDialog import XSlabDialog
@@ -43,18 +44,17 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionZAlignedInfiniteAnnulus.triggered.connect(self.addZAlignedAnnulusShieldSelected)
 
         # options menu setup
-        self.OptionsGroupsDialog = OptionsGroupsDialog()
-        self.actionEnergy_Groups.triggered.connect(self.OptionsGroupsDialog.exec)
-        self.OptionsProgenyDialog = OptionsProgenyDialog()
-        self.actionDaughters.triggered.connect(self.OptionsProgenyDialog.exec)
-        self.OptionsBuildupDialog = OptionsBuildupDialog()
-        self.actionBuildup_Material.triggered.connect(self.OptionsBuildupDialog.exec)
+        self.actionEnergy_Groups.triggered.connect(self.energyGroupsSelected)
+        self.actionDaughters.triggered.connect(self.progenySelected)
+        self.actionBuildup_Material.triggered.connect(self.addBuildupFactorSelected)
+        self.actionFiller_Material.triggered.connect(self.addFillerSelected)
 
         # detector menu setup
         self.detectorDialog = DetectorDialog()
         self.location.triggered.connect(self.addDetectorSelected)
 
-        self.summaryDescription.setPlainText("Start building your model!")
+        self.updateSummary()
+        # self.summaryDescription.setPlainText("Start building your model!")
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent / "ui/MainWindow.ui")
@@ -62,6 +62,22 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def progenySelected(self):
+        if OptionsProgenyDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def energyGroupsSelected(self):
+        if OptionsGroupsDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def addBuildupFactorSelected(self):
+        if OptionsBuildupDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def addFillerSelected(self):
+        if OptionsFillerDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def addDetectorSelected(self):
         if DetectorDialog().exec() == QDialog.DialogCode.Accepted:
@@ -114,14 +130,37 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
     def updateSummary(self):
         bodyText = "Model Summary: \n\n"
 
+        bodyText += "Buildup Factor Material:  " + \
+                    libraries.buildup_material + "\n\n"
+
+        bodyText += "Filler Material:  " + \
+                    libraries.filler_material + "\n\n"
+
+        bodyText += "Include Selected Progeny in Equilibrium:  "
+        if libraries.progeny is True:
+            bodyText += "Yes\n\n"
+        else:
+            bodyText += "No\n\n"
+
+        bodyText += "Energy Group Option:  "
+        if libraries.groups == 0:
+            bodyText += "Standard Hybrid Set\n\n"
+        elif libraries.groups == 1:
+            bodyText += "30 Linear Energy Groups\n\n"
+        else:
+            bodyText += "Discrete Photon Energies\n\n"
+
         bodyText += "***Detector*** \n"
-        print(libraries.detector)
         if libraries.detector is not None:
             bodyText += libraries.detector.summarize() + "\n"
         else:
-            bodyText += "\n"
+            bodyText += "Not Yet Specified\n\n"
 
         bodyText += "***Shields*** \n"
-        for key in libraries.shield_dict.keys():
-            bodyText += libraries.shield_dict[key].summarize() + "\n"
+        keys = libraries.shield_dict.keys()
+        if not keys:
+            bodyText += "None Specified\n"
+        else:
+            for key in keys:
+                bodyText += libraries.shield_dict[key].summarize() + "\n"
         self.summaryDescription.setText(bodyText)
