@@ -210,7 +210,7 @@ class CappedCylinderShield(ShieldData):
 class XCylinderShield(ShieldData):
     def __init__(self):
         super().__init__()
-        self.description = "X-Aligned Infinite Cylinder"
+        self.description = "X-Aligned Cylinder"
 
     def summarize(self):
         bodyText = "Name: " + self.name + "\n"
@@ -229,7 +229,7 @@ class XCylinderShield(ShieldData):
 class YCylinderShield(ShieldData):
     def __init__(self):
         super().__init__()
-        self.description = "Y-Aligned Infinite Cylinder"
+        self.description = "Y-Aligned Cylinder"
 
     def summarize(self):
         bodyText = "Name: " + self.name + "\n"
@@ -248,7 +248,7 @@ class YCylinderShield(ShieldData):
 class ZCylinderShield(ShieldData):
     def __init__(self):
         super().__init__()
-        self.description = "Z-Aligned Infinite Cylinder"
+        self.description = "Z-Aligned Cylinder"
 
     def summarize(self):
         bodyText = "Name: " + self.name + "\n"
@@ -261,4 +261,133 @@ class ZCylinderShield(ShieldData):
             self.vector1[2] + "\n"
         bodyText += "Length: " + self.radius1 + "\n"
         bodyText += "Radius: " + self.radius2 + "\n"
+        return bodyText
+
+
+class SphereSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "Sphere"
+        self.shell = None
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Material: " + self.material + "\n"
+        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Location: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        bodyText += "Radius: " + self.radius1 + "\n"
+        if self.shell is not None:
+            bodyText += "Shell: \n"
+            bodyText += self.shell.summarize()
+        else:
+            bodyText += "Shell: None \n"
+        return bodyText
+
+
+class BoxSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "Box"
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Material: " + self.material + "\n"
+        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Box Center: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        bodyText += "Dimensions: " + \
+            self.vector2[0] + " " + \
+            self.vector2[1] + " " + \
+            self.vector2[2] + "\n"
+        return bodyText
+
+
+class XCylinderSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "X-Aligned Cylinder"
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Material: " + self.material + "\n"
+        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Cylinder Center: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        bodyText += "Length: " + self.radius1 + "\n"
+        bodyText += "Radius: " + self.radius2 + "\n"
+        return bodyText
+
+
+class YCylinderSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "Y-Aligned Cylinder"
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Material: " + self.material + "\n"
+        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Cylinder Center: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        bodyText += "Length: " + self.radius1 + "\n"
+        bodyText += "Radius: " + self.radius2 + "\n"
+        return bodyText
+
+
+class ZCylinderSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "Z-Aligned Cylinder"
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Material: " + self.material + "\n"
+        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Cylinder Center: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        bodyText += "Length: " + self.radius1 + "\n"
+        bodyText += "Radius: " + self.radius2 + "\n"
+        return bodyText
+
+
+class PointSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "Point"
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Location: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        return bodyText
+
+
+class LineSource(ShieldData):
+    def __init__(self):
+        super().__init__()
+        self.description = "Line"
+
+    def summarize(self):
+        bodyText = "Type: " + self.description + "\n"
+        bodyText += "Starting Location: " + \
+            self.vector1[0] + " " + \
+            self.vector1[1] + " " + \
+            self.vector1[2] + "\n"
+        bodyText += "Ending Location: " + \
+            self.vector2[0] + " " + \
+            self.vector2[1] + " " + \
+            self.vector2[2] + "\n"
         return bodyText

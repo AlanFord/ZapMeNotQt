@@ -87,7 +87,6 @@
     </widget>
     <addaction name="menuBody"/>
     <addaction name="menuPhotons"/>
-    <addaction name="actionQuadrature"/>
    </widget>
    <widget class="QMenu" name="menuShield">
     <property name="title">
@@ -126,6 +125,7 @@
     <addaction name="actionDaughters"/>
     <addaction name="actionEnergy_Groups"/>
     <addaction name="actionFiller_Material"/>
+    <addaction name="actionQuadrature_2"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -320,6 +320,11 @@
   <action name="actionFiller_Material">
    <property name="text">
     <string>Filler Material ...</string>
+   </property>
+  </action>
+  <action name="actionQuadrature_2">
+   <property name="text">
+    <string>Quadrature ...</string>
    </property>
   </action>
  </widget>

@@ -1,7 +1,7 @@
 import os
 
 import PyQt6.QtWidgets
-from PyQt6.QtWidgets import QDialog, QMessageBox
+from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from pathlib import Path
@@ -22,6 +22,13 @@ from XAlignedAnnulusDialog import XAlignedAnnulusDialog
 from YAlignedAnnulusDialog import YAlignedAnnulusDialog
 from ZAlignedAnnulusDialog import ZAlignedAnnulusDialog
 from RemoveShieldDialog import RemoveShieldDialog
+from SphereSourceDialog import SphereSourceDialog
+from BoxSourceDialog import BoxSourceDialog
+from XAlignedCylinderSourceDialog import XAlignedCylinderSourceDialog
+from YAlignedCylinderSourceDialog import YAlignedCylinderSourceDialog
+from ZAlignedCylinderSourceDialog import ZAlignedCylinderSourceDialog
+from PointSourceDialog import PointSourceDialog
+from LineSourceDialog import LineSourceDialog
 
 import libraries
 
@@ -34,26 +41,49 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         # shield menu setup
         self.actionBox.triggered.connect(self.addBoxShieldSelected)
         self.actionSphere.triggered.connect(self.addSphereShieldSelected)
-        self.actionSemiInfiniteXSlab.triggered.connect(self.addXSlabShieldSelected)
-        self.actionInfiniteAnnulus.triggered.connect(self.addAnnulusShieldSelected)
-        self.actionCappedCylinder.triggered.connect(self.addCappedCylinderShieldSelected)
-        self.actionX_Aligned_Cylinder.triggered.connect(self.addXAlignedCylinderShieldSelected)
-        self.actionY_Aligned_Cylinder.triggered.connect(self.addYAlignedCylinderShieldSelected)
-        self.actionZ_Aligned_Cylinder.triggered.connect(self.addZAlignedCylinderShieldSelected)
-        self.actionXAlignedInfiniteAnnulus.triggered.connect(self.addXAlignedAnnulusShieldSelected)
-        self.actionYAlignedInfiniteAnnulus.triggered.connect(self.addYAlignedAnnulusShieldSelected)
-        self.actionZAlignedInfiniteAnnulus.triggered.connect(self.addZAlignedAnnulusShieldSelected)
+        self.actionSemiInfiniteXSlab.triggered.connect(
+            self.addXSlabShieldSelected)
+        self.actionInfiniteAnnulus.triggered.connect(
+            self.addAnnulusShieldSelected)
+        self.actionCappedCylinder.triggered.connect(
+            self.addCappedCylinderShieldSelected)
+        self.actionX_Aligned_Cylinder.triggered.connect(
+            self.addXAlignedCylinderShieldSelected)
+        self.actionY_Aligned_Cylinder.triggered.connect(
+            self.addYAlignedCylinderShieldSelected)
+        self.actionZ_Aligned_Cylinder.triggered.connect(
+            self.addZAlignedCylinderShieldSelected)
+        self.actionXAlignedInfiniteAnnulus.triggered.connect(
+            self.addXAlignedAnnulusShieldSelected)
+        self.actionYAlignedInfiniteAnnulus.triggered.connect(
+            self.addYAlignedAnnulusShieldSelected)
+        self.actionZAlignedInfiniteAnnulus.triggered.connect(
+            self.addZAlignedAnnulusShieldSelected)
         self.actionRemove.triggered.connect(self.removeShieldSelected)
 
         # options menu setup
         self.actionEnergy_Groups.triggered.connect(self.energyGroupsSelected)
         self.actionDaughters.triggered.connect(self.progenySelected)
-        self.actionBuildup_Material.triggered.connect(self.addBuildupFactorSelected)
+        self.actionBuildup_Material.triggered.connect(
+            self.addBuildupFactorSelected)
         self.actionFiller_Material.triggered.connect(self.addFillerSelected)
 
         # detector menu setup
         self.detectorDialog = DetectorDialog()
         self.location.triggered.connect(self.addDetectorSelected)
+
+        # source menu setup
+        self.actionSpherical_Source.triggered.connect(
+            self.SphericalSourceSelected)
+        self.actionBox_Source.triggered.connect(self.BoxSourceSelected)
+        self.actionX_Aligned_Cylinder_Source.triggered.connect(
+            self.XAlignedCylinderSourceSelected)
+        self.actionY_Aligned_Cylinder_Source.triggered.connect(
+            self.YAlignedCylinderSourceSelected)
+        self.actionZ_Aligned_Cylinder_Source.triggered.connect(
+            self.ZAlignedCylinderSourceSelected)
+        self.actionPoint_Source.triggered.connect(self.PointSourceSelected)
+        self.actionLine_Source.triggered.connect(self.LineSourceSelected)
 
         self.updateSummary()
 
@@ -132,6 +162,37 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         if ZAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
+    def SphericalSourceSelected(self):
+        if SphereSourceDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def BoxSourceSelected(self):
+        if BoxSourceDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def PointSourceSelected(self):
+        if PointSourceDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def LineSourceSelected(self):
+        if LineSourceDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def XAlignedCylinderSourceSelected(self):
+        if XAlignedCylinderSourceDialog().exec() == \
+                QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def YAlignedCylinderSourceSelected(self):
+        if YAlignedCylinderSourceDialog().exec() == \
+                QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def ZAlignedCylinderSourceSelected(self):
+        if ZAlignedCylinderSourceDialog().exec() == \
+                QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
     def updateSummary(self):
         bodyText = "Model Summary: \n\n"
 
@@ -158,6 +219,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         bodyText += "***Detector*** \n"
         if libraries.detector is not None:
             bodyText += libraries.detector.summarize() + "\n"
+        else:
+            bodyText += "Not Yet Specified\n\n"
+
+        bodyText += "***Source*** \n"
+        if libraries.source is not None:
+            bodyText += libraries.source.summarize() + "\n"
         else:
             bodyText += "Not Yet Specified\n\n"
 
