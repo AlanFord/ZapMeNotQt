@@ -8,6 +8,7 @@ isotopes: list[str] = []
 shield_dict = {}
 source = None
 detector = None
+quadrature = [10, 10, 10]
 buildup_material = "None"
 filler_material = "None"
 progeny = False

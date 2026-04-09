@@ -8,8 +8,9 @@ from pathlib import Path
 from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
-from OptionsBuildupDialog import OptionsBuildupDialog
-from OptionsFillerDialog import OptionsFillerDialog
+from OptionsQuadratureDialog import OptionsQuadratureDialog
+from PyQt6 import uic
+from PyQt6 import uic
 from BoxDialog import BoxDialog
 from SphereDialog import SphereDialog
 from XSlabDialog import XSlabDialog
@@ -67,7 +68,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionBuildup_Material.triggered.connect(
             self.addBuildupFactorSelected)
         self.actionFiller_Material.triggered.connect(self.addFillerSelected)
-        self.actionQuadrature_2.triggered.connect(self.notYetImplemented)
+        self.actionQuadrature_2.triggered.connect(self.quadratureSelected)
 
         # detector menu setup
         self.detectorDialog = DetectorDialog()
@@ -112,6 +113,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
 
     def energyGroupsSelected(self):
         if OptionsGroupsDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
+
+    def quadratureSelected(self):
+        if OptionsQuadratureDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
     def addBuildupFactorSelected(self):
@@ -227,6 +232,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             bodyText += "30 Linear Energy Groups\n\n"
         else:
             bodyText += "Discrete Photon Energies\n\n"
+
+        bodyText += "Source Quadrature: " + \
+            str(libraries.quadrature[0]) + ", " +\
+            str(libraries.quadrature[1]) + ", " +\
+            str(libraries.quadrature[2]) +\
+            "\n\n"
 
         bodyText += "***Detector*** \n"
         if libraries.detector is not None:

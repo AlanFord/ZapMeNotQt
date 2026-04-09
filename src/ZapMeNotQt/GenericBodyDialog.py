@@ -40,9 +40,6 @@ class GenericBodyDialog(QDialog):
         self.triplet2Y.setValidator(self.double_validator)
         self.triplet2Z.setValidator(self.double_validator)
 
-        # self.buttonBox.accepted.disconnect(self.accept)
-        # self.buttonBox.accepted.connect(self.validate_doubles)
-
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /
                          "ui/GenericShieldDialog.ui")
