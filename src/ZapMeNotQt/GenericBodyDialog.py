@@ -97,14 +97,14 @@ class GenericBodyDialog(QDialog):
                                  text + " is an invalid number format.")
         else:
             if self.name_field.isVisible():
-                rcode = self.name_validator.validate(self.name_field.currentText(),
-                                                     0)
+                rcode = self.name_validator.validate(
+                    self.name_field.currentText(), 0)
                 if rcode[0] == QValidator.State.Acceptable:
                     super().accept()
                 else:
                     QMessageBox.critical(self, "Error",
-                                         "Please enter a name for the new shield" +
-                                         " or select an existing name to modify " +
-                                         "a shield.  White space not allowed.")
+                                    "Please enter a name for the new shield" +
+                                    " or select an existing name to modify " +
+                                    "a shield.  White space not allowed.")
             else:
                 super().accept()

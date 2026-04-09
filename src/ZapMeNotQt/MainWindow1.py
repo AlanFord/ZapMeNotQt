@@ -1,7 +1,7 @@
 import os
 
 import PyQt6.QtWidgets
-from PyQt6.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from pathlib import Path
@@ -67,6 +67,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionBuildup_Material.triggered.connect(
             self.addBuildupFactorSelected)
         self.actionFiller_Material.triggered.connect(self.addFillerSelected)
+        self.actionQuadrature_2.triggered.connect(self.notYetImplemented)
 
         # detector menu setup
         self.detectorDialog = DetectorDialog()
@@ -84,6 +85,13 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             self.ZAlignedCylinderSourceSelected)
         self.actionPoint_Source.triggered.connect(self.PointSourceSelected)
         self.actionLine_Source.triggered.connect(self.LineSourceSelected)
+        self.actionBy_Energy.triggered.connect(self.notYetImplemented)
+        self.actionBy_Isotope.triggered.connect(self.notYetImplemented)
+        self.actionImport.triggered.connect(self.notYetImplemented)
+
+        # view menu setup
+        self.actionGraphics.triggered.connect(self.notYetImplemented)
+        self.actionPython_Script.triggered.connect(self.notYetImplemented)
 
         self.updateSummary()
 
@@ -192,6 +200,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         if ZAlignedCylinderSourceDialog().exec() == \
                 QDialog.DialogCode.Accepted:
             self.updateSummary()
+
+    def notYetImplemented(self):
+        QMessageBox.information(self, "Sadly,",
+                                "This feature is not yet implemented.")
 
     def updateSummary(self):
         bodyText = "Model Summary: \n\n"
