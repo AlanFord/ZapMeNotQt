@@ -30,6 +30,7 @@ from YAlignedCylinderSourceDialog import YAlignedCylinderSourceDialog
 from ZAlignedCylinderSourceDialog import ZAlignedCylinderSourceDialog
 from PointSourceDialog import PointSourceDialog
 from LineSourceDialog import LineSourceDialog
+from IsotopePickerDialog import IsotopePickerDialog
 
 import libraries
 
@@ -87,7 +88,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionPoint_Source.triggered.connect(self.PointSourceSelected)
         self.actionLine_Source.triggered.connect(self.LineSourceSelected)
         self.actionBy_Energy.triggered.connect(self.notYetImplemented)
-        self.actionBy_Isotope.triggered.connect(self.notYetImplemented)
+        self.actionBy_Isotope.triggered.connect(self.IsotopeSelected)
         self.actionImport.triggered.connect(self.notYetImplemented)
 
         # view menu setup
@@ -102,6 +103,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def IsotopeSelected(self):
+        if IsotopePickerDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def removeShieldSelected(self):
         if RemoveShieldDialog().exec() == QDialog.DialogCode.Accepted:

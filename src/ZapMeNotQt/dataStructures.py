@@ -1,5 +1,8 @@
 import abc
 
+# Each f the following classes are used to contain a set of data representing
+# a feature in ZapMeNot.  Each class contains selected data as well as a method
+# to summarize in a string all of the data in the class.
 
 class LocationData():
     def __init__(self, x, y, z):

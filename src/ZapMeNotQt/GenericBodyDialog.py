@@ -1,11 +1,11 @@
 import os
+from pathlib import Path
 
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase, QRegularExpression
 from PyQt6 import uic
 from PyQt6.QtGui import QValidator, QDoubleValidator, \
     QRegularExpressionValidator
-from pathlib import Path
 
 from libraries import materials, shield_dict
 
