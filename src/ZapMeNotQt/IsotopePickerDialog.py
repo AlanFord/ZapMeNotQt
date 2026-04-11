@@ -8,6 +8,7 @@ from PyQt6 import uic
 from PyQt6.QtGui import QColor
 
 import libraries
+from ActivitiesDialog import ActivitiesDialog
 
 
 class DeselectedDelegate(QStyledItemDelegate):
@@ -27,9 +28,9 @@ class IsotopePickerDialog(QDialog):
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.tableView.setModel(self.myModel)
-        self.accepted.connect(self.on_dialog_accepted)
         self.tableView.clicked.connect(self.myModel.toggle_isotope)
         self.tableView.setItemDelegate(DeselectedDelegate(self.tableView))
+        self.accepted.connect(self.on_dialog_accepted)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /
@@ -40,7 +41,7 @@ class IsotopePickerDialog(QDialog):
         ui_file.close()
 
     def on_dialog_accepted(self):
-        pass
+        ActivitiesDialog().exec()
 
 
 class IsotopeModel(QAbstractTableModel):
