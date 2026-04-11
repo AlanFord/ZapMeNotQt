@@ -9,8 +9,8 @@ from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
 from OptionsQuadratureDialog import OptionsQuadratureDialog
-from PyQt6 import uic
-from PyQt6 import uic
+from OptionsBuildupDialog import OptionsBuildupDialog
+from OptionsFillerDialog import OptionsFillerDialog
 from BoxDialog import BoxDialog
 from SphereDialog import SphereDialog
 from XSlabDialog import XSlabDialog

@@ -20,7 +20,7 @@ for name in Material._library.keys():
     gp_data = properties.get("gp-coeff")
     if gp_data is not None:
         buildup_factor_materials.append(name)
-        
+
 dummy_isotope = Isotope('cs-137')
 for name in Isotope._library.keys():
     isotopes[name] = [False, 0.0]
