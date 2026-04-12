@@ -49,28 +49,27 @@ class IsotopePickerDialog(QDialog):
         second_dialog.exec()
 
 
-
 class IsotopeModel(QAbstractTableModel):
     def __init__(self):
         super().__init__()
         self.width = 5
-        self.dataValues = list(libraries.isotopes.keys())
+        self.displayValues = libraries.isotopes.index.to_list()
 
     def toggle_isotope(self, index):
         # check to see if it's a valid isotope
         entry = ((index.row()) * self.width) + index.column()
-        if entry <= len(self.dataValues)-1:
-            isotope_name = self.dataValues[entry]
-            values = libraries.isotopes[isotope_name]
-            libraries.isotopes[isotope_name] = [not values[0], values[1]]
+        if entry <= len(self.displayValues)-1:
+            isotope_name = self.displayValues[entry]
+            libraries.isotopes.at[isotope_name, 'active'] = \
+                not libraries.isotopes.loc[isotope_name, 'active']
             self.dataChanged.emit(index, index,
                                   [Qt.ItemDataRole.BackgroundRole,
                                    Qt.ItemDataRole.ForegroundRole])
 
     def rowCount(self, parent=QModelIndex()):
         # Return the total number of rows in the model
-        base = len(libraries.isotopes) // self.width
-        if (len(libraries.isotopes) % self.width) > 0:
+        base = len(self.displayValues) // self.width
+        if (len(self.displayValues) % self.width) > 0:
             return base + 1
         else:
             return base
@@ -80,17 +79,17 @@ class IsotopeModel(QAbstractTableModel):
 
     def data(self, index, role):
         entry = ((index.row()) * self.width) + index.column()
-        if entry > len(self.dataValues)-1:
+        if entry > len(self.displayValues)-1:
             return None
         if role == Qt.ItemDataRole.DisplayRole:
-            return self.dataValues[entry]
+            return self.displayValues[entry]
         if role == Qt.ItemDataRole.BackgroundRole:
-            if libraries.isotopes[self.dataValues[entry]][0] is False:
-                return QColor('white')
-            else:
+            if libraries.isotopes.loc[self.displayValues[entry], 'active']:
                 return QColor('blue')
-        if role == Qt.ItemDataRole.ForegroundRole:
-            if libraries.isotopes[self.dataValues[entry]][0] is False:
-                return QColor('black')
             else:
                 return QColor('white')
+        if role == Qt.ItemDataRole.ForegroundRole:
+            if libraries.isotopes.loc[self.displayValues[entry], 'active']:
+                return QColor('white')
+            else:
+                return QColor('black')

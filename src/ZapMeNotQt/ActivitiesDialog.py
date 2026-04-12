@@ -28,13 +28,14 @@ class ActivitiesDialog(QDialog):
     def on_dialog_accepted(self):
         pass
 
+
 class ActivityModel(QAbstractTableModel):
     def __init__(self):
         super().__init__()
 
     def rowCount(self, parent=QModelIndex()):
         return 6
-    
+
     def columnCount(self, parent=QModelIndex()):
         return 2
 

@@ -1,6 +1,8 @@
 # here we create a set of global libraries used by several of the dialogs
 # and windows.  Each module should import libraries.py
 
+import pandas as pd
+
 # list of available materials that can be used for a buildup factor
 buildup_factor_materials: list[str] = []
 
@@ -9,7 +11,7 @@ materials: dict = {}
 
 # dictionary of source isotopes, each entry being a list of 1)
 # included (True,False) and concentration (float)
-isotopes: dict = {}
+isotopes = pd.DataFrame()
 
 # these data are used to track user input and are populated by
 # a number of dialogs

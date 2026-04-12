@@ -1,4 +1,5 @@
 import sys
+import pandas as pd
 
 from PyQt6.QtWidgets import QApplication
 
@@ -6,7 +7,8 @@ from MainWindow1 import MainWindow
 
 from zapmenot.material import Material
 from zapmenot.isotope import Isotope
-from libraries import buildup_factor_materials, materials, isotopes
+from libraries import buildup_factor_materials, materials
+import libraries
 
 # use water as a dummy material to initialize the material class
 # this prevents reloading the material databases for each
@@ -22,8 +24,12 @@ for name in Material._library.keys():
         buildup_factor_materials.append(name)
 
 dummy_isotope = Isotope('cs-137')
-for name in Isotope._library.keys():
-    isotopes[name] = [False, 0.0]
+# create a pandas dataframe from the isotop dictionary
+libraries.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
+libraries.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
+                         'photon-energy-units', 'photon-intensity'], axis=1)
+libraries.isotopes['active'] = False
+libraries.isotopes['activity'] = 0.0
 
 app = QApplication(sys.argv)
 
