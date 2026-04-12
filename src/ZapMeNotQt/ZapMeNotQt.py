@@ -27,7 +27,8 @@ dummy_isotope = Isotope('cs-137')
 # create a pandas dataframe from the isotop dictionary
 libraries.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
 libraries.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
-                         'photon-energy-units', 'photon-intensity'], axis=1)
+                         'photon-energy-units', 'photon-intensity'], axis=1,
+                        inplace=True)
 libraries.isotopes['active'] = False
 libraries.isotopes['activity'] = 0.0
 

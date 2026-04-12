@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import pandas as pd
 
 from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QFile, QIODeviceBase, \
@@ -32,13 +33,24 @@ class ActivitiesDialog(QDialog):
 class ActivityModel(QAbstractTableModel):
     def __init__(self):
         super().__init__()
+        print(libraries.isotopes)
+        self._data = libraries.isotopes.loc[libraries.isotopes['active']]
+        self._data = self._data.drop("active", axis=1)
+        # self._data = libraries.isotopes
 
     def rowCount(self, parent=QModelIndex()):
-        return 6
+        return self._data.shape[0]
 
     def columnCount(self, parent=QModelIndex()):
-        return 2
+        return self._data.shape[1]
 
     def data(self, index, role):
         if role == Qt.ItemDataRole.DisplayRole:
-            return 1
+            return self._data.iloc[index.row(), index.column()]
+
+    def headerData(self, section, orientation, role):
+        if role == Qt.ItemDataRole.DisplayRole:
+            if orientation == Qt.Orientation.Vertical:
+                return str(self._data.index[section])
+            if orientation == Qt.Orientation.Horizontal:
+                return 'Activity'
