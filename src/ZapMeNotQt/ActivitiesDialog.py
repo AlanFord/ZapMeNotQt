@@ -10,10 +10,10 @@ import libraries
 
 
 class ActivitiesDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self, master_library):
+        super().__init__()
         self.load_ui()
-        self.myModel = ActivityModel()
+        self.myModel = ActivityModel(master_library)
         self.tableView.setModel(self.myModel)
         self.accepted.connect(self.on_dialog_accepted)
 
@@ -30,12 +30,10 @@ class ActivitiesDialog(QDialog):
 
 
 class ActivityModel(QAbstractTableModel):
-    def __init__(self):
+    def __init__(self, master_library):
         super().__init__()
-        print(libraries.isotopes)
-        self._data = libraries.isotopes.loc[libraries.isotopes['active']]
+        self._data = master_library.loc[master_library['active']]
         self._data = self._data.drop("active", axis=1)
-        # self._data = libraries.isotopes
 
     def rowCount(self, parent=QModelIndex()):
         return self._data.shape[0]
@@ -60,6 +58,22 @@ class ActivityModel(QAbstractTableModel):
             Qt.ItemFlag.ItemIsEditable
 
     def setData(self, index, value, role):
+        # TODO: don't set activities in libraries.isotopes if cancel button
+        # is selected!
         if role == Qt.ItemDataRole.EditRole:
-            self._data.iloc[index.row(), index.column()] = float(value)
+            # Validate input here
+            if self.isValid(value):
+                self._data.iloc[index.row(), index.column()] = float(value)
+                # isotope_name = self._data.index[index.row()]
+                # libraries.isotopes.loc[isotope_name, 'activity'] = float(value)
+                return True
+            else:
+                return False
+
+    def isValid(self, value):
+        try:
+            float(value)
+        except ValueError:
+            return False
+        else:
             return True

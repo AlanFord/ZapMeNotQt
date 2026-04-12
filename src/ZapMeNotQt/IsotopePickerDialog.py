@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 
-from PyQt6.QtWidgets import QDialog, QHeaderView, QStyledItemDelegate, QStyle
+from PyQt6.QtWidgets import QDialog, QHeaderView, QStyledItemDelegate, \
+    QStyle, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase, \
     QAbstractTableModel, QModelIndex, Qt
 from PyQt6 import uic
@@ -24,7 +25,8 @@ class IsotopePickerDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.load_ui()
-        self.myModel = IsotopeModel()
+        self.library_copy = libraries.isotopes.copy()
+        self.myModel = IsotopeModel(self.library_copy)
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.tableView.setModel(self.myModel)
@@ -42,27 +44,43 @@ class IsotopePickerDialog(QDialog):
         ui_file.close()
 
     def on_dialog_accepted(self):
+        # copy the library_copy back into the production library
+        # this will not happen if the cancel button is used
+        # TODO: copy the library_copy back
+        libraries.isotopes = self.library_copy.copy()
         pass
 
     def open_activities(self):
-        # TODO: screen for "no isotopes" and present an error
-        second_dialog = ActivitiesDialog(self)
-        second_dialog.exec()
+        # ensure that isotopes are selected before calling
+        # the activities dialog
+        data = self.library_copy.loc[self.library_copy['active']]
+        if data.shape[0] == 0:
+            QMessageBox.critical(self, "Error",
+                                 "Please select at least one isotope" +
+                                 "prior to specifying activities.")
+        else:
+            second_dialog = ActivitiesDialog(data)
+            second_dialog.exec()
 
 
 class IsotopeModel(QAbstractTableModel):
-    def __init__(self):
+    def __init__(self, local_library):
         super().__init__()
         self.width = 5
         self.displayValues = libraries.isotopes.index.to_list()
+        self.local_library = local_library
 
     def toggle_isotope(self, index):
         # check to see if it's a valid isotope
         entry = ((index.row()) * self.width) + index.column()
         if entry <= len(self.displayValues)-1:
             isotope_name = self.displayValues[entry]
-            libraries.isotopes.at[isotope_name, 'active'] = \
-                not libraries.isotopes.loc[isotope_name, 'active']
+            self.local_library.at[isotope_name, 'active'] = \
+                not self.local_library.loc[isotope_name, 'active']
+            # clear the activity if isotope is unselected
+            if not self.local_library.at[isotope_name, 'active']:
+                self.local_library.loc[isotope_name, 'activity'] = \
+                    0.0
             self.dataChanged.emit(index, index,
                                   [Qt.ItemDataRole.BackgroundRole,
                                    Qt.ItemDataRole.ForegroundRole])
@@ -85,12 +103,12 @@ class IsotopeModel(QAbstractTableModel):
         if role == Qt.ItemDataRole.DisplayRole:
             return self.displayValues[entry]
         if role == Qt.ItemDataRole.BackgroundRole:
-            if libraries.isotopes.loc[self.displayValues[entry], 'active']:
+            if self.local_library.loc[self.displayValues[entry], 'active']:
                 return QColor('blue')
             else:
                 return QColor('white')
         if role == Qt.ItemDataRole.ForegroundRole:
-            if libraries.isotopes.loc[self.displayValues[entry], 'active']:
+            if self.local_library.loc[self.displayValues[entry], 'active']:
                 return QColor('white')
             else:
                 return QColor('black')
