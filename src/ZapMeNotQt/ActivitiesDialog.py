@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import pandas as pd
 
 from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QFile, QIODeviceBase, \
@@ -45,7 +44,8 @@ class ActivityModel(QAbstractTableModel):
         return self._data.shape[1]
 
     def data(self, index, role):
-        if role == Qt.ItemDataRole.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole or \
+                role == Qt.ItemDataRole.EditRole:
             return self._data.iloc[index.row(), index.column()]
 
     def headerData(self, section, orientation, role):
@@ -54,3 +54,12 @@ class ActivityModel(QAbstractTableModel):
                 return str(self._data.index[section])
             if orientation == Qt.Orientation.Horizontal:
                 return 'Activity'
+
+    def flags(self, index):
+        return Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled | \
+            Qt.ItemFlag.ItemIsEditable
+
+    def setData(self, index, value, role):
+        if role == Qt.ItemDataRole.EditRole:
+            self._data.iloc[index.row(), index.column()] = float(value)
+            return True

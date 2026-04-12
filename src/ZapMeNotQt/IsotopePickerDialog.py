@@ -45,6 +45,7 @@ class IsotopePickerDialog(QDialog):
         pass
 
     def open_activities(self):
+        # TODO: screen for "no isotopes" and present an error
         second_dialog = ActivitiesDialog(self)
         second_dialog.exec()
 
