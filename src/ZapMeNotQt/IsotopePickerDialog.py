@@ -31,6 +31,7 @@ class IsotopePickerDialog(QDialog):
         self.tableView.clicked.connect(self.myModel.toggle_isotope)
         self.tableView.setItemDelegate(DeselectedDelegate(self.tableView))
         self.accepted.connect(self.on_dialog_accepted)
+        self.pushButton.clicked.connect(self.open_activities)
 
     def load_ui(self):
         path = os.fspath(Path(__file__).resolve().parent /
@@ -41,7 +42,12 @@ class IsotopePickerDialog(QDialog):
         ui_file.close()
 
     def on_dialog_accepted(self):
-        ActivitiesDialog().exec()
+        pass
+
+    def open_activities(self):
+        second_dialog = ActivitiesDialog(self)
+        second_dialog.exec()
+
 
 
 class IsotopeModel(QAbstractTableModel):

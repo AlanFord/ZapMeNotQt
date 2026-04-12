@@ -250,19 +250,20 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         else:
             bodyText += "Not Yet Specified\n\n"
 
+        bodyText += "***Shields*** \n"
+        keys = libraries.shield_dict.keys()
+        if not keys:
+            bodyText += "None Specified\n\n"
+            self.actionRemove.setEnabled(False)
+        else:
+            self.actionRemove.setEnabled(True)
+            for key in keys:
+                bodyText += libraries.shield_dict[key].summarize() + "\n"
+
         bodyText += "***Source*** \n"
         if libraries.source is not None:
             bodyText += libraries.source.summarize() + "\n"
         else:
             bodyText += "Not Yet Specified\n\n"
 
-        bodyText += "***Shields*** \n"
-        keys = libraries.shield_dict.keys()
-        if not keys:
-            bodyText += "None Specified\n"
-            self.actionRemove.setEnabled(False)
-        else:
-            self.actionRemove.setEnabled(True)
-            for key in keys:
-                bodyText += libraries.shield_dict[key].summarize() + "\n"
         self.summaryDescription.setText(bodyText)
