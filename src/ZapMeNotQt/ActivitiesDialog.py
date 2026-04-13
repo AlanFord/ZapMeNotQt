@@ -6,14 +6,16 @@ from PyQt6.QtCore import QFile, QIODeviceBase, \
     QAbstractTableModel, QModelIndex, Qt
 from PyQt6 import uic
 
-import libraries
-
 
 class ActivitiesDialog(QDialog):
     def __init__(self, master_library):
         super().__init__()
         self.load_ui()
-        self.myModel = ActivityModel(master_library)
+        self.master_library = master_library
+        self._data = self.master_library.loc[self.master_library['active']]
+        self._data = self._data.drop("active", axis=1)
+
+        self.myModel = ActivityModel(self._data)
         self.tableView.setModel(self.myModel)
         self.accepted.connect(self.on_dialog_accepted)
 
@@ -26,14 +28,16 @@ class ActivitiesDialog(QDialog):
         ui_file.close()
 
     def on_dialog_accepted(self):
-        pass
+        # copy entries from self._data to self.master_library
+        for index in self._data.index:
+            self.master_library.at[index, 'activity'] = self._data.loc[
+                index, 'activity']
 
 
 class ActivityModel(QAbstractTableModel):
-    def __init__(self, master_library):
+    def __init__(self, data):
         super().__init__()
-        self._data = master_library.loc[master_library['active']]
-        self._data = self._data.drop("active", axis=1)
+        self._data = data
 
     def rowCount(self, parent=QModelIndex()):
         return self._data.shape[0]
@@ -64,8 +68,6 @@ class ActivityModel(QAbstractTableModel):
             # Validate input here
             if self.isValid(value):
                 self._data.iloc[index.row(), index.column()] = float(value)
-                # isotope_name = self._data.index[index.row()]
-                # libraries.isotopes.loc[isotope_name, 'activity'] = float(value)
                 return True
             else:
                 return False

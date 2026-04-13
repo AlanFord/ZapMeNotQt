@@ -260,10 +260,19 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             for key in keys:
                 bodyText += libraries.shield_dict[key].summarize() + "\n"
 
-        bodyText += "***Source*** \n"
+        bodyText += "***Source Types*** \n"
         if libraries.source is not None:
             bodyText += libraries.source.summarize() + "\n"
         else:
             bodyText += "Not Yet Specified\n\n"
+
+        bodyText += "***Source Isotopes*** \n"
+        data = libraries.isotopes.loc[libraries.isotopes['active']]
+        if data.shape[0] > 0:
+            for index in data.index:
+                bodyText += index + ": " + data.loc[index, 'activity'].astype(str) + "\n"
+            bodyText += "\n"
+        else:
+            bodyText += "None Specified\n\n"
 
         self.summaryDescription.setText(bodyText)

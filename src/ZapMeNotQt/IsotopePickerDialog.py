@@ -46,9 +46,7 @@ class IsotopePickerDialog(QDialog):
     def on_dialog_accepted(self):
         # copy the library_copy back into the production library
         # this will not happen if the cancel button is used
-        # TODO: copy the library_copy back
         libraries.isotopes = self.library_copy.copy()
-        pass
 
     def open_activities(self):
         # ensure that isotopes are selected before calling
@@ -61,6 +59,9 @@ class IsotopePickerDialog(QDialog):
         else:
             second_dialog = ActivitiesDialog(data)
             second_dialog.exec()
+            for index in data.index:
+                self.library_copy.at[index, 'activity'] = data.loc[
+                    index, 'activity']
 
 
 class IsotopeModel(QAbstractTableModel):
