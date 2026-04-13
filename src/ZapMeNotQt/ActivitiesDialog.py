@@ -1,10 +1,11 @@
 import os
 from pathlib import Path
 
-from PyQt6.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase, \
     QAbstractTableModel, QModelIndex, Qt
 from PyQt6 import uic
+from PyQt6.QtGui import QValidator, QDoubleValidator
 
 
 class ActivitiesDialog(QDialog):
@@ -15,7 +16,7 @@ class ActivitiesDialog(QDialog):
         self._data = self.master_library.loc[self.master_library['active']]
         self._data = self._data.drop("active", axis=1)
 
-        self.myModel = ActivityModel(self._data)
+        self.myModel = ActivityModel(self._data, self)
         self.tableView.setModel(self.myModel)
         self.accepted.connect(self.on_dialog_accepted)
 
@@ -33,11 +34,16 @@ class ActivitiesDialog(QDialog):
             self.master_library.at[index, 'activity'] = self._data.loc[
                 index, 'activity']
 
+# =================================================================
+
 
 class ActivityModel(QAbstractTableModel):
-    def __init__(self, data):
+    def __init__(self, data, parent):
         super().__init__()
+        self.parent = parent
         self._data = data
+        self.positive_validator = QDoubleValidator(self)
+        self.positive_validator.setBottom(0)
 
     def rowCount(self, parent=QModelIndex()):
         return self._data.shape[0]
@@ -62,20 +68,22 @@ class ActivityModel(QAbstractTableModel):
             Qt.ItemFlag.ItemIsEditable
 
     def setData(self, index, value, role):
-        # TODO: don't set activities in libraries.isotopes if cancel button
-        # is selected!
         if role == Qt.ItemDataRole.EditRole:
-            # Validate input here
             if self.isValid(value):
                 self._data.iloc[index.row(), index.column()] = float(value)
                 return True
             else:
+                if value == "":
+                    insert = "A blank field"
+                else:
+                    insert = value
+                QMessageBox.critical(self.parent, "Error",
+                                     insert + " is an invalid activity.")
                 return False
 
     def isValid(self, value):
-        try:
-            float(value)
-        except ValueError:
-            return False
-        else:
+        results = self.positive_validator.validate(value, 0)
+        if results[0] == QValidator.State.Acceptable:
             return True
+        else:
+            return False
