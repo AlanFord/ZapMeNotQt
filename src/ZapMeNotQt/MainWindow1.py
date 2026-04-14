@@ -31,6 +31,7 @@ from ZAlignedCylinderSourceDialog import ZAlignedCylinderSourceDialog
 from PointSourceDialog import PointSourceDialog
 from LineSourceDialog import LineSourceDialog
 from IsotopePickerDialog import IsotopePickerDialog
+from PhotonDialog import PhotonDialog
 
 import libraries
 
@@ -87,7 +88,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             self.ZAlignedCylinderSourceSelected)
         self.actionPoint_Source.triggered.connect(self.PointSourceSelected)
         self.actionLine_Source.triggered.connect(self.LineSourceSelected)
-        self.actionBy_Energy.triggered.connect(self.notYetImplemented)
+        self.actionBy_Energy.triggered.connect(self.EnergySelected)
         self.actionBy_Isotope.triggered.connect(self.IsotopeSelected)
         self.actionImport.triggered.connect(self.notYetImplemented)
 
@@ -103,6 +104,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def EnergySelected(self):
+        if PhotonDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def IsotopeSelected(self):
         if IsotopePickerDialog().exec() == QDialog.DialogCode.Accepted:
