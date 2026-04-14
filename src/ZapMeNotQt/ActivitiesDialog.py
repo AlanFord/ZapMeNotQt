@@ -7,6 +7,8 @@ from PyQt6.QtCore import QFile, QIODeviceBase, \
 from PyQt6 import uic
 from PyQt6.QtGui import QValidator, QDoubleValidator
 
+import libraries
+
 
 class ActivitiesDialog(QDialog):
     def __init__(self, master_library):
@@ -29,6 +31,12 @@ class ActivitiesDialog(QDialog):
         ui_file.close()
 
     def on_dialog_accepted(self):
+        # record the activity units
+        if self.radioButton.isChecked():
+            libraries.activity_type = libraries.Activity_Type.Curie
+        else:
+            libraries.activity_type = libraries.Activity_Type.Becquerel
+
         # copy entries from self._data to self.master_library
         for index in self._data.index:
             self.master_library.at[index, 'activity'] = self._data.loc[

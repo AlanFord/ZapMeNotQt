@@ -2,6 +2,16 @@
 # and windows.  Each module should import libraries.py
 
 import pandas as pd
+from enum import Enum
+
+
+class Activity_Type(Enum):
+    Curie = 1
+    Becquerel = 2
+
+
+# holds the user specified activity units
+activity_type = Activity_Type.Curie
 
 # list of available materials that can be used for a buildup factor
 buildup_factor_materials: list[str] = []

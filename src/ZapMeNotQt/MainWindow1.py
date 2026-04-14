@@ -267,10 +267,16 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             bodyText += "Not Yet Specified\n\n"
 
         bodyText += "***Source Isotopes*** \n"
+        if libraries.activity_type == libraries.Activity_Type.Becquerel:
+            units = "Bq"
+        else:
+            units = "Ci"
         data = libraries.isotopes.loc[libraries.isotopes['active']]
         if data.shape[0] > 0:
             for index in data.index:
-                bodyText += index + ": " + data.loc[index, 'activity'].astype(str) + "\n"
+                bodyText += index + ": " + \
+                    data.loc[index, 'activity'].astype(str) + " " + units + \
+                    "\n"
             bodyText += "\n"
         else:
             bodyText += "None Specified\n\n"

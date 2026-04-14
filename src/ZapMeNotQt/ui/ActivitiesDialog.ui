@@ -59,6 +59,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tableView</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>radioButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
