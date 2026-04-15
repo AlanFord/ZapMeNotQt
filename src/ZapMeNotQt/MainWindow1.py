@@ -32,6 +32,7 @@ from PointSourceDialog import PointSourceDialog
 from LineSourceDialog import LineSourceDialog
 from IsotopePickerDialog import IsotopePickerDialog
 from PhotonDialog import PhotonDialog
+from ScriptDisplayDialog import ScriptDisplayDialog
 
 import libraries
 
@@ -94,7 +95,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
 
         # view menu setup
         self.actionGraphics.triggered.connect(self.notYetImplemented)
-        self.actionPython_Script.triggered.connect(self.notYetImplemented)
+        self.actionPython_Script.triggered.connect(self.display_script)
 
         self.updateSummary()
 
@@ -104,6 +105,58 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
+
+    def display_script(self):
+        script = self.format_script()
+        show_me = ScriptDisplayDialog(script)
+        show_me.exec()
+
+    def format_script(self):
+        script = []
+        script.append("from zapmenot import model,source,shield,detector,material")
+        script.append("")
+        script.append("my_model = model.Model()")
+        script.append("")
+        script.append("# Options")
+        # filler material
+        if libraries.filler_material != "None":
+            code_line = "my_model.set_filler_material('" + \
+                libraries.filler_material + "', density=" + \
+                libraries.filler_density + ")"
+            script.append(code_line)
+        # buildup factor material
+        if libraries.buildup_material == "None":
+            QMessageBox.critical(self, "Error",
+                                 " Buildup Factor Material has not " +
+                                 "been specified.")
+            script.append("# Missing buildup factor material!")
+        else:
+            code_line = "my_model.set_buildup_factor_material" + \
+                "(material.Material('" + libraries.buildup_material + "'))"
+            script.append(code_line)
+        # TODO: move this after the source definition
+        # progeny
+        if libraries.progeny is True:
+            code_line = "mySource.include_key_progeny = True"
+        else:
+            code_line = "mySource.include_key_progeny = False"
+        script.append(code_line)
+        # quadrature
+        code_line = "mySource.points_per_dimension = [" + \
+            str(libraries.quadrature[0]) + ", " + \
+            str(libraries.quadrature[1]) + ", " + \
+            str(libraries.quadrature[2]) + "]"
+        script.append(code_line)
+        # energy groups
+        if libraries.groups == 0:
+            code_line = 'mySource.grouping = "hybrid"'
+        elif libraries.groups == 1:
+            code_line = 'mySource.grouping = "group"'
+        else:
+            code_line = 'mySource.grouping = "discrete"'
+        script.append(code_line)
+
+        return script
 
     def EnergySelected(self):
         if PhotonDialog().exec() == QDialog.DialogCode.Accepted:
