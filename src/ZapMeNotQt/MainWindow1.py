@@ -287,4 +287,19 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         else:
             bodyText += "None Specified\n\n"
 
+        bodyText += "***Discrete Source Photons*** \n"
+        data = libraries.photons
+        count = 0
+        for row in data:
+            if row[0] != "" and row[1] != "":
+                count += 1
+                energy = row[0]
+                intensity = row[1]
+                bodyText += str(energy) + " MeV: " + \
+                    str(intensity) + " " + "photons/sec" + \
+                    "\n"
+        if count == 0:
+            bodyText += "None Specified\n"
+        bodyText += "\n"
+
         self.summaryDescription.setText(bodyText)
