@@ -12,6 +12,14 @@ class XSlabDialog(GenericBodyDialog):
         self.groupBox_3.setVisible(False)
         self.radius1Label.setText("X-start (cm):")
         self.radius2Label.setText("X-end (cm):")
+        # hide any qtextedit fields that should not be validated
+        self.triplet1X.hide()
+        self.triplet1Y.hide()
+        self.triplet1Z.hide()
+        self.triplet2X.hide()
+        self.triplet2Y.hide()
+        self.triplet2Z.hide()
+
         # change the validators
         self.radius1.setValidator(self.double_validator)
         self.radius2.setValidator(self.double_validator)

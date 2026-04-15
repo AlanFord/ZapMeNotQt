@@ -113,10 +113,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
 
     def format_script(self):
         script = []
-        script.append("from zapmenot import model,source,shield,detector,material")
+        script.append("from zapmenot import model,source," +
+                      "shield,detector,material")
         script.append("")
         script.append("my_model = model.Model()")
         script.append("")
+
         script.append("# Options")
         # filler material
         if libraries.filler_material != "None":
@@ -155,6 +157,22 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         else:
             code_line = 'mySource.grouping = "discrete"'
         script.append(code_line)
+        script.append("")
+
+        script.append("# Detector")
+        if libraries.detector is not None:
+            script.append(libraries.detector.code())
+        script.append("")
+
+        script.append("# Shields")
+        for shield in libraries.shield_dict.keys():
+            script.append(libraries.shield_dict[shield].code())
+        script.append("")
+
+        script.append("# Source Geometry")
+        if libraries.source is not None:
+            script.append(libraries.source.code())
+        script.append("")
 
         return script
 

@@ -32,14 +32,16 @@ class OptionsFillerDialog(QDialog):
         self.accepted.connect(self.on_dialog_accepted)
 
     def load_ui(self):
-        path = os.fspath(Path(__file__).resolve().parent / "ui/OptionsFillerDialog.ui")
+        path = os.fspath(Path(__file__).resolve().parent /
+                         "ui/OptionsFillerDialog.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
 
     def on_material_selected(self):
-        self.lineEdit.setText(str(libraries.materials[self.comboBox.currentText()]))
+        self.lineEdit.setText(str(libraries.materials[
+            self.comboBox.currentText()]))
 
     def on_dialog_accepted(self):
         libraries.filler_material = self.comboBox.currentText()
