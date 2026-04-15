@@ -227,7 +227,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
                     libraries.buildup_material + "\n\n"
 
         bodyText += "Filler Material:  " + \
-                    libraries.filler_material + "\n\n"
+                    libraries.filler_material + ", " + \
+                    libraries.filler_density + " g/cm3\n\n"
 
         bodyText += "Include Selected Progeny in Equilibrium:  "
         if libraries.progeny is True:

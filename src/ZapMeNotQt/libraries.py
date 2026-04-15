@@ -33,6 +33,7 @@ detector = None
 quadrature = [10, 10, 10]
 buildup_material = "None"
 filler_material = "None"
+filler_density = "0.0"
 progeny = False
 # 0=standard hybrid
 # 1=30 groups
