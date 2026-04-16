@@ -61,7 +61,8 @@ class XSlabShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.SemiInfiniteXSlab('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.SemiInfiniteXSlab('" + self.material + "'" + \
             ", density=" + self.density + \
             ", x_start=" + self.radius1 + \
             ", x_end=" + self.radius2 + ")"
@@ -170,7 +171,8 @@ class AnnulusShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.InfiniteAnnulus('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.InfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_origin=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -202,7 +204,8 @@ class XAnnulusShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.XAlignedInfiniteAnnulus('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.XAlignedInfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -231,7 +234,8 @@ class YAnnulusShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.YAlignedInfiniteAnnulus('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.YAlignedInfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -260,7 +264,8 @@ class ZAnnulusShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.ZAlignedInfiniteAnnulus('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.ZAlignedInfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -323,7 +328,8 @@ class XCylinderShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.XAlignedCylinder('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.XAlignedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -352,7 +358,8 @@ class YCylinderShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.YAlignedCylinder('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.YAlignedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -381,7 +388,8 @@ class ZCylinderShield(ShieldData):
         return bodyText
 
     def code(self):
-        code = self.name + "=shield.ZAlignedCylinder('" + self.material + "'" + \
+        code = self.name + \
+            "=shield.ZAlignedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
@@ -413,8 +421,15 @@ class SphereSource(ShieldData):
             bodyText += "Shell: None \n"
         return bodyText
 
+    # TODO: include the shell somehow
     def code(self):
-        pass
+        code = "my_source" + "=source.SphereSource('" + self.material + "'" +\
+            ", density=" + self.density + \
+            ", sphere_center=[" + self.vector1[0] + \
+            ", " + self.vector1[1] + \
+            ", " + self.vector1[2] + "]" + \
+            ", sphere_radius=" + self.radius1 + ")"
+        return code
 
 
 class BoxSource(ShieldData):
@@ -437,7 +452,15 @@ class BoxSource(ShieldData):
         return bodyText
 
     def code(self):
-        pass
+        code = "my_source" + "=source.BoxSource('" + self.material + "'" + \
+            ", density=" + self.density + \
+            ", box_center=[" + self.vector1[0] + \
+            ", " + self.vector1[1] + \
+            ", " + self.vector1[2] + "]" + \
+            ", box_dimensions=[" + self.vector2[0] + \
+            ", " + self.vector2[1] + \
+            ", " + self.vector2[2] + "]" + ")"
+        return code
 
 
 class XCylinderSource(ShieldData):
@@ -458,7 +481,15 @@ class XCylinderSource(ShieldData):
         return bodyText
 
     def code(self):
-        pass
+        code = "my_source" + \
+            "=source.XAlignedCylinderSource('" + self.material + "'" + \
+            ", density=" + self.density + \
+            ", cylinder_center=[" + self.vector1[0] + \
+            ", " + self.vector1[1] + \
+            ", " + self.vector1[2] + "]" + \
+            ", cylinder_length=" + self.radius1 + \
+            ", cylinder_radius=" + self.radius2 + ")"
+        return code
 
 
 class YCylinderSource(ShieldData):
@@ -479,7 +510,15 @@ class YCylinderSource(ShieldData):
         return bodyText
 
     def code(self):
-        pass
+        code = "my_source" + \
+            "=source.YAlignedCylinderSource('" + self.material + "'" + \
+            ", density=" + self.density + \
+            ", cylinder_center=[" + self.vector1[0] + \
+            ", " + self.vector1[1] + \
+            ", " + self.vector1[2] + "]" + \
+            ", cylinder_length=" + self.radius1 + \
+            ", cylinder_radius=" + self.radius2 + ")"
+        return code
 
 
 class ZCylinderSource(ShieldData):
@@ -500,7 +539,15 @@ class ZCylinderSource(ShieldData):
         return bodyText
 
     def code(self):
-        pass
+        code = "my_source" + \
+            "=source.ZAlignedCylinderSource('" + self.material + "'" + \
+            ", density=" + self.density + \
+            ", cylinder_center=[" + self.vector1[0] + \
+            ", " + self.vector1[1] + \
+            ", " + self.vector1[2] + "]" + \
+            ", cylinder_length=" + self.radius1 + \
+            ", cylinder_radius=" + self.radius2 + ")"
+        return code
 
 
 class PointSource(ShieldData):
@@ -517,7 +564,11 @@ class PointSource(ShieldData):
         return bodyText
 
     def code(self):
-        pass
+        code = "my_source" + "=source.PointSource(" + \
+            "x=" + self.vector1[0] + \
+            ", y=" + self.vector1[1] + \
+            ", z=" + self.vector1[2] + ")"
+        return code
 
 
 class LineSource(ShieldData):
@@ -538,4 +589,11 @@ class LineSource(ShieldData):
         return bodyText
 
     def code(self):
-        pass
+        code = "my_source" + "=source.LineSource(" + \
+            ", start=[" + self.vector1[0] + \
+            ", " + self.vector1[1] + \
+            ", " + self.vector1[2] + "]" + \
+            ", end=[" + self.vector2[0] + \
+            ", " + self.vector2[1] + \
+            ", " + self.vector2[2] + "]" + ")"
+        return code

@@ -119,7 +119,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         script.append("my_model = model.Model()")
         script.append("")
 
-        script.append("# Options")
+        script.append("# Model Options")
         # filler material
         if libraries.filler_material != "None":
             code_line = "my_model.set_filler_material('" + \
@@ -136,27 +136,6 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             code_line = "my_model.set_buildup_factor_material" + \
                 "(material.Material('" + libraries.buildup_material + "'))"
             script.append(code_line)
-        # TODO: move this after the source definition
-        # progeny
-        if libraries.progeny is True:
-            code_line = "mySource.include_key_progeny = True"
-        else:
-            code_line = "mySource.include_key_progeny = False"
-        script.append(code_line)
-        # quadrature
-        code_line = "mySource.points_per_dimension = [" + \
-            str(libraries.quadrature[0]) + ", " + \
-            str(libraries.quadrature[1]) + ", " + \
-            str(libraries.quadrature[2]) + "]"
-        script.append(code_line)
-        # energy groups
-        if libraries.groups == 0:
-            code_line = 'mySource.grouping = "hybrid"'
-        elif libraries.groups == 1:
-            code_line = 'mySource.grouping = "group"'
-        else:
-            code_line = 'mySource.grouping = "discrete"'
-        script.append(code_line)
         script.append("")
 
         script.append("# Detector")
@@ -167,11 +146,62 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         script.append("# Shields")
         for shield in libraries.shield_dict.keys():
             script.append(libraries.shield_dict[shield].code())
+            code_line = "my_model.add_shield(" + shield + ")"
+            script.append(code_line)
         script.append("")
 
         script.append("# Source Geometry")
         if libraries.source is not None:
             script.append(libraries.source.code())
+        script.append("my_model.add_source(my_source)")
+        script.append("")
+
+        script.append("# Source Options")
+        if libraries.progeny is True:
+            code_line = "my_source.include_key_progeny = True"
+        else:
+            code_line = "my_source.include_key_progeny = False"
+        script.append(code_line)
+        # quadrature
+        code_line = "my_source.points_per_dimension = [" + \
+            str(libraries.quadrature[0]) + ", " + \
+            str(libraries.quadrature[1]) + ", " + \
+            str(libraries.quadrature[2]) + "]"
+        script.append(code_line)
+        # energy groups
+        if libraries.groups == 0:
+            code_line = 'my_source.grouping = "hybrid"'
+        elif libraries.groups == 1:
+            code_line = 'my_source.grouping = "group"'
+        else:
+            code_line = 'my_source.grouping = "discrete"'
+        script.append(code_line)
+        script.append("")
+
+        script.append("# Source Isotopes")
+        if libraries.activity_type == libraries.Activity_Type.Becquerel:
+            code_line_start = "my_source.add_isotope_bq('"
+        else:
+            code_line_start = "my_source.add_isotope_curies('"
+        data = libraries.isotopes.loc[libraries.isotopes['active']]
+        if data.shape[0] != 0:
+            # we have isotopes marked active
+            for row in data.itertuples(index=True):
+                # TODO: why is activity stored as a float?
+                code_line = code_line_start + row.Index + "', " + \
+                    str(row.activity) + ")"
+                script.append(code_line)
+        script.append("")
+
+        # TODO: look into why these values are stored as floats and not strings
+        script.append("# Source Discrete Photon Energies")
+        for photon in libraries.photons:
+            energy = photon[0]
+            intensity = photon[1]
+            if energy != "" and intensity != "":
+                code_line = "my_source.add_photon(" + str(energy) + \
+                    ", " + str(intensity) + ")"
+                script.append(code_line)
         script.append("")
 
         return script
@@ -337,7 +367,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             for key in keys:
                 bodyText += libraries.shield_dict[key].summarize() + "\n"
 
-        bodyText += "***Source Types*** \n"
+        bodyText += "***Source Geometry*** \n"
         if libraries.source is not None:
             bodyText += libraries.source.summarize() + "\n"
         else:
