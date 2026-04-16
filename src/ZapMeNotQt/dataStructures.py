@@ -94,12 +94,21 @@ class SphereShield(ShieldData):
 
     # TODO: include the shell somehow
     def code(self):
-        code = self.name + "=shield.Sphere('" + self.material + "'" +\
+        code = self.name + "=shield.Sphere('" + self.material + "'" + \
             ", density=" + self.density + \
             ", sphere_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
             ", " + self.vector1[2] + "]" + \
             ", sphere_radius=" + self.radius1 + ")"
+        if self.shell is not None:
+            # append a discription of the shell
+            shell_name = self.name + "_shell"
+            code += "\n"
+            code += shell_name + "=shield.Shell('" + \
+                self.shell.material + "'" + \
+                ", sphere=" + self.name + \
+                ", density=" + self.shell.density + \
+                ", thickness=" + self.shell.thickness + ")"
         return code
 
 
@@ -429,6 +438,15 @@ class SphereSource(ShieldData):
             ", " + self.vector1[1] + \
             ", " + self.vector1[2] + "]" + \
             ", sphere_radius=" + self.radius1 + ")"
+        if self.shell is not None:
+            # append a discription of the shell
+            shell_name = "source_shell"
+            code += "\n"
+            code += shell_name + "=shield.Shell('" + \
+                self.shell.material + "'" + \
+                ", sphere=my_source" + \
+                ", density=" + self.shell.density + \
+                ", thickness=" + self.shell.thickness + ")"
         return code
 
 

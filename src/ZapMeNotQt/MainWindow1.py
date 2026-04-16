@@ -35,6 +35,7 @@ from PhotonDialog import PhotonDialog
 from ScriptDisplayDialog import ScriptDisplayDialog
 
 import libraries
+import dataStructures
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow):
@@ -148,12 +149,22 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             script.append(libraries.shield_dict[shield].code())
             code_line = "my_model.add_shield(" + shield + ")"
             script.append(code_line)
+            if isinstance(libraries.shield_dict[shield],
+                          dataStructures.SphereShield):
+                if libraries.shield_dict[shield].shell is not None:
+                    code_line = "my_model.add_shield(" + shield + "_shell)"
+                    script.append(code_line)
         script.append("")
 
         script.append("# Source Geometry")
         if libraries.source is not None:
             script.append(libraries.source.code())
         script.append("my_model.add_source(my_source)")
+        if isinstance(libraries.source,
+                        dataStructures.SphereSource):
+            if libraries.source.shell is not None:
+                code_line = "my_model.add_shield(source_shell)"
+                script.append(code_line)
         script.append("")
 
         script.append("# Source Options")
