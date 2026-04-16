@@ -21,7 +21,8 @@ class OptionsBuildupDialog(PyQt6.QtWidgets.QDialog):
         self.accepted.connect(self.on_dialog_accepted)
 
     def load_ui(self):
-        path = os.fspath(Path(__file__).resolve().parent / "ui/OptionsBuildupDialog.ui")
+        path = os.fspath(Path(__file__).resolve().parent /
+                         "ui/OptionsBuildupDialog.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)

@@ -5,8 +5,6 @@ from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 
-from GenericBodyDialog import GenericBodyDialog
-import dataStructures
 import libraries
 
 
@@ -49,5 +47,5 @@ class OptionsQuadratureDialog(QDialog):
 
     def on_dialog_accepted(self):
         libraries.quadrature = [self.triplet1X.text(),
-                          self.triplet1Y.text(),
-                          self.triplet1Z.text()]
+                                self.triplet1Y.text(),
+                                self.triplet1Z.text()]

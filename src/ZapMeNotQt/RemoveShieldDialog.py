@@ -15,7 +15,8 @@ class RemoveShieldDialog(PyQt6.QtWidgets.QDialog):
         self.accepted.connect(self.on_dialog_accepted)
 
     def load_ui(self):
-        path = os.fspath(Path(__file__).resolve().parent / "ui/RemoveShieldDialog.ui")
+        path = os.fspath(Path(__file__).resolve().parent /
+                         "ui/RemoveShieldDialog.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
@@ -23,4 +24,4 @@ class RemoveShieldDialog(PyQt6.QtWidgets.QDialog):
 
     def on_dialog_accepted(self):
         key = self.comboBox.currentText()
-        del(libraries.shield_dict[key])
+        del (libraries.shield_dict[key])

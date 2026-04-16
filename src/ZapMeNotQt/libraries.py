@@ -3,6 +3,7 @@
 
 import pandas as pd
 from enum import Enum
+from typing import List
 
 
 class Activity_Type(Enum):
@@ -23,7 +24,7 @@ materials: dict = {}
 # included (True,False) and concentration (float)
 isotopes = pd.DataFrame()
 # 2-d list of lists containing photon source energies and intensities
-photons = []
+photons: List[List[float]] = []
 
 # these data are used to track user input and are populated by
 # a number of dialogs

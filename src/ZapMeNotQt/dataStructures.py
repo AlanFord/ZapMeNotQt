@@ -1,6 +1,6 @@
 import abc
 
-# Each f the following classes are used to contain a set of data representing
+# Each of the following classes are used to contain a set of data representing
 # a feature in ZapMeNot.  Each class contains selected data as well as a method
 # to summarize in a string all of the data in the class.
 
@@ -92,7 +92,6 @@ class SphereShield(ShieldData):
             bodyText += "Shell: None \n"
         return bodyText
 
-    # TODO: include the shell somehow
     def code(self):
         code = self.name + "=shield.Sphere('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -430,7 +429,6 @@ class SphereSource(ShieldData):
             bodyText += "Shell: None \n"
         return bodyText
 
-    # TODO: include the shell somehow
     def code(self):
         code = "my_source" + "=source.SphereSource('" + self.material + "'" +\
             ", density=" + self.density + \

@@ -17,25 +17,24 @@ class PhotonDialog(QDialog):
         self._data = libraries.photons  # list of lists
         if len(self._data) == 0:
             self._data = [["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ["", ""],
-                         ]
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""],
+                          ["", ""]]
 
         self.myModel = PhotonModel(self._data, self)
         self.tableView.setModel(self.myModel)
-        self.tableView.verticalHeader().setVisible(False)    
+        self.tableView.verticalHeader().setVisible(False)
         self.accepted.connect(self.on_dialog_accepted)
 
     def load_ui(self):
@@ -86,10 +85,10 @@ class PhotonModel(QAbstractTableModel):
     def flags(self, index):
         return Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled | \
             Qt.ItemFlag.ItemIsEditable
-    
+
     def setData(self, index, value, role):
-        HIGH = 15   # upper photon energy limit
-        LOW = 0.015 # lower photon energy limit
+        HIGH = 15    # upper photon energy limit
+        LOW = 0.015  # lower photon energy limit
         if role == Qt.ItemDataRole.EditRole:
             # ignore a row that is all empty strings
             if self._data[index.row()] == ["", ""] and value == "":
@@ -109,7 +108,7 @@ class PhotonModel(QAbstractTableModel):
                 if index.column() == 0:
                     if energy < LOW or energy > HIGH:
                         QMessageBox.critical(self.parent, "Error",
-                                     "Photon energy is out of range.")
+                                             "Photon energy is out of range.")
                         return False
                 self._data[index.row()][index.column()] = energy
                 return True

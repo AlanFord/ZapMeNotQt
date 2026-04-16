@@ -1,6 +1,6 @@
 import os
 
-from PyQt6.QtWidgets import QDialog, QMessageBox
+from PyQt6.QtWidgets import QDialog
 from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 from pathlib import Path
@@ -17,7 +17,8 @@ class ScriptDisplayDialog(QDialog):
         self.pushButton.clicked.connect(self.close)
 
     def load_ui(self):
-        path = os.fspath(Path(__file__).resolve().parent / "ui/script_display.ui")
+        path = os.fspath(Path(__file__).resolve().parent /
+                         "ui/script_display.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
