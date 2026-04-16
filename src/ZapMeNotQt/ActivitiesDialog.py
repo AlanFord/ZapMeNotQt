@@ -78,7 +78,7 @@ class ActivityModel(QAbstractTableModel):
     def setData(self, index, value, role):
         if role == Qt.ItemDataRole.EditRole:
             if self.isValid(value):
-                self._data.iloc[index.row(), index.column()] = float(value)
+                self._data.iloc[index.row(), index.column()] = value
                 return True
             else:
                 if value == "":

@@ -110,7 +110,7 @@ class PhotonModel(QAbstractTableModel):
                         QMessageBox.critical(self.parent, "Error",
                                              "Photon energy is out of range.")
                         return False
-                self._data[index.row()][index.column()] = energy
+                self._data[index.row()][index.column()] = value
                 return True
 
     def isValid(self, value):

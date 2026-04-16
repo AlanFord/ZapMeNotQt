@@ -21,10 +21,10 @@ buildup_factor_materials: list[str] = []
 materials: dict = {}
 
 # dictionary of source isotopes, each entry being a list of 1)
-# included (True,False) and concentration (float)
+# included (True,False) and concentration (str)
 isotopes = pd.DataFrame()
 # 2-d list of lists containing photon source energies and intensities
-photons: List[List[float]] = []
+photons: List[List[str]] = []
 
 # these data are used to track user input and are populated by
 # a number of dialogs

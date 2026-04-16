@@ -30,7 +30,7 @@ libraries.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
                          'photon-energy-units', 'photon-intensity'], axis=1,
                         inplace=True)
 libraries.isotopes['active'] = False
-libraries.isotopes['activity'] = 0.0
+libraries.isotopes['activity'] = '0.0'
 
 app = QApplication(sys.argv)
 

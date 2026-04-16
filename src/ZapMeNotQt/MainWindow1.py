@@ -200,7 +200,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             for row in data.itertuples(index=True):
                 # TODO: why is activity stored as a float?
                 code_line = code_line_start + row.Index + "', " + \
-                    str(row.activity) + ")"
+                    row.activity + ")"
                 script.append(code_line)
         script.append("")
 
@@ -210,8 +210,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
             energy = photon[0]
             intensity = photon[1]
             if energy != "" and intensity != "":
-                code_line = "my_source.add_photon(" + str(energy) + \
-                    ", " + str(intensity) + ")"
+                code_line = "my_source.add_photon(" + energy + \
+                    ", " + intensity + ")"
                 script.append(code_line)
         script.append("")
 
@@ -393,7 +393,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         if data.shape[0] > 0:
             for index in data.index:
                 bodyText += index + ": " + \
-                    data.loc[index, 'activity'].astype(str) + " " + units + \
+                    data.loc[index, 'activity'] + " " + units + \
                     "\n"
             bodyText += "\n"
         else:
@@ -407,8 +407,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
                 count += 1
                 energy = row[0]
                 intensity = row[1]
-                bodyText += str(energy) + " MeV: " + \
-                    str(intensity) + " " + "photons/sec" + \
+                bodyText += energy + " MeV: " + \
+                    intensity + " " + "photons/sec" + \
                     "\n"
         if count == 0:
             bodyText += "None Specified\n"
