@@ -142,6 +142,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         script.append("# Detector")
         if libraries.detector is not None:
             script.append(libraries.detector.code())
+            script.append("my_model.add_detector(detector)")
         script.append("")
 
         script.append("# Shields")
@@ -198,13 +199,11 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         if data.shape[0] != 0:
             # we have isotopes marked active
             for row in data.itertuples(index=True):
-                # TODO: why is activity stored as a float?
                 code_line = code_line_start + row.Index + "', " + \
                     row.activity + ")"
                 script.append(code_line)
         script.append("")
 
-        # TODO: look into why these values are stored as floats and not strings
         script.append("# Source Discrete Photon Energies")
         for photon in libraries.photons:
             energy = photon[0]
@@ -215,6 +214,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
                 script.append(code_line)
         script.append("")
 
+        script.append("result = my_model.calculate_exposure()")
+        script.append('print("The dose rate is ", result, " mR/hr")')
         return script
 
     def EnergySelected(self):

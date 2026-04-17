@@ -32,7 +32,7 @@ class DetectorDialog(QDialog):
         #   numbers.  Call the dialog
         #   accept method only if all fields are valid.
         try:
-            for field in [self.x_text, self.x_text, self.x_text]:
+            for field in [self.x_text, self.y_text, self.z_text]:
                 # Get the text from the line edit
                 text = field.text()
                 # Check if the value is valid
