@@ -23,7 +23,7 @@ a = Analysis(
     hookspath=['./pyinstaller-hooks'],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['pyvista'],
     noarchive=False,
     optimize=0,
 )
