@@ -3,10 +3,28 @@ from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures
 from libraries import shield_dict
+''' '''
+'''
+ZapMeNotQt - a graphical user interface for ZapMeNot
+Copyright (C) 2026  C. Alan Ford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 
 
 class SphereDialog(GenericBodyDialog):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("Sphere")
 
@@ -30,7 +48,7 @@ class SphereDialog(GenericBodyDialog):
         self.shellDialog = ShellDialog()
         self.accepted.connect(self.on_dialog_accepted)
 
-    def on_dialog_accepted(self):
+    def on_dialog_accepted(self) -> None:
         # add to the shield dict
         sphere = dataStructures.SphereShield()
         sphere.name = self.name_field.currentText()
@@ -46,7 +64,7 @@ class SphereDialog(GenericBodyDialog):
             sphere.shell = None
         shield_dict[sphere.name] = sphere
 
-    def the_shell_button_was_clicked(self):
+    def the_shell_button_was_clicked(self) -> None:
         if self.shellDialog.exec() == QDialog.DialogCode.Accepted:
             self.hasAShell = True
             self.shell = dataStructures.ShellShield()
@@ -54,14 +72,14 @@ class SphereDialog(GenericBodyDialog):
             self.shell.material = self.shellDialog.material.currentText()
             self.shell.thickness = self.shellDialog.radius1.text()
 
-    def shellCheckBox_changed(self):
+    def shellCheckBox_changed(self) -> None:
         if self.shellCheckBox.isChecked():
             self.shellButton.setEnabled(True)
         else:
             self.shellButton.setEnabled(False)
 
     # override on_name_selected to include the sphere shell
-    def on_name_selected(self):
+    def on_name_selected(self) -> None:
         super().on_name_selected()
         new_name = self.name_field.currentText()
         if new_name in shield_dict:

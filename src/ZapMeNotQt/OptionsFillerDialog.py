@@ -6,10 +6,28 @@ from PyQt6 import uic
 from PyQt6.QtGui import QDoubleValidator
 from pathlib import Path
 import libraries
+''' '''
+'''
+ZapMeNotQt - a graphical user interface for ZapMeNot
+Copyright (C) 2026  C. Alan Ford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 
 
 class OptionsFillerDialog(QDialog):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.load_ui()
         # retain the option of no filler material in the model
@@ -31,7 +49,7 @@ class OptionsFillerDialog(QDialog):
         self.lineEdit.setValidator(self.positive_validator)
         self.accepted.connect(self.on_dialog_accepted)
 
-    def load_ui(self):
+    def load_ui(self) -> None:
         path = os.fspath(Path(__file__).resolve().parent /
                          "ui/OptionsFillerDialog.ui")
         ui_file = QFile(path)
@@ -39,15 +57,15 @@ class OptionsFillerDialog(QDialog):
         uic.loadUi(ui_file, self)
         ui_file.close()
 
-    def on_material_selected(self):
+    def on_material_selected(self) -> None:
         self.lineEdit.setText(str(libraries.materials[
             self.comboBox.currentText()]))
 
-    def on_dialog_accepted(self):
+    def on_dialog_accepted(self) -> None:
         libraries.filler_material = self.comboBox.currentText()
         libraries.filler_density = self.lineEdit.text()
 
-    def accept(self):
+    def accept(self) -> None:
         # check the QTextField for a properly formatted
         #   number.  Call the dialog
         #   accept method only if the field is valid.

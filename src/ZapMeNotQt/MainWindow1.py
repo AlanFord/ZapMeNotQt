@@ -36,10 +36,28 @@ from ScriptDisplayDialog import ScriptDisplayDialog
 
 import libraries
 import dataStructures
+''' '''
+'''
+ZapMeNotQt - a graphical user interface for ZapMeNot
+Copyright (C) 2026  C. Alan Ford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         super(MainWindow, self).__init__()
         self.load_ui()
 
@@ -100,20 +118,20 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
 
         self.updateSummary()
 
-    def load_ui(self):
+    def load_ui(self) -> None:
         path = os.fspath(Path(__file__).resolve().parent / "ui/MainWindow.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
         uic.loadUi(ui_file, self)
         ui_file.close()
 
-    def display_script(self):
-        script = self.format_script()
+    def display_script(self) -> None:
+        script: list[str] = self.format_script()
         show_me = ScriptDisplayDialog(script)
         show_me.exec()
 
-    def format_script(self):
-        script = []
+    def format_script(self) -> list[str]:
+        script: list[str] = []
         script.append("from zapmenot import model,source," +
                       "shield,detector,material")
         script.append("")
@@ -218,122 +236,122 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         script.append('print("The dose rate is ", result, " mR/hr")')
         return script
 
-    def EnergySelected(self):
+    def EnergySelected(self) -> None:
         if PhotonDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def IsotopeSelected(self):
+    def IsotopeSelected(self) -> None:
         if IsotopePickerDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def removeShieldSelected(self):
+    def removeShieldSelected(self) -> None:
         if RemoveShieldDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def progenySelected(self):
+    def progenySelected(self) -> None:
         if OptionsProgenyDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def energyGroupsSelected(self):
+    def energyGroupsSelected(self) -> None:
         if OptionsGroupsDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def quadratureSelected(self):
+    def quadratureSelected(self) -> None:
         if OptionsQuadratureDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addBuildupFactorSelected(self):
+    def addBuildupFactorSelected(self) -> None:
         if OptionsBuildupDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addFillerSelected(self):
+    def addFillerSelected(self) -> None:
         if OptionsFillerDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addDetectorSelected(self):
+    def addDetectorSelected(self) -> None:
         if DetectorDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addBoxShieldSelected(self):
+    def addBoxShieldSelected(self) -> None:
         if BoxDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addSphereShieldSelected(self):
+    def addSphereShieldSelected(self) -> None:
         if SphereDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addXSlabShieldSelected(self):
+    def addXSlabShieldSelected(self) -> None:
         if XSlabDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addAnnulusShieldSelected(self):
+    def addAnnulusShieldSelected(self) -> None:
         if AnnulusDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addCappedCylinderShieldSelected(self):
+    def addCappedCylinderShieldSelected(self) -> None:
         if CappedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addXAlignedCylinderShieldSelected(self):
+    def addXAlignedCylinderShieldSelected(self) -> None:
         if XAlignedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addYAlignedCylinderShieldSelected(self):
+    def addYAlignedCylinderShieldSelected(self) -> None:
         if YAlignedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addZAlignedCylinderShieldSelected(self):
+    def addZAlignedCylinderShieldSelected(self) -> None:
         if ZAlignedCylinderDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addXAlignedAnnulusShieldSelected(self):
+    def addXAlignedAnnulusShieldSelected(self) -> None:
         if XAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addYAlignedAnnulusShieldSelected(self):
+    def addYAlignedAnnulusShieldSelected(self) -> None:
         if YAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def addZAlignedAnnulusShieldSelected(self):
+    def addZAlignedAnnulusShieldSelected(self) -> None:
         if ZAlignedAnnulusDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def SphericalSourceSelected(self):
+    def SphericalSourceSelected(self) -> None:
         if SphereSourceDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def BoxSourceSelected(self):
+    def BoxSourceSelected(self) -> None:
         if BoxSourceDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def PointSourceSelected(self):
+    def PointSourceSelected(self) -> None:
         if PointSourceDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def LineSourceSelected(self):
+    def LineSourceSelected(self) -> None:
         if LineSourceDialog().exec() == QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def XAlignedCylinderSourceSelected(self):
+    def XAlignedCylinderSourceSelected(self) -> None:
         if XAlignedCylinderSourceDialog().exec() == \
                 QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def YAlignedCylinderSourceSelected(self):
+    def YAlignedCylinderSourceSelected(self) -> None:
         if YAlignedCylinderSourceDialog().exec() == \
                 QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def ZAlignedCylinderSourceSelected(self):
+    def ZAlignedCylinderSourceSelected(self) -> None:
         if ZAlignedCylinderSourceDialog().exec() == \
                 QDialog.DialogCode.Accepted:
             self.updateSummary()
 
-    def notYetImplemented(self):
+    def notYetImplemented(self) -> None:
         QMessageBox.information(self, "Sadly,",
                                 "This feature is not yet implemented.")
 
-    def updateSummary(self):
+    def updateSummary(self) -> None:
         bodyText = "Model Summary: \n\n"
 
         bodyText += "Buildup Factor Material:  " + \

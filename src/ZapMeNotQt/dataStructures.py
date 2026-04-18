@@ -1,23 +1,42 @@
 import abc
+from typing import Optional
+''' '''
+'''
+ZapMeNotQt - a graphical user interface for ZapMeNot
+Copyright (C) 2026  C. Alan Ford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 
 # Each of the following classes are used to contain a set of data representing
 # a feature in ZapMeNot.  Each class contains selected data as well as a method
 # to summarize in a string all of the data in the class.
 
 
-class Detector():
-    def __init__(self, x, y, z):
-        self.x_value = x
-        self.y_value = y
-        self.z_value = z
+class Detector:
+    def __init__(self, x: str, y: str, z: str) -> None:
+        self.x_value: str = x
+        self.y_value: str = y
+        self.z_value: str = z
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "X: " + self.x_value + "\n"
         bodyText += "Y: " + self.y_value + "\n"
         bodyText += "Z: " + self.z_value + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code_line = "detector = detector.Detector(x=" + self.x_value + \
             ", y=" + self.y_value + \
             ", z=" + self.z_value + ")"
@@ -25,33 +44,33 @@ class Detector():
 
 
 class ShieldData(abc.ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.description = ""
-        self.name = ""
-        self.material = ""
-        self.density = ""
-        self.vector1 = ["", "", ""]
-        self.vector2 = ["", "", ""]
-        self.radius1 = ""
-        self.radius2 = ""
-        self.shell = None
+        self.description: str = ""
+        self.name: str = ""
+        self.material: str = ""
+        self.density: str = ""
+        self.vector1: list[str] = ["", "", ""]
+        self.vector2: list[str] = ["", "", ""]
+        self.radius1: str = ""
+        self.radius2: str = ""
+        self.shell: Optional['ShellShield'] = None
 
     @abc.abstractmethod
-    def summarize(self):
+    def summarize(self) -> str:
         pass
 
     @abc.abstractmethod
-    def code(self):
+    def code(self) -> str:
         pass
 
 
 class XSlabShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Infinite X Slab"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -60,7 +79,7 @@ class XSlabShield(ShieldData):
         bodyText += "X-end: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.SemiInfiniteXSlab('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -70,12 +89,12 @@ class XSlabShield(ShieldData):
 
 
 class SphereShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Sphere"
-        self.shell = None
+        self.shell: Optional['ShellShield'] = None
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -92,7 +111,7 @@ class SphereShield(ShieldData):
             bodyText += "Shell: None \n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + "=shield.Sphere('" + self.material + "'" + \
             ", density=" + self.density + \
             ", sphere_center=[" + self.vector1[0] + \
@@ -111,13 +130,13 @@ class SphereShield(ShieldData):
         return code
 
 
-class ShellShield():
-    def __init__(self):
-        self.material = None
-        self.density = None
-        self.thickness = None
+class ShellShield:
+    def __init__(self) -> None:
+        self.material: Optional[str] = None
+        self.density: Optional[str] = None
+        self.thickness: Optional[str] = None
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "    Material: " + self.material + "\n"
         bodyText += "    Density: " + self.density + "\n"
         bodyText += "    Thickness: " + self.thickness + "\n"
@@ -125,11 +144,11 @@ class ShellShield():
 
 
 class BoxShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Box"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -144,7 +163,7 @@ class BoxShield(ShieldData):
             self.vector2[2] + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + "=shield.Box('" + self.material + "'" + \
             ", density=" + self.density + \
             ", box_center=[" + self.vector1[0] + \
@@ -157,11 +176,11 @@ class BoxShield(ShieldData):
 
 
 class AnnulusShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Infinite Annulus"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -178,7 +197,7 @@ class AnnulusShield(ShieldData):
         bodyText += "Outer Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.InfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -194,11 +213,11 @@ class AnnulusShield(ShieldData):
 
 
 class XAnnulusShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "X-Aligned Infinite Annulus"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -211,7 +230,7 @@ class XAnnulusShield(ShieldData):
         bodyText += "Outer Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.XAlignedInfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -224,11 +243,11 @@ class XAnnulusShield(ShieldData):
 
 
 class YAnnulusShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Y-Aligned Infinite Annulus"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -241,7 +260,7 @@ class YAnnulusShield(ShieldData):
         bodyText += "Outer Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.YAlignedInfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -254,11 +273,11 @@ class YAnnulusShield(ShieldData):
 
 
 class ZAnnulusShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Z-Aligned Infinite Annulus"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -271,7 +290,7 @@ class ZAnnulusShield(ShieldData):
         bodyText += "Outer Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.ZAlignedInfiniteAnnulus('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -284,11 +303,11 @@ class ZAnnulusShield(ShieldData):
 
 
 class CappedCylinderShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Capped Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -304,7 +323,7 @@ class CappedCylinderShield(ShieldData):
         bodyText += "Radius: " + self.radius1 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + "=shield.CappedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
             ", cylinder_start=[" + self.vector1[0] + \
@@ -318,11 +337,11 @@ class CappedCylinderShield(ShieldData):
 
 
 class XCylinderShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "X-Aligned Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -335,7 +354,7 @@ class XCylinderShield(ShieldData):
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.XAlignedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -348,11 +367,11 @@ class XCylinderShield(ShieldData):
 
 
 class YCylinderShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Y-Aligned Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -365,7 +384,7 @@ class YCylinderShield(ShieldData):
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.YAlignedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -378,11 +397,11 @@ class YCylinderShield(ShieldData):
 
 
 class ZCylinderShield(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Z-Aligned Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
@@ -395,7 +414,7 @@ class ZCylinderShield(ShieldData):
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = self.name + \
             "=shield.ZAlignedCylinder('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -408,12 +427,12 @@ class ZCylinderShield(ShieldData):
 
 
 class SphereSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Sphere"
         self.shell = None
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
         bodyText += "Density: " + self.density + "\n"
@@ -429,7 +448,7 @@ class SphereSource(ShieldData):
             bodyText += "Shell: None \n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + "=source.SphereSource('" + self.material + "'" +\
             ", density=" + self.density + \
             ", sphere_center=[" + self.vector1[0] + \
@@ -449,11 +468,11 @@ class SphereSource(ShieldData):
 
 
 class BoxSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Box"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
         bodyText += "Density: " + self.density + "\n"
@@ -467,7 +486,7 @@ class BoxSource(ShieldData):
             self.vector2[2] + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + "=source.BoxSource('" + self.material + "'" + \
             ", density=" + self.density + \
             ", box_center=[" + self.vector1[0] + \
@@ -480,11 +499,11 @@ class BoxSource(ShieldData):
 
 
 class XCylinderSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "X-Aligned Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
         bodyText += "Density: " + self.density + "\n"
@@ -496,7 +515,7 @@ class XCylinderSource(ShieldData):
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + \
             "=source.XAlignedCylinderSource('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -509,11 +528,11 @@ class XCylinderSource(ShieldData):
 
 
 class YCylinderSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Y-Aligned Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
         bodyText += "Density: " + self.density + "\n"
@@ -525,7 +544,7 @@ class YCylinderSource(ShieldData):
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + \
             "=source.YAlignedCylinderSource('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -538,11 +557,11 @@ class YCylinderSource(ShieldData):
 
 
 class ZCylinderSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Z-Aligned Cylinder"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
         bodyText += "Density: " + self.density + "\n"
@@ -554,7 +573,7 @@ class ZCylinderSource(ShieldData):
         bodyText += "Radius: " + self.radius2 + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + \
             "=source.ZAlignedCylinderSource('" + self.material + "'" + \
             ", density=" + self.density + \
@@ -567,11 +586,11 @@ class ZCylinderSource(ShieldData):
 
 
 class PointSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Point"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Location: " + \
             self.vector1[0] + " " + \
@@ -579,7 +598,7 @@ class PointSource(ShieldData):
             self.vector1[2] + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + "=source.PointSource(" + \
             "x=" + self.vector1[0] + \
             ", y=" + self.vector1[1] + \
@@ -588,11 +607,11 @@ class PointSource(ShieldData):
 
 
 class LineSource(ShieldData):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.description = "Line"
 
-    def summarize(self):
+    def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Starting Location: " + \
             self.vector1[0] + " " + \
@@ -604,7 +623,7 @@ class LineSource(ShieldData):
             self.vector2[2] + "\n"
         return bodyText
 
-    def code(self):
+    def code(self) -> str:
         code = "my_source" + "=source.LineSource(" + \
             ", start=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \

@@ -10,6 +10,24 @@ from PyQt6.QtGui import QColor
 
 import libraries
 from ActivitiesDialog import ActivitiesDialog
+''' '''
+'''
+ZapMeNotQt - a graphical user interface for ZapMeNot
+Copyright (C) 2026  C. Alan Ford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 
 
 class DeselectedDelegate(QStyledItemDelegate):
@@ -22,7 +40,7 @@ class DeselectedDelegate(QStyledItemDelegate):
 
 
 class IsotopePickerDialog(QDialog):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.load_ui()
         self.library_copy = libraries.isotopes.copy()
@@ -35,7 +53,7 @@ class IsotopePickerDialog(QDialog):
         self.accepted.connect(self.on_dialog_accepted)
         self.pushButton.clicked.connect(self.open_activities)
 
-    def load_ui(self):
+    def load_ui(self) -> None:
         path = os.fspath(Path(__file__).resolve().parent /
                          "ui/IsotopeSelector.ui")
         ui_file = QFile(path)
@@ -43,12 +61,12 @@ class IsotopePickerDialog(QDialog):
         uic.loadUi(ui_file, self)
         ui_file.close()
 
-    def on_dialog_accepted(self):
+    def on_dialog_accepted(self) -> None:
         # copy the library_copy back into the production library
         # this will not happen if the cancel button is used
         libraries.isotopes = self.library_copy.copy()
 
-    def open_activities(self):
+    def open_activities(self) -> None:
         # ensure that isotopes are selected before calling
         # the activities dialog
         data = self.library_copy.loc[self.library_copy['active']]
@@ -71,7 +89,7 @@ class IsotopeModel(QAbstractTableModel):
         self.displayValues = libraries.isotopes.index.to_list()
         self.local_library = local_library
 
-    def toggle_isotope(self, index):
+    def toggle_isotope(self, index) -> None:
         # check to see if it's a valid isotope
         entry = ((index.row()) * self.width) + index.column()
         if entry <= len(self.displayValues)-1:

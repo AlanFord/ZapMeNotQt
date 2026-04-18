@@ -8,10 +8,28 @@ from PyQt6.QtGui import QValidator, QDoubleValidator, \
     QRegularExpressionValidator
 
 from libraries import materials, shield_dict
+''' '''
+'''
+ZapMeNotQt - a graphical user interface for ZapMeNot
+Copyright (C) 2026  C. Alan Ford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+'''
 
 
 class GenericBodyDialog(QDialog):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.load_ui()
         self.material.addItems(materials.keys())
@@ -40,7 +58,7 @@ class GenericBodyDialog(QDialog):
         self.triplet2Y.setValidator(self.double_validator)
         self.triplet2Z.setValidator(self.double_validator)
 
-    def load_ui(self):
+    def load_ui(self) -> None:
         path = os.fspath(Path(__file__).resolve().parent /
                          "ui/GenericShieldDialog.ui")
         ui_file = QFile(path)
@@ -48,10 +66,10 @@ class GenericBodyDialog(QDialog):
         uic.loadUi(ui_file, self)
         ui_file.close()
 
-    def on_material_selected(self):
+    def on_material_selected(self) -> None:
         self.density.setText(str(materials[self.material.currentText()]))
 
-    def on_name_selected(self):
+    def on_name_selected(self) -> None:
         new_name = self.name_field.currentText()
         if new_name in shield_dict:
             existing_shield = shield_dict[new_name]
@@ -69,7 +87,7 @@ class GenericBodyDialog(QDialog):
             self.triplet2Y.setText(existing_shield.vector2[1])
             self.triplet2Z.setText(existing_shield.vector2[2])
 
-    def accept(self):
+    def accept(self) -> None:
         # first check the QTextFields for properly formatted
         #   numbers.  Then, if the shield name field is visible,
         #   check for a valid shield name.  Call the dialog
