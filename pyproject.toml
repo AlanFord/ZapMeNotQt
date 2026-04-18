@@ -14,7 +14,11 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pyinstaller>=6.19.0",
+    "ruff>=0.15.11",
 ]
 
 [tool.uv.sources]
 zapmenot = { path = "../../../Desktop/github/ZapMeNot/dist/zapmenot-0.2.1-py3-none-any.whl" }
+
+[tool.ruff.lint]
+extend-select = ["B"]

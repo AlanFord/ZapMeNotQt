@@ -10,6 +10,10 @@ Install uv and then use the command:  uv run src/ZapMeNot/ZapMeNotQt.py
 
 To build an installer:  uv run pyinstaller ZapMeNotQt.spec
 
+To typecheck with ty:  uvx ty check
+
+To lint with ruff: uv run ruff check . 
+
 General Design
 
 The main window will display a summary of the shielding model as it is constructed.  The display will be user-friendly, summarizing the user's input as it is created.  A graphical display will be generated on-demand in a separate window that must be closed to continue.  Another window will display a ZapMeNot script generated from the user input.  This window also provides the capability to save the ZapMeNot Python script is a file with a name determined by the user.  This window must be closed to return back to the main window.
