@@ -3,11 +3,13 @@ name = "zapmenotqt"
 version = "0.1.0"
 description = "A graphical user interface for ZapMeNot"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11.15"
 dependencies = [
-    "pandas>=3.0.2",
+    "pandas>=2",
     "pandas-stubs>=3.0.0.260204",
-    "pyqt6>=6.10.2",
+    "pyside6>=6.0.1",
+    "scipy==1.15",
+    "numpy==1.23.5",
     "zapmenot",
 ]
 
