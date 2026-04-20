@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog
+from PySide6.QtWidgets import QDialog
 from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures

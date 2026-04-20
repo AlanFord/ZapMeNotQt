@@ -1,8 +1,8 @@
 import os
 
-from PyQt6.QtWidgets import QDialog, QFileDialog
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
+from PySide6.QtWidgets import QDialog, QFileDialog
+from PySide6.QtCore import QFile, QIODeviceBase
+from PySide6.QtUiTools import QUiLoader
 from pathlib import Path
 ''' '''
 '''
@@ -40,7 +40,8 @@ class ScriptDisplayDialog(QDialog):
                          "ui/script_display.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
+        loader = QUiLoader()
+        loader.load(ui_file, self)
         ui_file.close()
 
     def saveFile(self) -> None:

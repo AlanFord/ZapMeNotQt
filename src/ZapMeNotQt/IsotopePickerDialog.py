@@ -1,12 +1,12 @@
 import os
 from pathlib import Path
 
-from PyQt6.QtWidgets import QDialog, QHeaderView, QStyledItemDelegate, \
+from PySide6.QtWidgets import QDialog, QHeaderView, QStyledItemDelegate, \
     QStyle, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase, \
+from PySide6.QtCore import QFile, QIODeviceBase, \
     QAbstractTableModel, QModelIndex, Qt
-from PyQt6 import uic
-from PyQt6.QtGui import QColor
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtGui import QColor
 
 import libraries
 from ActivitiesDialog import ActivitiesDialog
@@ -58,7 +58,8 @@ class IsotopePickerDialog(QDialog):
                          "ui/IsotopeSelector.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
+        loader = QUiLoader()
+        loader.load(ui_file, self)
         ui_file.close()
 
     def on_dialog_accepted(self) -> None:

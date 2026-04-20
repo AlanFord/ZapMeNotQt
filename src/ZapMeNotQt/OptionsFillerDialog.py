@@ -1,9 +1,9 @@
 import os
 
-from PyQt6.QtWidgets import QDialog, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
-from PyQt6.QtGui import QDoubleValidator
+from PySide6.QtWidgets import QDialog, QMessageBox
+from PySide6.QtCore import QFile, QIODeviceBase
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtGui import QDoubleValidator
 from pathlib import Path
 import libraries
 ''' '''
@@ -54,7 +54,8 @@ class OptionsFillerDialog(QDialog):
                          "ui/OptionsFillerDialog.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
+        loader = QUiLoader()
+        loader.load(ui_file, self)
         ui_file.close()
 
     def on_material_selected(self) -> None:

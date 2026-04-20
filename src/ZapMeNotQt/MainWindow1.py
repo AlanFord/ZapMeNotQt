@@ -1,9 +1,9 @@
 import os
 
-import PyQt6.QtWidgets
-from PyQt6.QtWidgets import QDialog, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
+import PySide6.QtWidgets
+from PySide6.QtWidgets import QDialog, QMessageBox
+from PySide6.QtCore import QFile, QIODeviceBase
+from PySide6.QtUiTools import QUiLoader
 from pathlib import Path
 from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
@@ -56,7 +56,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class MainWindow(PyQt6.QtWidgets.QMainWindow):
+class MainWindow(PySide6.QtWidgets.QMainWindow):
     def __init__(self) -> None:
         super(MainWindow, self).__init__()
         self.load_ui()
@@ -122,7 +122,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         path = os.fspath(Path(__file__).resolve().parent / "ui/MainWindow.ui")
         ui_file = QFile(path)
         ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
+        loader = QUiLoader()
+        loader.load(ui_file, self)
         ui_file.close()
 
     def display_script(self) -> None:

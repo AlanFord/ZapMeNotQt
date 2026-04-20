@@ -1,7 +1,7 @@
 import sys
 import pandas as pd
 
-from PyQt6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication
 
 from MainWindow1 import MainWindow
 
