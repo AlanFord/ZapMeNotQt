@@ -1,11 +1,8 @@
-import os
-from pathlib import Path
-
 from PySide6.QtWidgets import QDialog, QMessageBox
-from PySide6.QtCore import QFile, QIODeviceBase, \
-    QAbstractTableModel, QModelIndex, Qt
-from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PySide6.QtGui import QValidator, QDoubleValidator
+
+from ui.PhotonsDialog import Ui_Dialog
 
 import libraries
 ''' '''
@@ -28,10 +25,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class PhotonDialog(QDialog):
+class PhotonDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self._data = libraries.photons  # list of lists
         if len(self._data) == 0:
             self._data = [["", ""],
@@ -54,15 +51,6 @@ class PhotonDialog(QDialog):
         self.tableView.setModel(self.myModel)
         self.tableView.verticalHeader().setVisible(False)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/PhotonsDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        loader = QUiLoader()
-        loader.load(ui_file, self)
-        ui_file.close()
 
     def on_dialog_accepted(self) -> None:
         # copy entries back into permanent storage

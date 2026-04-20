@@ -1,9 +1,7 @@
-import os
-
 import PySide6.QtWidgets
-from PySide6.QtCore import QFile, QIODeviceBase
-from PySide6.QtUiTools import QUiLoader
-from pathlib import Path
+
+from ui.OptionsBuildupDialog import Ui_Dialog
+
 import libraries
 ''' '''
 '''
@@ -25,10 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class OptionsBuildupDialog(PySide6.QtWidgets.QDialog):
+class OptionsBuildupDialog(PySide6.QtWidgets.QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self.comboBox.addItems(libraries.buildup_factor_materials)
         if libraries.buildup_material != "None":
             index = self.comboBox.findText(libraries.buildup_material)
@@ -37,15 +35,6 @@ class OptionsBuildupDialog(PySide6.QtWidgets.QDialog):
             else:
                 self.comboBox.setCurrentIndex(0)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/OptionsBuildupDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        loader = QUiLoader()
-        loader.load(ui_file, self)
-        ui_file.close()
 
     def on_dialog_accepted(self) -> None:
         libraries.buildup_material = self.comboBox.currentText()

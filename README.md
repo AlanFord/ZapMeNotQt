@@ -8,6 +8,9 @@ include descriptions of one or more photon shields.
 To run ZapMeNotQt using uv:
 Install uv and then use the command:  uv run src/ZapMeNot/ZapMeNotQt.py
 
+To convert Qt Designer ui files to Python files:
+    uv run pyside6-uic <MainWindow.ui> -o <MainWindow_ui.py>
+
 To build an installer:  uv run pyinstaller ZapMeNotQt.spec
 
 To typecheck with ty:  uvx ty check

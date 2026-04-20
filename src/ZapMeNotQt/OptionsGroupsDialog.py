@@ -4,6 +4,9 @@ import PySide6.QtWidgets
 from PySide6.QtCore import QFile, QIODeviceBase
 from PySide6.QtUiTools import QUiLoader
 from pathlib import Path
+
+from ui.OptionsGroupsDialog import Ui_Dialog
+
 import libraries
 ''' '''
 '''
@@ -25,10 +28,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class OptionsGroupsDialog(PySide6.QtWidgets.QDialog):
+class OptionsGroupsDialog(PySide6.QtWidgets.QDialog, Ui_Dialog):
     def __init__(self) -> None:
-        super(OptionsGroupsDialog, self).__init__()
-        self.load_ui()
+        super().__init__()
+        self.setupUi(self)
         if libraries.groups == 0:
             self.StandardButton.setChecked(True)
         elif libraries.groups == 1:
@@ -36,15 +39,6 @@ class OptionsGroupsDialog(PySide6.QtWidgets.QDialog):
         else:
             self.DiscreteButton.setChecked(True)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/OptionsGroupsDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        loader = QUiLoader()
-        loader.load(ui_file, self)
-        ui_file.close()
 
     def on_dialog_accepted(self) -> None:
         if self.StandardButton.isChecked():

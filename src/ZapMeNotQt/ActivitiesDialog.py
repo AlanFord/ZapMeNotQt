@@ -1,11 +1,8 @@
-import os
-from pathlib import Path
-
 from PySide6.QtWidgets import QDialog, QMessageBox
-from PySide6.QtCore import QFile, QIODeviceBase, \
-    QAbstractTableModel, QModelIndex, Qt
-from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PySide6.QtGui import QValidator, QDoubleValidator
+
+from ui.ActivitiesDialog import Ui_Dialog
 
 import libraries
 ''' '''
@@ -28,10 +25,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class ActivitiesDialog(QDialog):
+class ActivitiesDialog(QDialog, Ui_Dialog):
     def __init__(self, master_library):
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self.master_library = master_library
         self._data = self.master_library.loc[self.master_library['active']]
         self._data = self._data.drop("active", axis=1)
@@ -39,15 +36,6 @@ class ActivitiesDialog(QDialog):
         self.myModel = ActivityModel(self._data, self)
         self.tableView.setModel(self.myModel)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/ActivitiesDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        loader = QUiLoader()
-        loader.load(ui_file, self)
-        ui_file.close()
 
     def on_dialog_accepted(self) -> None:
         # record the activity units

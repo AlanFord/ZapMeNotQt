@@ -1,10 +1,6 @@
-import os
-
 import PySide6.QtWidgets
 from PySide6.QtWidgets import QDialog, QMessageBox
-from PySide6.QtCore import QFile, QIODeviceBase
-from PySide6.QtUiTools import QUiLoader
-from pathlib import Path
+
 from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
@@ -34,6 +30,8 @@ from IsotopePickerDialog import IsotopePickerDialog
 from PhotonDialog import PhotonDialog
 from ScriptDisplayDialog import ScriptDisplayDialog
 
+from ui.MainWindow import Ui_MainWindow
+
 import libraries
 import dataStructures
 ''' '''
@@ -56,10 +54,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class MainWindow(PySide6.QtWidgets.QMainWindow):
+class MainWindow(PySide6.QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self) -> None:
-        super(MainWindow, self).__init__()
-        self.load_ui()
+        super().__init__()
+        self.setupUi(self)
 
         # shield menu setup
         self.actionBox.triggered.connect(self.addBoxShieldSelected)
@@ -117,14 +115,6 @@ class MainWindow(PySide6.QtWidgets.QMainWindow):
         self.actionPython_Script.triggered.connect(self.display_script)
 
         self.updateSummary()
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent / "ui/MainWindow.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        loader = QUiLoader()
-        loader.load(ui_file, self)
-        ui_file.close()
 
     def display_script(self) -> None:
         script: list[str] = self.format_script()

@@ -1,10 +1,8 @@
-import os
-
 from PySide6.QtWidgets import QDialog, QMessageBox
-from PySide6.QtCore import QFile, QIODeviceBase
-from PySide6.QtUiTools import QUiLoader
 from PySide6.QtGui import QDoubleValidator
-from pathlib import Path
+
+from ui.DetectorLocationDialog import Ui_Dialog
+
 import libraries
 import dataStructures
 ''' '''
@@ -27,24 +25,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class DetectorDialog(QDialog):
+class DetectorDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
-        super(DetectorDialog, self).__init__()
-        self.load_ui()
+        super().__init__()
+        self.setupUi(self)
         self.double_validator = QDoubleValidator(self)
         self.x_text.setValidator(self.double_validator)
         self.y_text.setValidator(self.double_validator)
         self.z_text.setValidator(self.double_validator)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/DetectorLocationDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        loader = QUiLoader()
-        loader.load(ui_file, self)
-        ui_file.close()
 
     def accept(self) -> None:
         # check the QTextFields for properly formatted
