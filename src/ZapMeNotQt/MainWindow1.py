@@ -33,6 +33,7 @@ from LineSourceDialog import LineSourceDialog
 from IsotopePickerDialog import IsotopePickerDialog
 from PhotonDialog import PhotonDialog
 from ScriptDisplayDialog import ScriptDisplayDialog
+from GraphicsDisplayDialog import GraphicsDisplayDialog
 
 import libraries
 import dataStructures
@@ -113,7 +114,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         self.actionImport.triggered.connect(self.notYetImplemented)
 
         # view menu setup
-        self.actionGraphics.triggered.connect(self.notYetImplemented)
+        self.actionGraphics.triggered.connect(self.display_graphics)
         self.actionPython_Script.triggered.connect(self.display_script)
 
         self.updateSummary()
@@ -128,6 +129,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
     def display_script(self) -> None:
         script: list[str] = self.format_script()
         show_me = ScriptDisplayDialog(script)
+        show_me.exec()
+
+    def display_graphics(self) -> None:
+        show_me = GraphicsDisplayDialog(" ")
         show_me.exec()
 
     def format_script(self) -> list[str]:
