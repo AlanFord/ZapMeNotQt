@@ -1,4 +1,5 @@
 from GenericBodyDialog import GenericBodyDialog
+from PyQt6.QtWidgets import QMessageBox
 import dataStructures
 import libraries
 ''' '''
@@ -54,3 +55,11 @@ class XSlabDialog(GenericBodyDialog):
         shield.radius1 = self.radius1.text()
         shield.radius2 = self.radius2.text()
         libraries.shield_dict[shield.name] = shield
+
+    def accept(self) -> None:
+        if float(self.radius2.text()) <= float(self.radius1.text()):
+            # X-end should be larger than X-start
+            QMessageBox.critical(self, "Error",
+                                 "X-end must be larger than X-start")
+        else:
+            super().accept()
