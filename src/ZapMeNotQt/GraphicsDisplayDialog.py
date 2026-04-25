@@ -5,6 +5,9 @@ from PyQt6.QtCore import QFile, QIODeviceBase
 from PyQt6 import uic
 import pyvista as pv
 from pathlib import Path
+from zapmenot import model, source, shield, detector, material
+import libraries
+import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -29,8 +32,26 @@ class GraphicsDisplayDialog(QDialog):
     def __init__(self, text_list: str) -> None:
         super().__init__()
         self.load_ui()
-        self.display_view.add_mesh(pv.Sphere())
-        self.display_view.show_grid()
+        # build a stripped-down ZapMeNot model sufficient for display
+        self.my_model = model.Model()
+        if libraries.detector is not None:
+            local_detector = libraries.detector.phalax()
+            self.my_model.add_detector(local_detector)
+
+        for shield_name in libraries.shield_dict.keys():
+            local_shield_list = libraries.shield_dict[shield_name].phalax()
+            for local_shield in local_shield_list:
+                self.my_model.add_shield(local_shield)
+
+        if libraries.source is not None:
+            local_source_list = libraries.source.phalax()
+            for local_source in local_source_list:
+                if isinstance(local_source, shield.Shell):
+                    self.my_model.add_shield(local_source)
+                if isinstance(local_source, source.Source):
+                    self.my_model.add_source(local_source)
+
+        self.my_model._build_image(self.display_view)
         self.pushButton.clicked.connect(self.close)
         # self.pushButton_2.clicked.connect(self.saveFile)
 

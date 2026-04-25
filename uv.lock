@@ -2781,7 +2781,7 @@ dependencies = [
     { name = "trame-vuetify" },
 ]
 wheels = [
-    { filename = "zapmenot-0.2.1-py3-none-any.whl", hash = "sha256:c9f3f3578a54b0491800d8d633200d487586345d70d948389d10afec3d7f9105" },
+    { filename = "zapmenot-0.2.1-py3-none-any.whl", hash = "sha256:156583206715756da5fe604c2c4063bb20c78c262138b6b5592beb0672b8fa81" },
 ]
 
 [package.metadata]
@@ -2791,7 +2791,7 @@ requires-dist = [
     { name = "hatch", marker = "extra == 'dev'" },
     { name = "ipywidgets", specifier = ">=8.1.7" },
     { name = "jupyterlab", specifier = ">=4.4" },
-    { name = "pandas", marker = "extra == 'dev'", specifier = ">=2" },
+    { name = "pandas", marker = "extra == 'dev'", specifier = ">=2.3" },
     { name = "pytest", specifier = ">=8.4" },
     { name = "pyvista", specifier = ">=0.45" },
     { name = "pyyaml", specifier = ">=6.0" },

@@ -1,5 +1,6 @@
 import abc
 from typing import Optional
+from zapmenot import model, source, shield, detector, material
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -42,6 +43,12 @@ class Detector:
             ", z=" + self.z_value + ")"
         return code_line
 
+    def phalax(self) -> detector.Detector:
+        local_detector = detector.Detector(x=float(self.x_value),
+                                           y=float(self.y_value),
+                                           z=float(self.z_value))
+        return local_detector
+
 
 class ShieldData(abc.ABC):
     def __init__(self) -> None:
@@ -62,6 +69,10 @@ class ShieldData(abc.ABC):
 
     @abc.abstractmethod
     def code(self) -> str:
+        pass
+
+    @abc.abstractmethod
+    def phalax(self) -> list[shield.Shield]:
         pass
 
 
@@ -86,6 +97,14 @@ class XSlabShield(ShieldData):
             ", x_start=" + self.radius1 + \
             ", x_end=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.SemiInfiniteXSlab(self.material,
+                                     density=float(self.density),
+                                     x_start=float(self.radius1),
+                                     x_end=float(self.radius2))
+        return [local_shield]
 
 
 class SphereShield(ShieldData):
@@ -128,6 +147,23 @@ class SphereShield(ShieldData):
                 ", density=" + self.shell.density + \
                 ", thickness=" + self.shell.thickness + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.Sphere(self.material,
+                          density=float(self.density),
+                          sphere_center=[float(self.vector1[0]),
+                                         float(self.vector1[1]),
+                                         float(self.vector1[2])],
+                          sphere_radius=float(self.radius1))
+        if self.shell is not None:
+            local_shell = \
+                shield.Shell(self.shell.material,
+                             sphere=local_shield,
+                             density=float(self.shell.density),
+                             thickness=float(self.shell.thickness))
+            return [local_shield, local_shell]
+        return [local_shield]
 
 
 class ShellShield:
@@ -174,6 +210,18 @@ class BoxShield(ShieldData):
             ", " + self.vector2[2] + "]" + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.Box(self.material,
+                       density=float(self.density),
+                       box_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                       box_dimensions=[float(self.vector1[0]),
+                                       float(self.vector1[1]),
+                                       float(self.vector1[2])])
+        return [local_shield]
+
 
 class AnnulusShield(ShieldData):
     def __init__(self) -> None:
@@ -207,9 +255,23 @@ class AnnulusShield(ShieldData):
             ", cylinder_axis=[" + self.vector2[0] + \
             ", " + self.vector2[1] + \
             ", " + self.vector2[2] + "]" + \
-            ", inner_radius=" + self.radius1 + \
-            ", outer_radius=" + self.radius2 + ")"
+            ", cylinder_inner_radius=" + self.radius1 + \
+            ", cylinder_outer_radius=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.InfiniteAnnulus(self.material,
+                       density=float(self.density),
+                       cylinder_origin=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                       cylinder_axis=[float(self.vector1[0]),
+                                       float(self.vector1[1]),
+                                       float(self.vector1[2])],
+                        cylinder_inner_radius=float(self.radius1),
+                        cylinder_outer_radius=float(self.radius2))
+        return [local_shield]
 
 
 class XAnnulusShield(ShieldData):
@@ -237,9 +299,20 @@ class XAnnulusShield(ShieldData):
             ", cylinder_center=[" + self.vector1[0] + \
             ", " + self.vector1[1] + \
             ", " + self.vector1[2] + "]" + \
-            ", inner_radius=" + self.radius1 + \
-            ", outer_radius=" + self.radius2 + ")"
+            ", cylinder_inner_radius=" + self.radius1 + \
+            ", cylinder_outer_radius=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.XAlignedInfiniteAnnulus(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_inner_radius=float(self.radius1),
+                        cylinder_outer_radius=float(self.radius2))
+        return [local_shield]
 
 
 class YAnnulusShield(ShieldData):
@@ -271,6 +344,17 @@ class YAnnulusShield(ShieldData):
             ", outer_radius=" + self.radius2 + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.YAlignedInfiniteAnnulus(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_inner_radius=float(self.radius1),
+                        cylinder_outer_radius=float(self.radius2))
+        return [local_shield]
+
 
 class ZAnnulusShield(ShieldData):
     def __init__(self) -> None:
@@ -300,6 +384,17 @@ class ZAnnulusShield(ShieldData):
             ", inner_radius=" + self.radius1 + \
             ", outer_radius=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.ZAlignedInfiniteAnnulus(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_inner_radius=float(self.radius1),
+                        cylinder_outer_radius=float(self.radius2))
+        return [local_shield]
 
 
 class CappedCylinderShield(ShieldData):
@@ -335,6 +430,19 @@ class CappedCylinderShield(ShieldData):
             ", cylinder_radius=" + self.radius1 + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.CappedCylinder(self.material,
+                       density=float(self.density),
+                       cylinder_start=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                       cylinder_end=[float(self.vector1[0]),
+                                       float(self.vector1[1]),
+                                       float(self.vector1[2])],
+                        cylinder_radius=float(self.radius1))
+        return [local_shield]
+
 
 class XCylinderShield(ShieldData):
     def __init__(self) -> None:
@@ -364,6 +472,17 @@ class XCylinderShield(ShieldData):
             ", cylinder_length=" + self.radius1 + \
             ", cylinder_radius=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.XAlignedCylinder(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_length=float(self.radius1),
+                        cylinder_radius=float(self.radius2))
+        return [local_shield]
 
 
 class YCylinderShield(ShieldData):
@@ -395,6 +514,17 @@ class YCylinderShield(ShieldData):
             ", cylinder_radius=" + self.radius2 + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.YAlignedCylinder(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_length=float(self.radius1),
+                        cylinder_radius=float(self.radius2))
+        return [local_shield]
+
 
 class ZCylinderShield(ShieldData):
     def __init__(self) -> None:
@@ -424,6 +554,17 @@ class ZCylinderShield(ShieldData):
             ", cylinder_length=" + self.radius1 + \
             ", cylinder_radius=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_shield = \
+            shield.ZAlignedCylinder(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_length=float(self.radius1),
+                        cylinder_radius=float(self.radius2))
+        return [local_shield]
 
 
 class SphereSource(ShieldData):
@@ -466,6 +607,23 @@ class SphereSource(ShieldData):
                 ", thickness=" + self.shell.thickness + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.SphereSource(self.material,
+                          density=float(self.density),
+                          sphere_center=[float(self.vector1[0]),
+                                         float(self.vector1[1]),
+                                         float(self.vector1[2])],
+                          sphere_radius=float(self.radius1))
+        if self.shell is not None:
+            local_shell = \
+                shield.Shell(self.shell.material,
+                             sphere=local_source,
+                             density=float(self.shell.density),
+                             thickness=float(self.shell.thickness))
+            return [local_source, local_shell]
+        return [local_source]
+
 
 class BoxSource(ShieldData):
     def __init__(self) -> None:
@@ -497,6 +655,18 @@ class BoxSource(ShieldData):
             ", " + self.vector2[2] + "]" + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.BoxSource(self.material,
+                       density=float(self.density),
+                       box_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                       box_dimensions=[float(self.vector1[0]),
+                                       float(self.vector1[1]),
+                                       float(self.vector1[2])])
+        return [local_source]
+
 
 class XCylinderSource(ShieldData):
     def __init__(self) -> None:
@@ -525,6 +695,17 @@ class XCylinderSource(ShieldData):
             ", cylinder_length=" + self.radius1 + \
             ", cylinder_radius=" + self.radius2 + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.XAlignedCylinderSource(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_length=float(self.radius1),
+                        cylinder_radius=float(self.radius2))
+        return [local_source]
 
 
 class YCylinderSource(ShieldData):
@@ -555,6 +736,17 @@ class YCylinderSource(ShieldData):
             ", cylinder_radius=" + self.radius2 + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.YAlignedCylinderSource(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_length=float(self.radius1),
+                        cylinder_radius=float(self.radius2))
+        return [local_source]
+
 
 class ZCylinderSource(ShieldData):
     def __init__(self) -> None:
@@ -584,6 +776,17 @@ class ZCylinderSource(ShieldData):
             ", cylinder_radius=" + self.radius2 + ")"
         return code
 
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.ZAlignedCylinderSource(self.material,
+                       density=float(self.density),
+                       cylinder_center=[float(self.vector1[0]),
+                                   float(self.vector1[1]),
+                                   float(self.vector1[2])],
+                        cylinder_length=float(self.radius1),
+                        cylinder_radius=float(self.radius2))
+        return [local_source]
+
 
 class PointSource(ShieldData):
     def __init__(self) -> None:
@@ -604,6 +807,13 @@ class PointSource(ShieldData):
             ", y=" + self.vector1[1] + \
             ", z=" + self.vector1[2] + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.PointSource(x=float(self.vector1[0]),
+                               y=float(self.vector1[1]),
+                               z=float(self.vector1[2]))
+        return [local_source]
 
 
 class LineSource(ShieldData):
@@ -632,3 +842,13 @@ class LineSource(ShieldData):
             ", " + self.vector2[1] + \
             ", " + self.vector2[2] + "]" + ")"
         return code
+
+    def phalax(self) -> list[shield.Shield]:
+        local_source = \
+            source.LineSource(start=[float(self.vector1[0]),
+                               float(self.vector1[1]),
+                               float(self.vector1[2])],
+                              end=[float(self.vector1[0]),
+                               float(self.vector1[1]),
+                               float(self.vector1[2])])
+        return [local_source]

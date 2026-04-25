@@ -183,12 +183,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         script.append("# Source Geometry")
         if libraries.source is not None:
             script.append(libraries.source.code())
-        script.append("my_model.add_source(my_source)")
-        if isinstance(libraries.source,
-                      dataStructures.SphereSource):
-            if libraries.source.shell is not None:
-                code_line = "my_model.add_shield(source_shell)"
-                script.append(code_line)
+            script.append("my_model.add_source(my_source)")
+            if isinstance(libraries.source,
+                          dataStructures.SphereSource):
+                if libraries.source.shell is not None:
+                    code_line = "my_model.add_shield(source_shell)"
+                    script.append(code_line)
         script.append("")
 
         script.append("# Source Options")
