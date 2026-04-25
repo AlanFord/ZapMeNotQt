@@ -132,8 +132,14 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow):
         show_me.exec()
 
     def display_graphics(self) -> None:
-        show_me = GraphicsDisplayDialog(" ")
-        show_me.exec()
+        # do we have sufficient model detail to display?
+        if libraries.source is None or libraries.detector is None:
+            QMessageBox.critical(self, "Error",
+                                 "Please specify both a source and \
+                                    detector before displaying the model.")
+        else:
+            show_me = GraphicsDisplayDialog(" ")
+            show_me.exec()
 
     def format_script(self) -> list[str]:
         script: list[str] = []
