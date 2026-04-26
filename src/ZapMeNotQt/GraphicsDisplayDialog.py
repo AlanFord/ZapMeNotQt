@@ -1,13 +1,9 @@
-import os
-
 from PyQt6.QtWidgets import QDialog
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
-import pyvista as pv
-from pathlib import Path
-from zapmenot import model, source, shield, detector, material
+from zapmenot import model, source, shield
+
+from ui.GraphicsDialog import Ui_GraphicsDialog
+
 import libraries
-import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -28,10 +24,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class GraphicsDisplayDialog(QDialog):
+class GraphicsDisplayDialog(QDialog, Ui_GraphicsDialog):
     def __init__(self, text_list: str) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         # build a stripped-down ZapMeNot model sufficient for display
         self.my_model = model.Model()
         if libraries.detector is not None:
@@ -54,11 +50,3 @@ class GraphicsDisplayDialog(QDialog):
         self.my_model._build_image(self.display_view)
         self.pushButton.clicked.connect(self.close)
         # self.pushButton_2.clicked.connect(self.saveFile)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/GraphicsDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
-        ui_file.close()

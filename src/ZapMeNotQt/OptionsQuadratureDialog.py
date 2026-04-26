@@ -1,9 +1,6 @@
-import os
-from pathlib import Path
-
 from PyQt6.QtWidgets import QDialog, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
+
+from ui.OptionsQuadratureDialog import Ui_Dialog
 
 import libraries
 ''' '''
@@ -26,19 +23,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class OptionsQuadratureDialog(QDialog):
+class OptionsQuadratureDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/OptionsQuadratureDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
-        ui_file.close()
 
     def accept(self) -> None:
         # first check the QTextFields for properly formatted

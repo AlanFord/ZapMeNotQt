@@ -1,12 +1,9 @@
-import os
-from pathlib import Path
-
 from PyQt6.QtWidgets import QDialog, QHeaderView, QStyledItemDelegate, \
     QStyle, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase, \
-    QAbstractTableModel, QModelIndex, Qt
-from PyQt6 import uic
+from PyQt6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PyQt6.QtGui import QColor
+
+from ui.IsotopeSelector import Ui_Dialog
 
 import libraries
 from ActivitiesDialog import ActivitiesDialog
@@ -39,10 +36,10 @@ class DeselectedDelegate(QStyledItemDelegate):
         opt.state &= ~QStyle.StateFlag.State_Selected
 
 
-class IsotopePickerDialog(QDialog):
+class IsotopePickerDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self.library_copy = libraries.isotopes.copy()
         self.myModel = IsotopeModel(self.library_copy)
         header = self.tableView.horizontalHeader()
@@ -52,14 +49,6 @@ class IsotopePickerDialog(QDialog):
         self.tableView.setItemDelegate(DeselectedDelegate(self.tableView))
         self.accepted.connect(self.on_dialog_accepted)
         self.pushButton.clicked.connect(self.open_activities)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/IsotopeSelector.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
-        ui_file.close()
 
     def on_dialog_accepted(self) -> None:
         # copy the library_copy back into the production library

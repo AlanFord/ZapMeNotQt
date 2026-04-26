@@ -1,9 +1,7 @@
-import os
-
 from PyQt6.QtWidgets import QDialog, QFileDialog
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
-from pathlib import Path
+
+from ui.script_display import Ui_Dialog
+
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -24,10 +22,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class ScriptDisplayDialog(QDialog):
+class ScriptDisplayDialog(QDialog, Ui_Dialog):
     def __init__(self, text_list: list[str]) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self.display_text = ""
         for entry in text_list:
             self.display_text += entry + "\n"
@@ -35,19 +33,11 @@ class ScriptDisplayDialog(QDialog):
         self.pushButton.clicked.connect(self.close)
         self.pushButton_2.clicked.connect(self.saveFile)
 
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/script_display.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
-        ui_file.close()
-
     def saveFile(self) -> None:
         # Open the save file dialog
-        filename, _ = QFileDialog.getSaveFileName(None, 
-                                                  "Save File", 
-                                                  "", 
+        filename, _ = QFileDialog.getSaveFileName(None,
+                                                  "Save File",
+                                                  "",
                                                   "Python Files (*.py);;All Files (*)")
 
         if filename:

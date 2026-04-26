@@ -1,11 +1,9 @@
-import os
-from pathlib import Path
-
 from PyQt6.QtWidgets import QDialog, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase, QRegularExpression
-from PyQt6 import uic
+from PyQt6.QtCore import QRegularExpression
 from PyQt6.QtGui import QValidator, QDoubleValidator, \
     QRegularExpressionValidator
+
+from ui.GenericShieldDialog import Ui_Dialog
 
 from libraries import materials, shield_dict
 ''' '''
@@ -28,10 +26,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class GenericBodyDialog(QDialog):
+class GenericBodyDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         self.material.addItems(materials.keys())
         self.material.setCurrentIndex(0)
         self.density.setText(str(materials[self.material.currentText()]))
@@ -57,14 +55,6 @@ class GenericBodyDialog(QDialog):
         self.triplet2X.setValidator(self.double_validator)
         self.triplet2Y.setValidator(self.double_validator)
         self.triplet2Z.setValidator(self.double_validator)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/GenericShieldDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
-        ui_file.close()
 
     def on_material_selected(self) -> None:
         self.density.setText(str(materials[self.material.currentText()]))

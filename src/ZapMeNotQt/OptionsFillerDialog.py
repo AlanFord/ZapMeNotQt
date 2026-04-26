@@ -1,10 +1,8 @@
-import os
-
 from PyQt6.QtWidgets import QDialog, QMessageBox
-from PyQt6.QtCore import QFile, QIODeviceBase
-from PyQt6 import uic
 from PyQt6.QtGui import QDoubleValidator
-from pathlib import Path
+
+from ui.OptionsFillerDialog import Ui_Dialog
+
 import libraries
 ''' '''
 '''
@@ -26,10 +24,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-class OptionsFillerDialog(QDialog):
+class OptionsFillerDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
-        self.load_ui()
+        self.setupUi(self)
         # retain the option of no filler material in the model
         filler_list = ["None"]
         filler_list += libraries.materials.keys()
@@ -48,14 +46,6 @@ class OptionsFillerDialog(QDialog):
         self.positive_validator.setBottom(0)
         self.lineEdit.setValidator(self.positive_validator)
         self.accepted.connect(self.on_dialog_accepted)
-
-    def load_ui(self) -> None:
-        path = os.fspath(Path(__file__).resolve().parent /
-                         "ui/OptionsFillerDialog.ui")
-        ui_file = QFile(path)
-        ui_file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-        uic.loadUi(ui_file, self)
-        ui_file.close()
 
     def on_material_selected(self) -> None:
         self.lineEdit.setText(str(libraries.materials[

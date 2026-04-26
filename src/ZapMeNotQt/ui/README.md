@@ -1,12 +1,10 @@
-This folder contains the Qt Designer files for the ZapMeNotQt application.  Each .ui file holds the design of a main window, window, dialog box, or widget.  The following is a summary of the files:
+This folder contains the Qt Designer files for the ZapMeNotQt application.  Each .ui file holds the design of a main window, window, dialog box, or widget.  
 
-- mainwindow.ui - The main window of the application.
-- sphereInputDialog.ui
-- sourceBodyDialog.ui
-- sourcePhotonsDialog.ui 
-- shieldAddDialog.ui
-- shieldRemoveDialog.ui
-- detectorLocationDialog.ui - A dialog box used to enter the detector parameters.  This dialog is invoked from the main window's menu.
-- optionsBuildupMaterialDialog.ui - A dialog box used to select the buildup factor material.
-- optionsDaughtersDialog.ui - A dialog box to modify the automatic use of daughter isotopes.
-- optionsGroupsDialog.ui - A dialog box to select the energy group option to use.
+The files can be converted to python files using the "convert.sh" bash script.
+The script is designed to be used along with the PyQt6 Python package.  It can 
+be converted to use the alternative PySide6 Python package by changing the
+call to pyuic6 to be a call to pyside6-uic.
+
+A good reference and tutorial for loading .ui files and/or converting these
+files to Python is
+"Creating GUI Applications with Python and Qt6 (PyQt6 Edition)" by Martin Fitzpatrick.
