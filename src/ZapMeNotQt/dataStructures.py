@@ -32,9 +32,9 @@ class Detector:
         self.z_value: str = z
 
     def summarize(self) -> str:
-        bodyText = "X: " + self.x_value + "\n"
-        bodyText += "Y: " + self.y_value + "\n"
-        bodyText += "Z: " + self.z_value + "\n"
+        bodyText = "X: " + self.x_value + " cm\n"
+        bodyText += "Y: " + self.y_value + " cm\n"
+        bodyText += "Z: " + self.z_value + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -85,9 +85,9 @@ class XSlabShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
-        bodyText += "X-start: " + self.radius1 + "\n"
-        bodyText += "X-end: " + self.radius2 + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
+        bodyText += "X-start: " + self.radius1 + "cm\n"
+        bodyText += "X-end: " + self.radius2 + "cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -117,12 +117,12 @@ class SphereShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Location: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Radius: " + self.radius1 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Radius: " + self.radius1 + " cm\n"
         if self.shell is not None:
             bodyText += "Shell: \n"
             bodyText += self.shell.summarize()
@@ -174,8 +174,8 @@ class ShellShield:
 
     def summarize(self) -> str:
         bodyText = "    Material: " + self.material + "\n"
-        bodyText += "    Density: " + self.density + "\n"
-        bodyText += "    Thickness: " + self.thickness + "\n"
+        bodyText += "    Density: " + self.density + " g/cm3\n"
+        bodyText += "    Thickness: " + self.thickness + " cm\n"
         return bodyText
 
 
@@ -188,15 +188,15 @@ class BoxShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Box Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
         bodyText += "Dimensions: " + \
-            self.vector2[0] + " " + \
-            self.vector2[1] + " " + \
-            self.vector2[2] + "\n"
+            self.vector2[0] + " cm, " + \
+            self.vector2[1] + " cm, " + \
+            self.vector2[2] + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -232,17 +232,17 @@ class AnnulusShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Location: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
         bodyText += "Axis: " + \
-            self.vector2[0] + " " + \
-            self.vector2[1] + " " + \
-            self.vector2[2] + "\n"
-        bodyText += "Inner Radius: " + self.radius1 + "\n"
-        bodyText += "Outer Radius: " + self.radius2 + "\n"
+            self.vector2[0] + " cm, " + \
+            self.vector2[1] + " cm, " + \
+            self.vector2[2] + " cm\n"
+        bodyText += "Inner Radius: " + self.radius1 + " cm\n"
+        bodyText += "Outer Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -283,13 +283,13 @@ class XAnnulusShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Annulus Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Inner Radius: " + self.radius1 + "\n"
-        bodyText += "Outer Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Inner Radius: " + self.radius1 + " cm\n"
+        bodyText += "Outer Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -324,13 +324,13 @@ class YAnnulusShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Annulus Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Inner Radius: " + self.radius1 + "\n"
-        bodyText += "Outer Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Inner Radius: " + self.radius1 + " cm\n"
+        bodyText += "Outer Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -365,13 +365,13 @@ class ZAnnulusShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Annulus Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Inner Radius: " + self.radius1 + "\n"
-        bodyText += "Outer Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Inner Radius: " + self.radius1 + " cm\n"
+        bodyText += "Outer Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -406,16 +406,16 @@ class CappedCylinderShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Start: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
         bodyText += "Cylinder End: " + \
-            self.vector2[0] + " " + \
-            self.vector2[1] + " " + \
-            self.vector2[2] + "\n"
-        bodyText += "Radius: " + self.radius1 + "\n"
+            self.vector2[0] + " cm, " + \
+            self.vector2[1] + " cm, " + \
+            self.vector2[2] + " cm\n"
+        bodyText += "Radius: " + self.radius1 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -453,13 +453,13 @@ class XCylinderShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Length: " + self.radius1 + "\n"
-        bodyText += "Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Length: " + self.radius1 + " cm\n"
+        bodyText += "Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -494,13 +494,13 @@ class YCylinderShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Length: " + self.radius1 + "\n"
-        bodyText += "Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Length: " + self.radius1 + " cm\n"
+        bodyText += "Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -535,13 +535,13 @@ class ZCylinderShield(ShieldData):
         bodyText = "Name: " + self.name + "\n"
         bodyText += "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Length: " + self.radius1 + "\n"
-        bodyText += "Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Length: " + self.radius1 + " cm\n"
+        bodyText += "Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -576,12 +576,12 @@ class SphereSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Location: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Radius: " + self.radius1 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Radius: " + self.radius1 + " cm\n"
         if self.shell is not None:
             bodyText += "Shell: \n"
             bodyText += self.shell.summarize()
@@ -633,15 +633,15 @@ class BoxSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Box Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
         bodyText += "Dimensions: " + \
-            self.vector2[0] + " " + \
-            self.vector2[1] + " " + \
-            self.vector2[2] + "\n"
+            self.vector2[0] + " cm, " + \
+            self.vector2[1] + " cm, " + \
+            self.vector2[2] + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -676,13 +676,13 @@ class XCylinderSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Length: " + self.radius1 + "\n"
-        bodyText += "Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Length: " + self.radius1 + " cm\n"
+        bodyText += "Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -716,13 +716,13 @@ class YCylinderSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Length: " + self.radius1 + "\n"
-        bodyText += "Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Length: " + self.radius1 + " cm\n"
+        bodyText += "Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -756,13 +756,13 @@ class ZCylinderSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Material: " + self.material + "\n"
-        bodyText += "Density: " + self.density + "\n"
+        bodyText += "Density: " + self.density + " g/cm3\n"
         bodyText += "Cylinder Center: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
-        bodyText += "Length: " + self.radius1 + "\n"
-        bodyText += "Radius: " + self.radius2 + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
+        bodyText += "Length: " + self.radius1 + " cm\n"
+        bodyText += "Radius: " + self.radius2 + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -796,9 +796,9 @@ class PointSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Location: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
         return bodyText
 
     def code(self) -> str:
@@ -824,13 +824,13 @@ class LineSource(ShieldData):
     def summarize(self) -> str:
         bodyText = "Type: " + self.description + "\n"
         bodyText += "Starting Location: " + \
-            self.vector1[0] + " " + \
-            self.vector1[1] + " " + \
-            self.vector1[2] + "\n"
+            self.vector1[0] + " cm, " + \
+            self.vector1[1] + " cm, " + \
+            self.vector1[2] + " cm\n"
         bodyText += "Ending Location: " + \
-            self.vector2[0] + " " + \
-            self.vector2[1] + " " + \
-            self.vector2[2] + "\n"
+            self.vector2[0] + " cm, " + \
+            self.vector2[1] + " cm, " + \
+            self.vector2[2] + " cm\n"
         return bodyText
 
     def code(self) -> str:

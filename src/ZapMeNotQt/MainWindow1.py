@@ -409,7 +409,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             str(libraries.quadrature[2]) +\
             "\n\n"
 
-        bodyText += "***Detector*** \n"
+        bodyText += "***Detector Location*** \n"
         if libraries.detector is not None:
             bodyText += libraries.detector.summarize() + "\n"
         else:
