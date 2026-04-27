@@ -121,7 +121,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         # use water as a dummy material to initialize the material class
         # this prevents reloading the material databases for each
         # dialog that requires it
-        dummy_material = Material('water')
+        Material('water')
         # retrieve a list of materials that have buildup factors
         for name in Material._library.keys():
             properties = Material._library.get(name)
@@ -131,7 +131,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             if gp_data is not None:
                 buildup_factor_materials.append(name)
 
-        dummy_isotope = Isotope('cs-137')
+        # use a dummy isotope to initialize the isotope class
+        Isotope('cs-137')
         # create a pandas dataframe from the isotop dictionary
         libraries.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
         libraries.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',

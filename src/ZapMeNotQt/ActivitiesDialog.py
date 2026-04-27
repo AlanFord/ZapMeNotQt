@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 class ActivitiesDialog(QDialog, Ui_Dialog):
     def __init__(self, master_library):
         super().__init__()
-        self.setupUi()
+        self.setupUi(self)
         self.master_library = master_library
         self._data = self.master_library.loc[self.master_library['active']]
         self._data = self._data.drop("active", axis=1)
