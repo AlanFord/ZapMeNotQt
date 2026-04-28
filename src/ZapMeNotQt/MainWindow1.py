@@ -187,13 +187,13 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
 
         script.append("# Detector")
         if libraries.detector is not None:
-            script.append(libraries.detector.code())
+            script.append(libraries.detector.script())
             script.append("my_model.add_detector(detector)")
         script.append("")
 
         script.append("# Shields")
         for shield in libraries.shield_dict.keys():
-            script.append(libraries.shield_dict[shield].code())
+            script.append(libraries.shield_dict[shield].script())
             code_line = "my_model.add_shield(" + shield + ")"
             script.append(code_line)
             if isinstance(libraries.shield_dict[shield],
@@ -205,7 +205,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
 
         script.append("# Source Geometry")
         if libraries.source is not None:
-            script.append(libraries.source.code())
+            script.append(libraries.source.script())
             script.append("my_model.add_source(my_source)")
             if isinstance(libraries.source,
                           dataStructures.SphereSource):
