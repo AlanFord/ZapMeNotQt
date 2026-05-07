@@ -4,7 +4,8 @@ from PyQt6.QtGui import QValidator, QDoubleValidator
 
 from ui.ActivitiesDialog import Ui_Dialog
 
-import libraries
+from libraries import model
+import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -40,9 +41,9 @@ class ActivitiesDialog(QDialog, Ui_Dialog):
     def on_dialog_accepted(self) -> None:
         # record the activity units
         if self.radioButton.isChecked():
-            libraries.activity_type = libraries.Activity_Type.Curie
+            model.activity_type = dataStructures.Activity_Type.Curie
         else:
-            libraries.activity_type = libraries.Activity_Type.Becquerel
+            model.activity_type = dataStructures.Activity_Type.Becquerel
 
         # copy entries from self._data to self.master_library
         for index in self._data.index:

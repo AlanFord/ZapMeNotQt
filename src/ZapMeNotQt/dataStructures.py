@@ -1,4 +1,6 @@
 import abc
+import pandas as pd
+from enum import Enum
 from typing import Optional
 from zapmenot import source, shield, detector
 ''' '''
@@ -23,6 +25,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # Each of the following classes are used to contain a set of data representing
 # a feature in ZapMeNot.  Each class contains selected data as well as a method
 # to summarize in a string all of the data in the class.
+
+
+class Activity_Type(Enum):
+    Curie = 1
+    Becquerel = 2
+
+
+class Model:
+    def __init__(self) -> None:
+        # holds the user specified activity units
+        self.activity_type = Activity_Type.Curie
+        # dictionary of source isotopes, each entry being a list of 1)
+        # included (True,False) and concentration (str)
+        self.isotopes = pd.DataFrame()
+        # 2-d list of lists containing photon source energies and intensities
+        self.photons: list[list[str]] = []
+        # these data are used to track user input and are populated by
+        # a number of dialogs
+        self.shield_dict: dict[str, ShieldData] = {}
+        self.source: Optional[ShieldData] = None
+        self.detector: Optional[Detector] = None
+        self.quadrature: list[str] = ['10', '10', '10']
+        self.buildup_material: str = "None"
+        self.filler_material: str = "None"
+        self.filler_density: str = "0.0"
+        self.progeny: bool = False
+        # 0=standard hybrid
+        # 1=30 groups
+        # 2=discrete
+        self.groups: int = 0
 
 
 class Detector:
@@ -168,9 +200,9 @@ class SphereShield(ShieldData):
 
 class ShellShield:
     def __init__(self) -> None:
-        self.material: Optional[str] = None
-        self.density: Optional[str] = None
-        self.thickness: Optional[str] = None
+        self.material: str = ""
+        self.density: str = ""
+        self.thickness: str = ""
 
     def summarize(self) -> str:
         bodyText = "    Material: " + self.material + "\n"

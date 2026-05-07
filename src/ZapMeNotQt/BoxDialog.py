@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-from libraries import shield_dict
+from libraries import model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -56,4 +56,4 @@ class BoxDialog(GenericBodyDialog):
         shield.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        shield_dict[shield.name] = shield
+        model.shield_dict[shield.name] = shield

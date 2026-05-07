@@ -1,6 +1,6 @@
 from SphereDialog import SphereDialog
 import dataStructures
-import libraries
+from libraries import model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -41,4 +41,4 @@ class SphereSourceDialog(SphereDialog):
             source.shell = self.shell
         else:
             source.shell = None
-        libraries.source = source
+        model.source = source

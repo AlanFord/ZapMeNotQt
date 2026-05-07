@@ -3,7 +3,7 @@ from PyQt6.QtGui import QDoubleValidator
 
 from ui.DetectorLocationDialog import Ui_Dialog
 
-import libraries
+from libraries import model
 import dataStructures
 ''' '''
 '''
@@ -57,6 +57,6 @@ class DetectorDialog(QDialog, Ui_Dialog):
             super().accept()
 
     def on_dialog_accepted(self) -> None:
-        libraries.detector = dataStructures.Detector(self.x_text.text(),
+        model.detector = dataStructures.Detector(self.x_text.text(),
                                                      self.y_text.text(),
                                                      self.z_text.text())

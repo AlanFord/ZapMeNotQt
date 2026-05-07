@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-from libraries import shield_dict
+from libraries import model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -49,4 +49,4 @@ class XAlignedCylinderDialog(GenericBodyDialog):
         shield.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        shield_dict[shield.name] = shield
+        model.shield_dict[shield.name] = shield
