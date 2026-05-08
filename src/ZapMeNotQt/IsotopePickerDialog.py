@@ -88,7 +88,7 @@ class IsotopeModel(QAbstractTableModel):
             # clear the activity if isotope is unselected
             if not self.local_library.at[isotope_name, 'active']:
                 self.local_library.loc[isotope_name, 'activity'] = \
-                    0.0
+                    '0.0'
             self.dataChanged.emit(index, index,
                                   [Qt.ItemDataRole.BackgroundRole,
                                    Qt.ItemDataRole.ForegroundRole])
