@@ -30,17 +30,17 @@ class GraphicsDisplayDialog(QDialog, Ui_GraphicsDialog):
         self.setupUi(self)
         # build a stripped-down ZapMeNot model sufficient for display
         self.my_model = model.Model()
-        if libraries.detector is not None:
-            local_detector = libraries.detector.display_code()
+        if libraries.model.detector is not None:
+            local_detector = libraries.model.detector.display_code()
             self.my_model.add_detector(local_detector)
 
-        for shield_name in libraries.shield_dict.keys():
-            local_shield_list = libraries.shield_dict[shield_name].display_code()
+        for shield_name in libraries.model.shield_dict.keys():
+            local_shield_list = libraries.model.shield_dict[shield_name].display_code()
             for local_shield in local_shield_list:
                 self.my_model.add_shield(local_shield)
 
-        if libraries.source is not None:
-            local_source_list = libraries.source.display_code()
+        if libraries.model.source is not None:
+            local_source_list = libraries.model.source.display_code()
             for local_source in local_source_list:
                 if isinstance(local_source, shield.Shell):
                     self.my_model.add_shield(local_source)

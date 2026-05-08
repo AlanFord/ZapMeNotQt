@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
+from libraries import model
 import dataStructures
-import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -51,4 +51,4 @@ class LineSourceDialog(GenericBodyDialog):
         source.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        libraries.source = source
+        model.source = source

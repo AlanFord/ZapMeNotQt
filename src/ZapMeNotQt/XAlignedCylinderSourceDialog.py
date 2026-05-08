@@ -1,6 +1,6 @@
 from XAlignedCylinderDialog import XAlignedCylinderDialog
 import dataStructures
-import libraries
+from libraries import model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -38,4 +38,4 @@ class XAlignedCylinderSourceDialog(XAlignedCylinderDialog):
         source.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        libraries.source = source
+        model.source = source

@@ -1,8 +1,9 @@
 from PyQt6.QtWidgets import QDialog, QMessageBox
+from PyQt6.QtGui import QIntValidator
 
 from ui.OptionsQuadratureDialog import Ui_Dialog
 
-import libraries
+from libraries import model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -28,6 +29,11 @@ class OptionsQuadratureDialog(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.accepted.connect(self.on_dialog_accepted)
+        self.positive_validator = QIntValidator(self)
+        self.positive_validator.setBottom(1)
+        self.triplet1X.setValidator(self.positive_validator)
+        self.triplet1Y.setValidator(self.positive_validator)
+        self.triplet1Z.setValidator(self.positive_validator)
 
     def accept(self) -> None:
         # first check the QTextFields for properly formatted
@@ -53,6 +59,6 @@ class OptionsQuadratureDialog(QDialog, Ui_Dialog):
             super().accept()
 
     def on_dialog_accepted(self) -> None:
-        libraries.quadrature = [self.triplet1X.text(),
+        model.quadrature: list[str] = [self.triplet1X.text(),
                                 self.triplet1Y.text(),
                                 self.triplet1Z.text()]

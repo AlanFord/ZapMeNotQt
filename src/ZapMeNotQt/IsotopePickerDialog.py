@@ -5,7 +5,7 @@ from PyQt6.QtGui import QColor
 
 from ui.IsotopeSelector import Ui_Dialog
 
-import libraries
+from libraries import model
 from ActivitiesDialog import ActivitiesDialog
 ''' '''
 '''
@@ -31,16 +31,16 @@ class DeselectedDelegate(QStyledItemDelegate):
     # this delegate turns off the highlighting of selected
     # QTableView cells, allowing the background color to be
     # displayed
-    def initStyleOption(self, opt, index):
-        super().initStyleOption(opt, index)
-        opt.state &= ~QStyle.StateFlag.State_Selected
+    def initStyleOption(self, option, index):
+        super().initStyleOption(option, index)
+        option.state &= ~QStyle.StateFlag.State_Selected
 
 
 class IsotopePickerDialog(QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
-        self.library_copy = libraries.isotopes.copy()
+        self.library_copy = model.isotopes.copy()
         self.myModel = IsotopeModel(self.library_copy)
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -53,7 +53,7 @@ class IsotopePickerDialog(QDialog, Ui_Dialog):
     def on_dialog_accepted(self) -> None:
         # copy the library_copy back into the production library
         # this will not happen if the cancel button is used
-        libraries.isotopes = self.library_copy.copy()
+        model.isotopes = self.library_copy.copy()
 
     def open_activities(self) -> None:
         # ensure that isotopes are selected before calling
@@ -75,7 +75,7 @@ class IsotopeModel(QAbstractTableModel):
     def __init__(self, local_library):
         super().__init__()
         self.width = 5
-        self.displayValues = libraries.isotopes.index.to_list()
+        self.displayValues = model.isotopes.index.to_list()
         self.local_library = local_library
 
     def toggle_isotope(self, index) -> None:
@@ -88,7 +88,7 @@ class IsotopeModel(QAbstractTableModel):
             # clear the activity if isotope is unselected
             if not self.local_library.at[isotope_name, 'active']:
                 self.local_library.loc[isotope_name, 'activity'] = \
-                    0.0
+                    '0.0'
             self.dataChanged.emit(index, index,
                                   [Qt.ItemDataRole.BackgroundRole,
                                    Qt.ItemDataRole.ForegroundRole])

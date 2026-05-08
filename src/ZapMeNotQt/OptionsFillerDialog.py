@@ -3,7 +3,7 @@ from PyQt6.QtGui import QDoubleValidator
 
 from ui.OptionsFillerDialog import Ui_Dialog
 
-import libraries
+from libraries import materials, model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -30,10 +30,10 @@ class OptionsFillerDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         # retain the option of no filler material in the model
         filler_list = ["None"]
-        filler_list += libraries.materials.keys()
+        filler_list += materials.keys()
         self.comboBox.addItems(filler_list)
-        index = self.comboBox.findText(libraries.filler_material)
-        density = libraries.filler_density
+        index = self.comboBox.findText(model.filler_material)
+        density = model.filler_density
         if index != -1:
             self.comboBox.setCurrentIndex(index)
             self.lineEdit.setText(density)
@@ -48,12 +48,12 @@ class OptionsFillerDialog(QDialog, Ui_Dialog):
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_material_selected(self) -> None:
-        self.lineEdit.setText(str(libraries.materials[
+        self.lineEdit.setText(str(materials[
             self.comboBox.currentText()]))
 
     def on_dialog_accepted(self) -> None:
-        libraries.filler_material = self.comboBox.currentText()
-        libraries.filler_density = self.lineEdit.text()
+        model.filler_material = self.comboBox.currentText()
+        model.filler_density = self.lineEdit.text()
 
     def accept(self) -> None:
         # check the QTextField for a properly formatted
