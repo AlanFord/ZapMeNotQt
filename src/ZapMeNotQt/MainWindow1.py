@@ -1,7 +1,10 @@
+from ty_extensions import Unknown
 import pandas as pd
+import pickle
 
 import PyQt6.QtWidgets
-from PyQt6.QtWidgets import QDialog, QMessageBox
+from PyQt6.QtWidgets import QDialog, QMessageBox, QFileDialog
+
 from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
@@ -31,12 +34,14 @@ from IsotopePickerDialog import IsotopePickerDialog
 from PhotonDialog import PhotonDialog
 from ScriptDisplayDialog import ScriptDisplayDialog
 from GraphicsDisplayDialog import GraphicsDisplayDialog
+from libraries import buildup_factor_materials, materials, model
+import dataStructures
+
 from ui.MainWindow import Ui_MainWindow
 
 from zapmenot.material import Material
 from zapmenot.isotope import Isotope
-from libraries import buildup_factor_materials, materials, model
-import dataStructures
+
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -58,9 +63,50 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
+    def openFileSelected(self) -> None:
+        global model
+        # Open the save file dialog
+        filename, _ = QFileDialog.getOpenFileName(None,
+                                                  "Save File",
+                                                  "",
+                                                  "ZapMeNot Files (*.zp);;All Files (*)")
+        if filename:
+            with open(filename, 'rb') as file:
+                model = pickle.load(file)
+            self.file_name = filename
+            self.actionSave.setEnabled(True)
+            self.updateSummary()
+
+    def saveFileSelected(self) -> None:
+            # Proceed to save the file using the existing filename
+            with open(self.file_name, 'wb') as file:
+                pickle.dump(model, file)
+            file.close()
+
+    def saveAsSelected(self) -> None:
+        # Open the save file dialog
+        filename, _ = QFileDialog.getSaveFileName(None,
+                                                  "Save File",
+                                                  "",
+                                                  "ZapMeNot Files (*.zp);;All Files (*)")
+        if filename:
+            # Proceed to save the file using the selected filename
+            with open(filename, 'wb') as file:
+                pickle.dump(model, file)
+                self.file_name = filename
+            file.close()
+            self.actionSave.setEnabled(True)
+
     def __init__(self) -> None:
         super(MainWindow, self).__init__()
         self.setupUi(self)
+        self.file_name = ""
+
+        # file menu setup
+        self.actionOpen.triggered.connect(self.openFileSelected)
+        self.actionSave.triggered.connect(self.saveFileSelected)
+        self.actionSave_As.triggered.connect(self.saveAsSelected)
+        self.actionSave.setEnabled(False)
 
         # shield menu setup
         self.actionBox.triggered.connect(self.addBoxShieldSelected)

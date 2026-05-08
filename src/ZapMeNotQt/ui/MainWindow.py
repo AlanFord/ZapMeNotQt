@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './MainWindow.ui'
+# Form implementation generated from reading ui file 'MainWindow.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -59,6 +59,8 @@ class Ui_MainWindow(object):
         self.menuView.setObjectName("menuView")
         self.menuHelp = QtWidgets.QMenu(parent=self.menubar)
         self.menuHelp.setObjectName("menuHelp")
+        self.menuFile = QtWidgets.QMenu(parent=self.menubar)
+        self.menuFile.setObjectName("menuFile")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -134,6 +136,12 @@ class Ui_MainWindow(object):
         self.actionFiller_Material.setObjectName("actionFiller_Material")
         self.actionQuadrature_2 = QtGui.QAction(parent=MainWindow)
         self.actionQuadrature_2.setObjectName("actionQuadrature_2")
+        self.actionOpen = QtGui.QAction(parent=MainWindow)
+        self.actionOpen.setObjectName("actionOpen")
+        self.actionSave = QtGui.QAction(parent=MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionSave_As = QtGui.QAction(parent=MainWindow)
+        self.actionSave_As.setObjectName("actionSave_As")
         self.menuBody.addAction(self.actionLine_Source)
         self.menuBody.addAction(self.actionPoint_Source)
         self.menuBody.addAction(self.actionSpherical_Source)
@@ -169,6 +177,10 @@ class Ui_MainWindow(object):
         self.menuView.addAction(self.actionGraphics)
         self.menuHelp.addAction(self.actionZapMeNot_Help)
         self.menuHelp.addAction(self.actionAbout_ZapMeNot)
+        self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionSave_As)
+        self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menu_Source.menuAction())
         self.menubar.addAction(self.menuShield.menuAction())
         self.menubar.addAction(self.menuDetector.menuAction())
@@ -191,6 +203,7 @@ class Ui_MainWindow(object):
         self.menuOptions.setTitle(_translate("MainWindow", "Options"))
         self.menuView.setTitle(_translate("MainWindow", "View"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionRemove.setText(_translate("MainWindow", "Remove ..."))
         self.actionBuildup_Material.setText(_translate("MainWindow", "Buildup Material ..."))
         self.actionDaughters.setText(_translate("MainWindow", "Daughters ..."))
@@ -226,3 +239,6 @@ class Ui_MainWindow(object):
         self.actionZ_Aligned_Cylinder.setText(_translate("MainWindow", "Z-Aligned Cylinder"))
         self.actionFiller_Material.setText(_translate("MainWindow", "Filler Material ..."))
         self.actionQuadrature_2.setText(_translate("MainWindow", "Quadrature ..."))
+        self.actionOpen.setText(_translate("MainWindow", "Open..."))
+        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionSave_As.setText(_translate("MainWindow", "Save As..."))

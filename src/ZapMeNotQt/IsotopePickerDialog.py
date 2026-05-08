@@ -31,9 +31,9 @@ class DeselectedDelegate(QStyledItemDelegate):
     # this delegate turns off the highlighting of selected
     # QTableView cells, allowing the background color to be
     # displayed
-    def initStyleOption(self, opt, index):
-        super().initStyleOption(opt, index)
-        opt.state &= ~QStyle.StateFlag.State_Selected
+    def initStyleOption(self, option, index):
+        super().initStyleOption(option, index)
+        option.state &= ~QStyle.StateFlag.State_Selected
 
 
 class IsotopePickerDialog(QDialog, Ui_Dialog):
