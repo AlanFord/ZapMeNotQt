@@ -2,7 +2,7 @@ import PyQt6.QtWidgets
 
 from ui.OptionsGroupsDialog import Ui_Dialog
 
-from libraries import model
+import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -27,9 +27,9 @@ class OptionsGroupsDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super(OptionsGroupsDialog, self).__init__()
         self.setupUi(self)
-        if model.groups == 0:
+        if libraries.model.groups == 0:
             self.StandardButton.setChecked(True)
-        elif model.groups == 1:
+        elif libraries.model.groups == 1:
             self.ThirtyButton.setChecked(True)
         else:
             self.DiscreteButton.setChecked(True)
@@ -37,8 +37,8 @@ class OptionsGroupsDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
 
     def on_dialog_accepted(self) -> None:
         if self.StandardButton.isChecked():
-            model.groups = 0
+            libraries.model.groups = 0
         elif self.ThirtyButton.isChecked():
-            model.groups = 1
+            libraries.model.groups = 1
         else:
-            model.groups = 2
+            libraries.model.groups = 2

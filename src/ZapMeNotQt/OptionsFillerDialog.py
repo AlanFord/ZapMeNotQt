@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtGui import QDoubleValidator
 
 from ui.OptionsFillerDialog import Ui_Dialog
-
-from libraries import materials, model
+import libraries
+from libraries import materials
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -32,8 +32,8 @@ class OptionsFillerDialog(QDialog, Ui_Dialog):
         filler_list = ["None"]
         filler_list += materials.keys()
         self.comboBox.addItems(filler_list)
-        index = self.comboBox.findText(model.filler_material)
-        density = model.filler_density
+        index = self.comboBox.findText(libraries.model.filler_material)
+        density = libraries.model.filler_density
         if index != -1:
             self.comboBox.setCurrentIndex(index)
             self.lineEdit.setText(density)
@@ -52,8 +52,8 @@ class OptionsFillerDialog(QDialog, Ui_Dialog):
             self.comboBox.currentText()]))
 
     def on_dialog_accepted(self) -> None:
-        model.filler_material = self.comboBox.currentText()
-        model.filler_density = self.lineEdit.text()
+        libraries.model.filler_material = self.comboBox.currentText()
+        libraries.model.filler_density = self.lineEdit.text()
 
     def accept(self) -> None:
         # check the QTextField for a properly formatted

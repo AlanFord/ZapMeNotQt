@@ -1,5 +1,5 @@
 from GenericBodyDialog import GenericBodyDialog
-from libraries import model
+import libraries
 import dataStructures
 ''' '''
 '''
@@ -51,4 +51,4 @@ class LineSourceDialog(GenericBodyDialog):
         source.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        model.source = source
+        libraries.model.source = source

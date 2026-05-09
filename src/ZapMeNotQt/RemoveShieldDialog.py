@@ -2,7 +2,7 @@ import PyQt6.QtWidgets
 
 from ui.RemoveShieldDialog import Ui_Dialog
 
-from libraries import model
+import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -27,9 +27,9 @@ class RemoveShieldDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
-        self.comboBox.addItems(model.shield_dict.keys())
+        self.comboBox.addItems(libraries.model.shield_dict.keys())
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self) -> None:
         key = self.comboBox.currentText()
-        del (model.shield_dict[key])
+        del (libraries.model.shield_dict[key])

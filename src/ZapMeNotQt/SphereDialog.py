@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QDialog
 from GenericBodyDialog import GenericBodyDialog
 from ShellDialog import ShellDialog
 import dataStructures
-from libraries import model
+import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -62,7 +62,7 @@ class SphereDialog(GenericBodyDialog):
             sphere.shell = self.shell
         else:
             sphere.shell = None
-        model.shield_dict[sphere.name] = sphere
+        libraries.model.shield_dict[sphere.name] = sphere
 
     def the_shell_button_was_clicked(self) -> None:
         if self.shellDialog.exec() == QDialog.DialogCode.Accepted:
@@ -82,8 +82,8 @@ class SphereDialog(GenericBodyDialog):
     def on_name_selected(self) -> None:
         super().on_name_selected()
         new_name = self.name_field.currentText()
-        if new_name in model.shield_dict:
-            existing_shield = model.shield_dict[new_name]
+        if new_name in libraries.model.shield_dict:
+            existing_shield = libraries.model.shield_dict[new_name]
             # loading the existing shield data into the dialog
             if existing_shield.shell is not None:
                 index = self.shellDialog.material.findText(

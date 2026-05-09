@@ -70,7 +70,7 @@ class Detector:
         return bodyText
 
     def script(self) -> str:
-        code_line = "detector = detector.Detector(x=" + self.x_value + \
+        code_line = "my_detector = detector.Detector(x=" + self.x_value + \
             ", y=" + self.y_value + \
             ", z=" + self.z_value + ")"
         return code_line

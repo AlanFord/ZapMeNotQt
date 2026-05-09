@@ -1,7 +1,7 @@
 from GenericBodyDialog import GenericBodyDialog
 from PyQt6.QtWidgets import QMessageBox
 import dataStructures
-from libraries import model
+import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -54,7 +54,7 @@ class XSlabDialog(GenericBodyDialog):
         shield.density = self.density.text()
         shield.radius1 = self.radius1.text()
         shield.radius2 = self.radius2.text()
-        model.shield_dict[shield.name] = shield
+        libraries.model.shield_dict[shield.name] = shield
 
     def accept(self) -> None:
         if float(self.radius2.text()) <= float(self.radius1.text()):

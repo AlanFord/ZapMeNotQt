@@ -1,8 +1,8 @@
 import PyQt6.QtWidgets
 
 from ui.OptionsBuildupDialog import Ui_Dialog
-
-from libraries import buildup_factor_materials, model
+import libraries
+from libraries import buildup_factor_materials
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -28,8 +28,8 @@ class OptionsBuildupDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.comboBox.addItems(buildup_factor_materials)
-        if model.buildup_material != "None":
-            index = self.comboBox.findText(model.buildup_material)
+        if libraries.model.buildup_material != "None":
+            index = self.comboBox.findText(libraries.model.buildup_material)
             if index != -1:
                 self.comboBox.setCurrentIndex(index)
             else:
@@ -37,4 +37,4 @@ class OptionsBuildupDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self) -> None:
-        model.buildup_material = self.comboBox.currentText()
+        libraries.model.buildup_material = self.comboBox.currentText()

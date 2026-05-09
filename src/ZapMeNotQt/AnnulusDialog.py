@@ -1,6 +1,6 @@
 from GenericBodyDialog import GenericBodyDialog
 import dataStructures
-from libraries import model
+import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -48,4 +48,4 @@ class AnnulusDialog(GenericBodyDialog):
         shield.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        model.shield_dict[shield.name] = shield
+        libraries.model.shield_dict[shield.name] = shield

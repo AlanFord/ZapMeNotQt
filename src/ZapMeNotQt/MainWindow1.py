@@ -33,7 +33,8 @@ from IsotopePickerDialog import IsotopePickerDialog
 from PhotonDialog import PhotonDialog
 from ScriptDisplayDialog import ScriptDisplayDialog
 from GraphicsDisplayDialog import GraphicsDisplayDialog
-from libraries import buildup_factor_materials, materials, model
+import libraries
+from libraries import buildup_factor_materials, materials
 import dataStructures
 
 from ui.MainWindow import Ui_MainWindow
@@ -73,7 +74,6 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         # trap errors from an exec() run to display in a dialog
 
     def openFileSelected(self) -> None:
-        global model
         # Open the save file dialog
         filename, _ = QFileDialog.getOpenFileName(None,
                                                   "Save File",
@@ -81,7 +81,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
                                                   "ZapMeNot Files (*.zp);;All Files (*)")
         if filename:
             with open(filename, 'rb') as file:
-                model = pickle.load(file)
+                libraries.model = pickle.load(file)
             self.file_name = filename
             self.actionSave.setEnabled(True)
             self.updateSummary()
@@ -89,7 +89,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
     def saveFileSelected(self) -> None:
             # Proceed to save the file using the existing filename
             with open(self.file_name, 'wb') as file:
-                pickle.dump(model, file)
+                pickle.dump(libraries.model, file)
             file.close()
 
     def saveAsSelected(self) -> None:
@@ -101,7 +101,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         if filename:
             # Proceed to save the file using the selected filename
             with open(filename, 'wb') as file:
-                pickle.dump(model, file)
+                pickle.dump(libraries.model, file)
                 self.file_name = filename
             file.close()
             self.actionSave.setEnabled(True)
@@ -201,12 +201,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         Isotope('cs-137')
         if Isotope._library is not None:
             # create a pandas dataframe from the isotope dictionary
-            model.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
-            model.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
+            libraries.model.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
+            libraries.model.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
                                     'photon-energy-units', 'photon-intensity'], axis=1,
                                     inplace=True)
-            model.isotopes['active'] = False
-            model.isotopes['activity'] = '0.0'
+            libraries.model.isotopes['active'] = False
+            libraries.model.isotopes['activity'] = '0.0'
         else:
             # TODO: throw an error
             pass
@@ -214,13 +214,13 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         self.updateSummary()
 
     def display_script(self) -> None:
-        script: list[str] = self.format_script()
+        script: list[str] = self.format_script(limited=True)
         show_me = ScriptDisplayDialog(script)
         show_me.exec()
 
     def display_graphics(self) -> None:
         # do we have sufficient model detail to display?
-        if model.source is None or model.detector is None:
+        if libraries.model.source is None or libraries.model.detector is None:
             QMessageBox.critical(self, "Error",
                                  "Please specify both a source and \
                                     detector before displaying the model.")
@@ -228,78 +228,81 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             show_me = GraphicsDisplayDialog(" ")
             show_me.exec()
 
-    def format_script(self) -> list[str]:
+    def format_script(self, limited: bool) -> list[str]:
         script: list[str] = []
         script.append("from zapmenot import model,source," +
                       "shield,detector,material")
         script.append("")
+        if not limited:
+            script.append("import pandas as pd")
+            script.append("")
         script.append("my_model = model.Model()")
         script.append("")
 
         script.append("# Model Options")
         # filler material
-        if model.filler_material != "None":
+        if libraries.model.filler_material != "None":
             code_line = "my_model.set_filler_material('" + \
-                model.filler_material + "', density=" + \
-                model.filler_density + ")"
+                libraries.model.filler_material + "', density=" + \
+                libraries.model.filler_density + ")"
             script.append(code_line)
         # buildup factor material
-        if model.buildup_material == "None":
+        if libraries.model.buildup_material == "None":
             QMessageBox.critical(self, "Error",
                                  " Buildup Factor Material has not " +
                                  "been specified.")
             script.append("# Missing buildup factor material!")
         else:
             code_line = "my_model.set_buildup_factor_material" + \
-                "(material.Material('" + model.buildup_material + "'))"
+                "(material.Material('" + libraries.model.buildup_material + "'))"
             script.append(code_line)
         script.append("")
 
         script.append("# Detector")
-        if model.detector is not None:
-            script.append(model.detector.script())
-            script.append("my_model.add_detector(detector)")
+        if libraries.model.detector is not None:
+            script.append(libraries.model.detector.script())
+            script.append("my_model.add_detector(my_detector)")
         script.append("")
 
         script.append("# Shields")
-        for shield in model.shield_dict.keys():
-            script.append(model.shield_dict[shield].script())
+        for shield in libraries.model.shield_dict.keys():
+            script.append(libraries.model.shield_dict[shield].script())
             code_line = "my_model.add_shield(" + shield + ")"
             script.append(code_line)
-            if isinstance(model.shield_dict[shield],
+            if isinstance(libraries.model.shield_dict[shield],
                           dataStructures.SphereShield):
-                if model.shield_dict[shield].shell is not None:
+                if libraries.model.shield_dict[shield].shell is not None:
                     code_line = "my_model.add_shield(" + shield + "_shell)"
                     script.append(code_line)
         script.append("")
 
         script.append("# Source Geometry")
-        if model.source is not None:
-            script.append(model.source.script())
+        if libraries.model.source is not None:
+            script.append(libraries.model.source.script())
             script.append("my_model.add_source(my_source)")
-            if isinstance(model.source,
+            if isinstance(libraries.model.source,
                           dataStructures.SphereSource):
-                if model.source.shell is not None:
+                if libraries.model.source.shell is not None:
                     code_line = "my_model.add_shield(source_shell)"
                     script.append(code_line)
         script.append("")
 
         script.append("# Source Options")
-        if model.progeny is True:
+        if libraries.model.progeny is True:
             code_line = "my_source.include_key_progeny = True"
         else:
             code_line = "my_source.include_key_progeny = False"
         script.append(code_line)
         # quadrature
         code_line = "my_source.points_per_dimension = [" + \
-            model.quadrature[0] + ", " + \
-            model.quadrature[1] + ", " + \
-            model.quadrature[2] + "]"
+            libraries.model.quadrature[0] + ", " + \
+            libraries.model.quadrature[1] + ", " + \
+            libraries.model.quadrature[2] + "]"
         script.append(code_line)
         # energy groups
-        if model.groups == 0:
+        if libraries.model.groups == 0:
             code_line = 'my_source.grouping = "hybrid"'
-        elif model.groups == 1:
+        elif libraries.model.groups == 1:
             code_line = 'my_source.grouping = "group"'
         else:
             code_line = 'my_source.grouping = "discrete"'
@@ -307,11 +310,11 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         script.append("")
 
         script.append("# Source Isotopes")
-        if model.activity_type == dataStructures.Activity_Type.Becquerel:
+        if libraries.model.activity_type == dataStructures.Activity_Type.Becquerel:
             code_line_start = "my_source.add_isotope_bq('"
         else:
             code_line_start = "my_source.add_isotope_curies('"
-        data = model.isotopes.loc[model.isotopes['active']]
+        data = libraries.model.isotopes.loc[libraries.model.isotopes['active']]
         if data.shape[0] != 0:
             # we have isotopes marked active
             for row in data.itertuples(index=True):
@@ -321,7 +324,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         script.append("")
 
         script.append("# Source Discrete Photon Energies")
-        for photon in model.photons:
+        for photon in libraries.model.photons:
             energy = photon[0]
             intensity = photon[1]
             if energy != "" and intensity != "":
@@ -329,9 +332,25 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
                     ", " + intensity + ")"
                 script.append(code_line)
         script.append("")
-
         script.append("result = my_model.calculate_exposure()")
-        script.append('print("The dose rate is ", result, " mR/hr")')
+        if not limited:
+            script.append("summary = my_model.generate_summary()")
+            script.append('column_names = pd.DataFrame([["", "Photons", "Energy", "MeV"], ')
+            script.append('                             ["", "Photons", "Intensity", "photons/sec"], ')
+            script.append('                             ["", "Uncollided", "Energy Flux", "MeV/cm2/sec"], ')
+            script.append('                             ["", "Uncollided", "Exposure", "mR/hr"], ')
+            script.append('                             ["Collided+", "Uncollided", "Exposure", "mR/hr"]], ')
+            script.append('                             columns=["", "", "", ""])')
+            script.append('columns = pd.MultiIndex.from_frame(column_names)')
+            script.append('df = pd.DataFrame(summary, columns=columns)')
+            script.append('uncollided_total = df.iloc[:, 3].sum()')
+            script.append('')
+            script.append('print("Total Exposure is ", result, " mR/hr")')
+            script.append('print("Total Uncollided Exposure is ", uncollided_total, " mR/hr")')
+            script.append('print(df.to_string(index=False))')
+
+        else:
+            script.append('print("The exposure rate is ", result, " mR/hr")')
         return script
 
     def EnergySelected(self) -> None:
@@ -453,60 +472,60 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         bodyText = "Model Summary: \n\n"
 
         bodyText += "Buildup Factor Material:  " + \
-                    model.buildup_material + "\n\n"
+                    libraries.model.buildup_material + "\n\n"
 
         bodyText += "Filler Material:  " + \
-                    model.filler_material + ", " + \
-                    model.filler_density + " g/cm3\n\n"
+                    libraries.model.filler_material + ", " + \
+                    libraries.model.filler_density + " g/cm3\n\n"
 
         bodyText += "Include Selected Progeny in Equilibrium:  "
-        if model.progeny is True:
+        if libraries.model.progeny is True:
             bodyText += "Yes\n\n"
         else:
             bodyText += "No\n\n"
 
         bodyText += "Energy Group Option:  "
-        if model.groups == 0:
+        if libraries.model.groups == 0:
             bodyText += "Standard Hybrid Set\n\n"
-        elif model.groups == 1:
+        elif libraries.model.groups == 1:
             bodyText += "30 Linear Energy Groups\n\n"
         else:
             bodyText += "Discrete Photon Energies\n\n"
 
         bodyText += "Source Quadrature: " + \
-            str(model.quadrature[0]) + ", " +\
-            str(model.quadrature[1]) + ", " +\
-            str(model.quadrature[2]) +\
+            str(libraries.model.quadrature[0]) + ", " +\
+            str(libraries.model.quadrature[1]) + ", " +\
+            str(libraries.model.quadrature[2]) +\
             "\n\n"
 
         bodyText += "***Detector Location*** \n"
-        if model.detector is not None:
-            bodyText += model.detector.summarize() + "\n"
+        if libraries.model.detector is not None:
+            bodyText += libraries.model.detector.summarize() + "\n"
         else:
             bodyText += "Not Yet Specified\n\n"
 
         bodyText += "***Shields*** \n"
-        keys = model.shield_dict.keys()
+        keys = libraries.model.shield_dict.keys()
         if not keys:
             bodyText += "None Specified\n\n"
             self.actionRemove.setEnabled(False)
         else:
             self.actionRemove.setEnabled(True)
             for key in keys:
-                bodyText += model.shield_dict[key].summarize() + "\n"
+                bodyText += libraries.model.shield_dict[key].summarize() + "\n"
 
         bodyText += "***Source Geometry*** \n"
-        if model.source is not None:
-            bodyText += model.source.summarize() + "\n"
+        if libraries.model.source is not None:
+            bodyText += libraries.model.source.summarize() + "\n"
         else:
             bodyText += "Not Yet Specified\n\n"
 
         bodyText += "***Source Isotopes*** \n"
-        if model.activity_type == dataStructures.Activity_Type.Becquerel:
+        if libraries.model.activity_type == dataStructures.Activity_Type.Becquerel:
             units = "Bq"
         else:
             units = "Ci"
-        data = model.isotopes.loc[model.isotopes['active']]
+        data = libraries.model.isotopes.loc[libraries.model.isotopes['active']]
         if data.shape[0] > 0:
             for index in data.index:
                 bodyText += index + ": " + \
@@ -517,7 +536,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             bodyText += "None Specified\n\n"
 
         bodyText += "***Discrete Source Photons*** \n"
-        data = model.photons
+        data = libraries.model.photons
         count = 0
         for row in data:
             if row[0] != "" and row[1] != "":

@@ -5,7 +5,8 @@ from PyQt6.QtGui import QValidator, QDoubleValidator, \
 
 from ui.GenericShieldDialog import Ui_Dialog
 
-from libraries import materials, model
+import libraries
+from libraries import materials
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -35,7 +36,7 @@ class GenericBodyDialog(QDialog, Ui_Dialog):
         self.density.setText(str(materials[self.material.currentText()]))
         self.material.currentIndexChanged.connect(self.on_material_selected)
         self.name_field.currentIndexChanged.connect(self.on_name_selected)
-        self.name_field.addItems(model.shield_dict.keys())
+        self.name_field.addItems(libraries.model.shield_dict.keys())
         # set the shell features to not visible as most dialogs won't use these
         self.shellCheckBox.setVisible(False)
         self.shellButton.setVisible(False)
@@ -61,8 +62,8 @@ class GenericBodyDialog(QDialog, Ui_Dialog):
 
     def on_name_selected(self) -> None:
         new_name = self.name_field.currentText()
-        if new_name in model.shield_dict:
-            existing_shield = model.shield_dict[new_name]
+        if new_name in libraries.model.shield_dict:
+            existing_shield = libraries.model.shield_dict[new_name]
             # loading the existing shield data into the dialog
             index = self.material.findText(existing_shield.material)
             if index != -1:

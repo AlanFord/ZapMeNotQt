@@ -3,7 +3,7 @@ from PyQt6.QtGui import QIntValidator
 
 from ui.OptionsQuadratureDialog import Ui_Dialog
 
-from libraries import model
+import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -59,6 +59,6 @@ class OptionsQuadratureDialog(QDialog, Ui_Dialog):
             super().accept()
 
     def on_dialog_accepted(self) -> None:
-        model.quadrature: list[str] = [self.triplet1X.text(),
+        libraries.model.quadrature: list[str] = [self.triplet1X.text(),
                                 self.triplet1Y.text(),
                                 self.triplet1Z.text()]
