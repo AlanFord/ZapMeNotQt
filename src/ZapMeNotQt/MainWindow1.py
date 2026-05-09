@@ -62,6 +62,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
+    def runSelected(self) -> None:
+        # verify that the model has sufficient detail to run
+        # - a source
+        # - a detector
+        # - if there is any form of shield(even a source/shield)
+        #   or filler material, a buildup factor.  This might
+        #   just be a caution
+        pass
+        # trap errors from an exec() run to display in a dialog
+
     def openFileSelected(self) -> None:
         global model
         # Open the save file dialog
@@ -106,6 +116,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionSave.triggered.connect(self.saveFileSelected)
         self.actionSave_As.triggered.connect(self.saveAsSelected)
         self.actionSave.setEnabled(False)
+        self.actionRun.triggered.connect(self.runSelected)
 
         # shield menu setup
         self.actionBox.triggered.connect(self.addBoxShieldSelected)
@@ -167,23 +178,38 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         # dialog that requires it
         Material('water')
         # retrieve a list of materials that have buildup factors
-        for name in Material._library.keys():
-            properties = Material._library.get(name)
-            density = properties.get("density")
-            materials[name] = density
-            gp_data = properties.get("gp-coeff")
-            if gp_data is not None:
-                buildup_factor_materials.append(name)
+        if Material._library is not None:
+            for name in Material._library.keys():
+                properties = Material._library.get(name)
+                if properties is not None:
+                    density = properties.get("density")
+                    materials[name] = density
+                    gp_data = properties.get("gp-coeff")
+                    if gp_data is not None:
+                        buildup_factor_materials.append(name)
+                    else:
+                        # TODO: throw an error
+                        pass
+                else:
+                    # TODO: throw an error
+                    pass
+        else:
+            # TODO: throw an error
+            pass
 
         # use a dummy isotope to initialize the isotope class
         Isotope('cs-137')
-        # create a pandas dataframe from the isotop dictionary
-        model.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
-        model.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
-                                'photon-energy-units', 'photon-intensity'], axis=1,
-                                inplace=True)
-        model.isotopes['active'] = False
-        model.isotopes['activity'] = '0.0'
+        if Isotope._library is not None:
+            # create a pandas dataframe from the isotope dictionary
+            model.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
+            model.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
+                                    'photon-energy-units', 'photon-intensity'], axis=1,
+                                    inplace=True)
+            model.isotopes['active'] = False
+            model.isotopes['activity'] = '0.0'
+        else:
+            # TODO: throw an error
+            pass
 
         self.updateSummary()
 
@@ -289,8 +315,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         if data.shape[0] != 0:
             # we have isotopes marked active
             for row in data.itertuples(index=True):
-                code_line = code_line_start + row.Index + "', " + \
-                    row.activity + ")"
+                code_line = code_line_start + str(row.Index) + "', " + \
+                    str(row.activity) + ")"
                 script.append(code_line)
         script.append("")
 
