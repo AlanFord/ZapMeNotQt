@@ -1,10 +1,13 @@
+from pandocfilters import get_value
 import pandas as pd
 import pickle
 import os
+import io
 
 import PyQt6.QtWidgets
 from PyQt6.QtWidgets import QDialog, QMessageBox, QFileDialog
 
+from OutputDisplayDialog import OutputDisplayDialog
 from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
 from OptionsProgenyDialog import OptionsProgenyDialog
@@ -71,12 +74,31 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         # - if there is any form of shield(even a source/shield)
         #   or filler material, a buildup factor.  This might
         #   just be a caution
-        problem_to_run = self.format_script(limited=False)
+        problem_to_run = self.format_script(silent=True)
         multiline_string = "\n".join(problem_to_run)
         these_globals = {}
         these_locals = {}
         exec(multiline_string, these_globals, these_locals)
         # TODO: trap errors from an exec() run to display in a dialog
+                    # script.append("summary = my_model.generate_summary()")
+        column_names = pd.DataFrame([["", "Photons", "Energy", "MeV"],
+                                        ["", "Photons", "Intensity", "photons/sec"],
+                                        ["", "Uncollided", "Energy Flux", "MeV/cm2/sec"],
+                                        ["", "Uncollided", "Exposure", "mR/hr"],
+                                        ["Collided+", "Uncollided", "Exposure", "mR/hr"]],
+                                        columns=["", "", "", ""])
+        columns = pd.MultiIndex.from_frame(column_names)
+        summary = these_locals['summary']
+        result = these_locals['result']
+        df = pd.DataFrame(summary, columns=columns)
+        uncollided_total = df.iloc[:, 3].sum()
+        buffer = io.StringIO()
+        print("Total Exposure is ", result, " mR/hr", file=buffer)
+        print("Total Uncollided Exposure is ", uncollided_total, " mR/hr", file=buffer)
+        print(df.to_string(index=False), file=buffer)
+        show_me = OutputDisplayDialog(buffer.getvalue())
+        show_me.exec()
+
 
     def openFileSelected(self) -> None:
         # Open the save file dialog
@@ -226,7 +248,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         self.updateSummary()
 
     def display_script(self) -> None:
-        script: list[str] = self.format_script(limited=True)
+        script: list[str] = self.format_script(silent=False)
         show_me = ScriptDisplayDialog(script)
         show_me.exec()
 
@@ -240,14 +262,11 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             show_me = GraphicsDisplayDialog(" ")
             show_me.exec()
 
-    def format_script(self, limited: bool) -> list[str]:
+    def format_script(self, silent: bool) -> list[str]:
         script: list[str] = []
         script.append("from zapmenot import model,source," +
                       "shield,detector,material")
         script.append("")
-        if not limited:
-            script.append("import pandas as pd")
-            script.append("")
         script.append("my_model = model.Model()")
         script.append("")
 
@@ -260,10 +279,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             script.append(code_line)
         # buildup factor material
         if libraries.model.buildup_material == "None":
-            QMessageBox.critical(self, "Error",
-                                 " Buildup Factor Material has not " +
-                                 "been specified.")
-            script.append("# Missing buildup factor material!")
+            # TODO: move this to a "check input" function that can be use when displaying script or running case
+            pass
+            # QMessageBox.critical(self, "Error",
+            #                      " Buildup Factor Material has not " +
+            #                      "been specified.")
+            # script.append("# Missing buildup factor material!")
         else:
             code_line = "my_model.set_buildup_factor_material" + \
                 "(material.Material('" + libraries.model.buildup_material + "'))"
@@ -345,24 +366,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
                 script.append(code_line)
         script.append("")
         script.append("result = my_model.calculate_exposure()")
-        if not limited:
-            script.append("summary = my_model.generate_summary()")
-            script.append('column_names = pd.DataFrame([["", "Photons", "Energy", "MeV"], ')
-            script.append('                             ["", "Photons", "Intensity", "photons/sec"], ')
-            script.append('                             ["", "Uncollided", "Energy Flux", "MeV/cm2/sec"], ')
-            script.append('                             ["", "Uncollided", "Exposure", "mR/hr"], ')
-            script.append('                             ["Collided+", "Uncollided", "Exposure", "mR/hr"]], ')
-            script.append('                             columns=["", "", "", ""])')
-            script.append('columns = pd.MultiIndex.from_frame(column_names)')
-            script.append('df = pd.DataFrame(summary, columns=columns)')
-            script.append('uncollided_total = df.iloc[:, 3].sum()')
-            script.append('')
-            script.append('print("Total Exposure is ", result, " mR/hr")')
-            script.append('print("Total Uncollided Exposure is ", uncollided_total, " mR/hr")')
-            script.append('print(df.to_string(index=False))')
-
-        else:
+        if not silent:
             script.append('print("The exposure rate is ", result, " mR/hr")')
+        else:
+            script.append("summary = my_model.generate_summary()")
         return script
 
     def EnergySelected(self) -> None:

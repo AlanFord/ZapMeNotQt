@@ -27,6 +27,7 @@ class ScriptDisplayDialog(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.display_text = ""
+        # TODO: replace this with the concatenation method used before "exec()"
         for entry in text_list:
             self.display_text += entry + "\n"
         self.textEdit.setText(self.display_text)
