@@ -1,4 +1,6 @@
+from PyQt6.QtGui import QFontDatabase
 from PyQt6.QtWidgets import QDialog
+from PyQt6.QtWidgets import QDialogButtonBox
 
 from ui.OutputDisplayDialog import Ui_Dialog
 
@@ -26,6 +28,10 @@ class OutputDisplayDialog(QDialog, Ui_Dialog):
     def __init__(self, text: str) -> None:
         super().__init__()
         self.setupUi(self)
+        self.resize(500, 300)
+        fixed_font = QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont)
+        self.textEdit.setCurrentFont(fixed_font)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Ok)
         self.textEdit.setText(text)
         buffer = self.textEdit.toMarkdown()
         self.textEdit.setMarkdown(buffer)
