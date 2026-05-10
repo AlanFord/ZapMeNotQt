@@ -1,5 +1,6 @@
 import pandas as pd
 import pickle
+import os
 
 import PyQt6.QtWidgets
 from PyQt6.QtWidgets import QDialog, QMessageBox, QFileDialog
@@ -70,8 +71,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         # - if there is any form of shield(even a source/shield)
         #   or filler material, a buildup factor.  This might
         #   just be a caution
-        pass
-        # trap errors from an exec() run to display in a dialog
+        problem_to_run = self.format_script(limited=False)
+        multiline_string = "\n".join(problem_to_run)
+        these_globals = {}
+        these_locals = {}
+        exec(multiline_string, these_globals, these_locals)
+        # TODO: trap errors from an exec() run to display in a dialog
 
     def openFileSelected(self) -> None:
         # Open the save file dialog
@@ -83,14 +88,18 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             with open(filename, 'rb') as file:
                 libraries.model = pickle.load(file)
             self.file_name = filename
+            self.setWindowTitle("ZapMeNotQt - " + os.path.basename(self.file_name))
             self.actionSave.setEnabled(True)
             self.updateSummary()
 
     def saveFileSelected(self) -> None:
-            # Proceed to save the file using the existing filename
-            with open(self.file_name, 'wb') as file:
-                pickle.dump(libraries.model, file)
-            file.close()
+            # Proceed to save the file using the existing filename, if there is one
+            if self.file_name != "":
+                with open(self.file_name, 'wb') as file:
+                    pickle.dump(libraries.model, file)
+                file.close()
+            else:
+                self.saveAsSelected()
 
     def saveAsSelected(self) -> None:
         # Open the save file dialog
@@ -105,11 +114,14 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
                 self.file_name = filename
             file.close()
             self.actionSave.setEnabled(True)
+            self.file_name = filename
+            self.setWindowTitle("ZapMeNotQt - " + os.path.basename(self.file_name))
 
     def __init__(self) -> None:
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.file_name = ""
+        self.setWindowTitle("ZapMeNotQt - Not Saved")
 
         # file menu setup
         self.actionOpen.triggered.connect(self.openFileSelected)
