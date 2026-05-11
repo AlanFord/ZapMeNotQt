@@ -1,19 +1,26 @@
-ZapMeNotQt
+ZapMeNotQt (A Work in Progress)
 
-A front-end for ZapMeNot written in Qt for Python.  ZapMeNotQt provides a GUI interface
-to assist in writing ZapMeNot Python scripts.  A ZapMeNot Python script defines a photon
-shielding model consisting of, at a minimum, a source and a detector.  The script may also
-include descriptions of one or more photon shields.
+This is in development and is not a completely functional project.
+
+ZapMeNotQt is a GUI front-end for ZapMeNot written in Qt for Python.  ZapMeNotQt provides a GUI interface to assist in writing ZapMeNot Python scripts.  A ZapMeNot Python script defines a photon shielding model consisting of, at a minimum, a source and a detector.  The script may also include descriptions of one or more photon shields.
+
+ZapMeNotQt 
+- assists in developing the shielding model
+- generates a ZapMeNot script describing the model
+- plots the shielding geometry for visual review
+- runs the shielding calculation and presents the results
 
 To run ZapMeNotQt using uv:
 Install uv and then use the command:  uv run src/ZapMeNot/ZapMeNotQt.py
+
+Note that ZapMeNotQt requires access to a ZapMeNot wheel.  The location of the ZapMeNot wheel
+must be specified in the pyproject.toml file.  If ZapMeNot package has been installed, remove
+the location of the ZapMeNot wheel from the pyproject.toml file.
+
+Any ZapMeNot commit dated on or after 4/24/2026 is compatible with ZapMeNotQt
 
 To build an installer:  uv run pyinstaller ZapMeNotQt.spec
 
 To typecheck with ty:  uvx ty check
 
 To lint with ruff: uv run ruff check . 
-
-General Design
-
-The main window will display a summary of the shielding model as it is constructed.  The display will be user-friendly, summarizing the user's input as it is created.  A graphical display will be generated on-demand in a separate window that must be closed to continue.  Another window will display a ZapMeNot script generated from the user input.  This window also provides the capability to save the ZapMeNot Python script is a file with a name determined by the user.  This window must be closed to return back to the main window.
