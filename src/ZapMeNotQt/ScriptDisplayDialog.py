@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QFileDialog
+from PyQt6.QtWidgets import QDialog, QFileDialog, QDialogButtonBox, QPushButton
 
 from ui.script_display import Ui_Dialog
 
@@ -31,18 +31,25 @@ class ScriptDisplayDialog(QDialog, Ui_Dialog):
         for entry in text_list:
             self.display_text += entry + "\n"
         self.textEdit.setText(self.display_text)
-        self.pushButton.clicked.connect(self.close)
-        self.pushButton_2.clicked.connect(self.saveFile)
+        self.buttonBox.accepted.connect(self.close)
+        # add a "Save" button to the buttonBox that will allow user to save the script
+        self.save_file_button = QPushButton("Save ...", self)
+        self.buttonBox.addButton(self.save_file_button, 
+                            QDialogButtonBox.ButtonRole.ActionRole)
+        self.buttonBox.clicked.connect(self.saveFile)
 
-    def saveFile(self) -> None:
-        # Open the save file dialog
-        filename, _ = QFileDialog.getSaveFileName(None,
-                                                  "Save File",
-                                                  "",
-                                                  "Python Files (*.py);;All Files (*)")
 
-        if filename:
-            # Proceed to save the file using the selected filename
-            with open(filename, 'w') as file:
-                file.write(self.display_text)
-            file.close()
+
+    def saveFile(self,button) -> None:
+        if button is self.save_file_button:
+            # Open the save file dialog
+            filename, _ = QFileDialog.getSaveFileName(None,
+                                                    "Save File",
+                                                    "",
+                                                    "Python Files (*.py);;All Files (*)")
+
+            if filename:
+                # Proceed to save the file using the selected filename
+                with open(filename, 'w') as file:
+                    file.write(self.display_text)
+                file.close()

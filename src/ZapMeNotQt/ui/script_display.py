@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './script_display.ui'
+# Form implementation generated from reading ui file 'script_display.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -21,19 +21,10 @@ class Ui_Dialog(object):
         self.textEdit.setAcceptRichText(False)
         self.textEdit.setObjectName("textEdit")
         self.verticalLayout.addWidget(self.textEdit)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.pushButton_2 = QtWidgets.QPushButton(parent=Dialog)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
-        self.label = QtWidgets.QLabel(parent=Dialog)
-        self.label.setText("")
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
-        self.pushButton = QtWidgets.QPushButton(parent=Dialog)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.buttonBox = QtWidgets.QDialogButtonBox(parent=Dialog)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.StandardButton.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -41,5 +32,3 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "ZapMeNot Script"))
-        self.pushButton_2.setText(_translate("Dialog", "Save File ..."))
-        self.pushButton.setText(_translate("Dialog", "Ok"))
