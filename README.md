@@ -17,7 +17,7 @@ Note that ZapMeNotQt requires access to a ZapMeNot wheel.  The location of the Z
 must be specified in the pyproject.toml file.  If ZapMeNot package has been installed, remove
 the location of the ZapMeNot wheel from the pyproject.toml file.
 
-Any ZapMeNot commit dated on or after 4/24/2026 is compatible with ZapMeNotQt
+Any ZapMeNot commit dated on or after 5/10/2026 is compatible with ZapMeNotQt
 
 To build an installer:  uv run pyinstaller ZapMeNotQt.spec
 
