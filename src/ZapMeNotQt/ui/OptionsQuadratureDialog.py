@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './OptionsQuadratureDialog.ui'
+# Form implementation generated from reading ui file 'OptionsQuadratureDialog.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -62,7 +62,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Generic Shield"))
+        Dialog.setWindowTitle(_translate("Dialog", "Quadrature Specifications"))
         self.label.setText(_translate("Dialog", "<html><head/><body><p>Source Quadrature</p><p>Please enter a preferred source quadrature. Three values represent the quadrature for X, Y, Z (rectangular geometries), R, Theta, Z (cylidrical geometries), and R, Theta, Phi (spherical geometries). Line sources use only the first entry. Point sources do not use quadrature. Default values used by ZapMeNotQt are 10, 10, 10.</p></body></html>"))
         self.groupBox_2.setTitle(_translate("Dialog", "Quadrature Entries"))
         self.triplet1Xname.setText(_translate("Dialog", "First"))

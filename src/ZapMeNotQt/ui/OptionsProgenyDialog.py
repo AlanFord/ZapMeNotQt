@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './OptionsProgenyDialog.ui'
+# Form implementation generated from reading ui file 'OptionsProgenyDialog.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -35,5 +35,5 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Progeny Options"))
         self.checkBox.setText(_translate("Dialog", "Add Key Progeny"))

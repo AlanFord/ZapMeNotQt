@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './OptionsFillerDialog.ui'
+# Form implementation generated from reading ui file 'OptionsFillerDialog.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -45,6 +45,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Filler Material"))
         self.label_2.setText(_translate("Dialog", "Filler Material:"))
         self.label.setText(_translate("Dialog", "Density (g/cm3):"))

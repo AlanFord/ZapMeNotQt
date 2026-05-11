@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './OptionsBuildupDialog.ui'
+# Form implementation generated from reading ui file 'OptionsBuildupDialog.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -34,5 +34,5 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "Buildup Factor Material"))
         self.label.setText(_translate("Dialog", "Buildup Factor Material:"))

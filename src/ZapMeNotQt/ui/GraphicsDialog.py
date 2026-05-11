@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file './GraphicsDialog.ui'
+# Form implementation generated from reading ui file 'GraphicsDialog.ui'
 #
 # Created by: PyQt6 UI code generator 6.11.0
 #
@@ -34,6 +34,6 @@ class Ui_GraphicsDialog(object):
 
     def retranslateUi(self, GraphicsDialog):
         _translate = QtCore.QCoreApplication.translate
-        GraphicsDialog.setWindowTitle(_translate("GraphicsDialog", "Dialog"))
+        GraphicsDialog.setWindowTitle(_translate("GraphicsDialog", "View of the Model"))
         self.pushButton.setText(_translate("GraphicsDialog", "OK"))
 from pyvistaqt import QtInteractor
