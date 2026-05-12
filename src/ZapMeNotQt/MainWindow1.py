@@ -1,4 +1,3 @@
-from pandocfilters import get_value
 import pandas as pd
 import pickle
 import os
@@ -92,11 +91,17 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         result = these_locals['result']
         df = pd.DataFrame(summary, columns=columns)
         uncollided_total = df.iloc[:, 3].sum()
-        buffer = io.StringIO()
+
+        buffer = io.StringIO()        
+        print("  ", file=buffer)
+        print("  ", file=buffer)
+        print("\n\nResults:", file=buffer)
         print("Total Exposure is ", result, " mR/hr", file=buffer)
         print("Total Uncollided Exposure is ", uncollided_total, " mR/hr", file=buffer)
         print(df.to_string(index=False), file=buffer)
-        show_me = OutputDisplayDialog(buffer.getvalue())
+        printed_results = self.summaryDescription.toPlainText()
+        printed_results += buffer.getvalue()
+        show_me = OutputDisplayDialog(printed_results)
         show_me.exec()
 
 
@@ -569,4 +574,4 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             bodyText += "None Specified\n"
         bodyText += "\n"
 
-        self.summaryDescription.setText(bodyText)
+        self.summaryDescription.setPlainText(bodyText)
