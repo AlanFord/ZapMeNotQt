@@ -121,6 +121,7 @@
     <property name="title">
      <string>Options</string>
     </property>
+    <addaction name="actionCase_Description"/>
     <addaction name="actionBuildup_Material"/>
     <addaction name="actionDaughters"/>
     <addaction name="actionEnergy_Groups"/>
@@ -355,6 +356,11 @@
   <action name="actionRun">
    <property name="text">
     <string>Run</string>
+   </property>
+  </action>
+  <action name="actionCase_Description">
+   <property name="text">
+    <string>Case Description ...</string>
    </property>
   </action>
  </widget>

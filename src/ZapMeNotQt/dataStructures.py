@@ -55,6 +55,7 @@ class Model:
         # 1=30 groups
         # 2=discrete
         self.groups: int = 0
+        self.description = ""
 
 
 class Detector:

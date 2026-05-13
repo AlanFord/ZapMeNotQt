@@ -6,6 +6,7 @@ import io
 import PyQt6.QtWidgets
 from PyQt6.QtWidgets import QDialog, QMessageBox, QFileDialog
 
+from DescriptionDialog import DescriptionDialog
 from OutputDisplayDialog import OutputDisplayDialog
 from DetectorLocationDialog import DetectorDialog
 from OptionsGroupsDialog import OptionsGroupsDialog
@@ -93,15 +94,22 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         uncollided_total = df.iloc[:, 3].sum()
 
         buffer = io.StringIO()        
+        # output header
+        if libraries.model.description != "":
+            print(libraries.model.description, file=buffer)
+
+        # add model summary to output
+        print(self.summaryDescription.toPlainText(), file=buffer)
+
+        # add results to output
         print("  ", file=buffer)
         print("  ", file=buffer)
         print("\n\nResults:", file=buffer)
         print("Total Exposure is ", result, " mR/hr", file=buffer)
         print("Total Uncollided Exposure is ", uncollided_total, " mR/hr", file=buffer)
         print(df.to_string(index=False), file=buffer)
-        printed_results = self.summaryDescription.toPlainText()
-        printed_results += buffer.getvalue()
-        show_me = OutputDisplayDialog(printed_results)
+        
+        show_me = OutputDisplayDialog(buffer.getvalue())
         show_me.exec()
 
 
@@ -112,6 +120,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
                                                   "",
                                                   "ZapMeNot Files (*.zp);;All Files (*)")
         if filename:
+            # TODO: trap errors if invalid file is opened
             with open(filename, 'rb') as file:
                 libraries.model = pickle.load(file)
             self.file_name = filename
@@ -181,6 +190,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionRemove.triggered.connect(self.removeShieldSelected)
 
         # options menu setup
+        self.actionCase_Description.triggered.connect(self.descriptionSelected)
         self.actionEnergy_Groups.triggered.connect(self.energyGroupsSelected)
         self.actionDaughters.triggered.connect(self.progenySelected)
         self.actionBuildup_Material.triggered.connect(
@@ -217,38 +227,33 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         # dialog that requires it
         Material('water')
         # retrieve a list of materials that have buildup factors
-        if Material._library is not None:
-            for name in Material._library.keys():
-                properties = Material._library.get(name)
-                if properties is not None:
-                    density = properties.get("density")
-                    materials[name] = density
-                    gp_data = properties.get("gp-coeff")
-                    if gp_data is not None:
-                        buildup_factor_materials.append(name)
-                    else:
-                        # TODO: throw an error
-                        pass
+        for name in Material._library.keys():
+            properties = Material._library.get(name)
+            if properties is not None:
+                density = properties.get("density")
+                materials[name] = density
+                gp_data = properties.get("gp-coeff")
+                if gp_data is not None:
+                    buildup_factor_materials.append(name)
                 else:
                     # TODO: throw an error
                     pass
-        else:
-            # TODO: throw an error
-            pass
+            else:
+                # TODO: throw an error
+                pass
 
         # use a dummy isotope to initialize the isotope class
         Isotope('cs-137')
-        if Isotope._library is not None:
-            # create a pandas dataframe from the isotope dictionary
-            libraries.model.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
-            libraries.model.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
-                                    'photon-energy-units', 'photon-intensity'], axis=1,
-                                    inplace=True)
-            libraries.model.isotopes['active'] = False
-            libraries.model.isotopes['activity'] = '0.0'
-        else:
-            # TODO: throw an error
+        if not Isotope._library:
+            # TODO: throw an error because the library didn't load
             pass
+        # create a pandas dataframe from the isotope dictionary
+        libraries.model.isotopes = pd.DataFrame.from_dict(Isotope._library, orient='index')
+        libraries.model.isotopes.drop(['half-life', 'half-life-units', 'key_progeny',
+                                'photon-energy-units', 'photon-intensity'], axis=1,
+                                inplace=True)
+        libraries.model.isotopes['active'] = False
+        libraries.model.isotopes['activity'] = '0.0'
 
         self.updateSummary()
 
@@ -256,6 +261,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         script: list[str] = self.format_script(silent=False)
         show_me = ScriptDisplayDialog(script)
         show_me.exec()
+
+    def descriptionSelected(self) -> None:
+        if DescriptionDialog().exec() == QDialog.DialogCode.Accepted:
+            self.updateSummary()
 
     def display_graphics(self) -> None:
         # do we have sufficient model detail to display?
@@ -271,6 +280,8 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         script: list[str] = []
         script.append("from zapmenot import model,source," +
                       "shield,detector,material")
+        script.append("")
+        script.append("# Description: " + libraries.model.description)
         script.append("")
         script.append("my_model = model.Model()")
         script.append("")
@@ -494,6 +505,9 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
 
     def updateSummary(self) -> None:
         bodyText = "Model Summary: \n\n"
+
+        bodyText += "Description: " + \
+                    libraries.model.description + "\n\n"
 
         bodyText += "Buildup Factor Material:  " + \
                     libraries.model.buildup_material + "\n\n"
