@@ -3,7 +3,7 @@ name = "zapmenotqt"
 version = "0.1.0"
 description = "A graphical user interface for ZapMeNot"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "pandas>=3.0.2",
     "pandas-stubs>=3.0.0.260204",
@@ -21,7 +21,7 @@ dev = [
 ]
 
 [tool.uv.sources]
-zapmenot = { path = "../../../Desktop/github/ZapMeNot/dist/zapmenot-0.2.1-py3-none-any.whl" }
+zapmenot = { path = "../../../Desktop/github/ZapMeNot", editable = true }
 
 [tool.ruff.lint]
 extend-select = ["B"]
