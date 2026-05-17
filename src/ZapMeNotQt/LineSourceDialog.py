@@ -1,6 +1,6 @@
-from GenericBodyDialog import GenericBodyDialog
-import libraries
-import dataStructures
+from .GenericBodyDialog import GenericBodyDialog
+from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

@@ -1330,7 +1330,7 @@ requires-dist = [
     { name = "ipywidgets", marker = "extra == 'jupyterlab'", specifier = ">=8.1.7" },
     { name = "jupyterlab", marker = "extra == 'jupyterlab'", specifier = ">=4.4" },
     { name = "pandas", marker = "extra == 'test'", specifier = ">=2.3" },
-    { name = "pytest", marker = "extra == 'test'", specifier = ">=7.0.0" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=9.0.3" },
     { name = "pyvista", specifier = ">=0.45" },
     { name = "pyyaml" },
     { name = "scipy" },
@@ -1356,7 +1356,7 @@ test = [{ name = "zapmenot", extras = ["test"], editable = "../../../Desktop/git
 [[package]]
 name = "zapmenotqt"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "pandas" },
     { name = "pandas-stubs" },

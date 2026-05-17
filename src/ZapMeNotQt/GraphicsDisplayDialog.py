@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QDialog
 from zapmenot import model, source, shield
 
-from ui.GraphicsDialog import Ui_GraphicsDialog
+from .ui.GraphicsDialog import Ui_GraphicsDialog
 
-import libraries
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

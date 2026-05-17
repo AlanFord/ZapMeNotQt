@@ -1,8 +1,9 @@
+# from ty_extensions import Unknown
 import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from MainWindow1 import MainWindow
+from ZapMeNotQt.MainWindow1 import MainWindow
 
 ''' '''
 '''
@@ -23,8 +24,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
-app = QApplication(sys.argv)
+def main() -> None:
+    app = QApplication(sys.argv)
 
-window = MainWindow()
-window.show()
-sys.exit(app.exec())
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

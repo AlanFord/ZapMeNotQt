@@ -1,6 +1,6 @@
-from YAlignedCylinderDialog import YAlignedCylinderDialog
-import dataStructures
-import libraries
+from .YAlignedCylinderDialog import YAlignedCylinderDialog
+from . import dataStructures
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

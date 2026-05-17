@@ -3,10 +3,10 @@ from PyQt6.QtCore import QRegularExpression
 from PyQt6.QtGui import QValidator, QDoubleValidator, \
     QRegularExpressionValidator
 
-from ui.GenericShieldDialog import Ui_Dialog
+from .ui.GenericShieldDialog import Ui_Dialog
 
-import libraries
-from libraries import materials
+from . import libraries
+from .libraries import materials
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

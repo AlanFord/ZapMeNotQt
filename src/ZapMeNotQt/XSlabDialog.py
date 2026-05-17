@@ -1,7 +1,7 @@
-from GenericBodyDialog import GenericBodyDialog
+from .GenericBodyDialog import GenericBodyDialog
 from PyQt6.QtWidgets import QMessageBox
-import dataStructures
-import libraries
+from . import dataStructures
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QDialog
-from ui.DescriptionDialog import Ui_Dialog
+from .ui.DescriptionDialog import Ui_Dialog
 
-import libraries
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

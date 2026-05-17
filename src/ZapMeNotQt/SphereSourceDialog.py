@@ -1,6 +1,6 @@
-from SphereDialog import SphereDialog
-import dataStructures
-import libraries
+from .SphereDialog import SphereDialog
+from . import dataStructures
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

@@ -2,10 +2,10 @@ from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PyQt6.QtGui import QValidator, QDoubleValidator
 
-from ui.ActivitiesDialog import Ui_Dialog
+from .ui.ActivitiesDialog import Ui_Dialog
 
-import libraries 
-import dataStructures
+from . import libraries 
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

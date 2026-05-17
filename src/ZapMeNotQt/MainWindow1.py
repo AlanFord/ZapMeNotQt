@@ -6,42 +6,42 @@ import io
 import PyQt6.QtWidgets
 from PyQt6.QtWidgets import QDialog, QMessageBox, QFileDialog
 
-from DescriptionDialog import DescriptionDialog
-from OutputDisplayDialog import OutputDisplayDialog
-from DetectorLocationDialog import DetectorDialog
-from OptionsGroupsDialog import OptionsGroupsDialog
-from OptionsProgenyDialog import OptionsProgenyDialog
-from OptionsQuadratureDialog import OptionsQuadratureDialog
-from OptionsBuildupDialog import OptionsBuildupDialog
-from OptionsFillerDialog import OptionsFillerDialog
-from BoxDialog import BoxDialog
-from SphereDialog import SphereDialog
-from XSlabDialog import XSlabDialog
-from AnnulusDialog import AnnulusDialog
-from CappedCylinderDialog import CappedCylinderDialog
-from XAlignedCylinderDialog import XAlignedCylinderDialog
-from YAlignedCylinderDialog import YAlignedCylinderDialog
-from ZAlignedCylinderDialog import ZAlignedCylinderDialog
-from XAlignedAnnulusDialog import XAlignedAnnulusDialog
-from YAlignedAnnulusDialog import YAlignedAnnulusDialog
-from ZAlignedAnnulusDialog import ZAlignedAnnulusDialog
-from RemoveShieldDialog import RemoveShieldDialog
-from SphereSourceDialog import SphereSourceDialog
-from BoxSourceDialog import BoxSourceDialog
-from XAlignedCylinderSourceDialog import XAlignedCylinderSourceDialog
-from YAlignedCylinderSourceDialog import YAlignedCylinderSourceDialog
-from ZAlignedCylinderSourceDialog import ZAlignedCylinderSourceDialog
-from PointSourceDialog import PointSourceDialog
-from LineSourceDialog import LineSourceDialog
-from IsotopePickerDialog import IsotopePickerDialog
-from PhotonDialog import PhotonDialog
-from ScriptDisplayDialog import ScriptDisplayDialog
-from GraphicsDisplayDialog import GraphicsDisplayDialog
-import libraries
-from libraries import buildup_factor_materials, materials
-import dataStructures
+from .DescriptionDialog import DescriptionDialog
+from .OutputDisplayDialog import OutputDisplayDialog
+from .DetectorLocationDialog import DetectorDialog
+from .OptionsGroupsDialog import OptionsGroupsDialog
+from .OptionsProgenyDialog import OptionsProgenyDialog
+from .OptionsQuadratureDialog import OptionsQuadratureDialog
+from .OptionsBuildupDialog import OptionsBuildupDialog
+from .OptionsFillerDialog import OptionsFillerDialog
+from .BoxDialog import BoxDialog
+from .SphereDialog import SphereDialog
+from .XSlabDialog import XSlabDialog
+from .AnnulusDialog import AnnulusDialog
+from .CappedCylinderDialog import CappedCylinderDialog
+from .XAlignedCylinderDialog import XAlignedCylinderDialog
+from .YAlignedCylinderDialog import YAlignedCylinderDialog
+from .ZAlignedCylinderDialog import ZAlignedCylinderDialog
+from .XAlignedAnnulusDialog import XAlignedAnnulusDialog
+from .YAlignedAnnulusDialog import YAlignedAnnulusDialog
+from .ZAlignedAnnulusDialog import ZAlignedAnnulusDialog
+from .RemoveShieldDialog import RemoveShieldDialog
+from .SphereSourceDialog import SphereSourceDialog
+from .BoxSourceDialog import BoxSourceDialog
+from .XAlignedCylinderSourceDialog import XAlignedCylinderSourceDialog
+from .YAlignedCylinderSourceDialog import YAlignedCylinderSourceDialog
+from .ZAlignedCylinderSourceDialog import ZAlignedCylinderSourceDialog
+from .PointSourceDialog import PointSourceDialog
+from .LineSourceDialog import LineSourceDialog
+from .IsotopePickerDialog import IsotopePickerDialog
+from .PhotonDialog import PhotonDialog
+from .ScriptDisplayDialog import ScriptDisplayDialog
+from .GraphicsDisplayDialog import GraphicsDisplayDialog
+from . import libraries
+from .libraries import buildup_factor_materials, materials
+from . import dataStructures
 
-from ui.MainWindow import Ui_MainWindow
+from .ui.MainWindow import Ui_MainWindow
 
 from zapmenot.material import Material
 from zapmenot.isotope import Isotope

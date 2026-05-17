@@ -2,7 +2,7 @@ from PyQt6.QtGui import QFontDatabase
 from PyQt6.QtWidgets import QDialog
 from PyQt6.QtWidgets import QDialogButtonBox
 
-from ui.OutputDisplayDialog import Ui_Dialog
+from .ui.OutputDisplayDialog import Ui_Dialog
 
 ''' '''
 '''

@@ -5,7 +5,7 @@
 # import pandas as pd
 #from enum import Enum
 # from dataStructures import ShieldData, Detector
-from dataStructures import Model
+from .dataStructures import Model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

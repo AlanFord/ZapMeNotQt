@@ -1,4 +1,4 @@
-from GenericBodyDialog import GenericBodyDialog
+from .GenericBodyDialog import GenericBodyDialog
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

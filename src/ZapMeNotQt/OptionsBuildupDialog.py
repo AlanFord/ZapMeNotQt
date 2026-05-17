@@ -1,8 +1,8 @@
 import PyQt6.QtWidgets
 
-from ui.OptionsBuildupDialog import Ui_Dialog
-import libraries
-from libraries import buildup_factor_materials
+from .ui.OptionsBuildupDialog import Ui_Dialog
+from . import libraries
+from .libraries import buildup_factor_materials
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

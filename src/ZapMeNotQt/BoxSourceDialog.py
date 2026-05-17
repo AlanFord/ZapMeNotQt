@@ -1,6 +1,6 @@
-from BoxDialog import BoxDialog
-import libraries
-import dataStructures
+from .BoxDialog import BoxDialog
+from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

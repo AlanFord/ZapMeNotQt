@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QDialog
-from GenericBodyDialog import GenericBodyDialog
-from ShellDialog import ShellDialog
-import dataStructures
-import libraries
+from .GenericBodyDialog import GenericBodyDialog
+from .ShellDialog import ShellDialog
+from . import dataStructures
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

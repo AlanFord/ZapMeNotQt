@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QDialog, QMessageBox
 from PyQt6.QtGui import QIntValidator
 
-from ui.OptionsQuadratureDialog import Ui_Dialog
+from .ui.OptionsQuadratureDialog import Ui_Dialog
 
-import libraries
+from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

@@ -3,10 +3,10 @@ from PyQt6.QtWidgets import QDialog, QHeaderView, QStyledItemDelegate, \
 from PyQt6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PyQt6.QtGui import QColor
 
-from ui.IsotopeSelector import Ui_Dialog
+from .ui.IsotopeSelector import Ui_Dialog
 
-import libraries
-from ActivitiesDialog import ActivitiesDialog
+from . import libraries
+from .ActivitiesDialog import ActivitiesDialog
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot

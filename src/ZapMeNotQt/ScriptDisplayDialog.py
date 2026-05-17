@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QDialog, QFileDialog, QDialogButtonBox, QPushButton
 
-from ui.script_display import Ui_Dialog
+from .ui.script_display import Ui_Dialog
 
 ''' '''
 '''
