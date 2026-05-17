@@ -11,7 +11,7 @@ ZapMeNotQt
 - runs the shielding calculation and presents the results
 
 To run ZapMeNotQt using uv:
-Install uv and then use the command:  uv run src/ZapMeNot/ZapMeNotQt.py
+Install uv and then use the command:  uv run src/ZapMeNotQt.py
 
 Note that ZapMeNotQt requires access to a ZapMeNot wheel.  The location of the ZapMeNot wheel
 must be specified in the pyproject.toml file.  If ZapMeNot package has been installed, remove
