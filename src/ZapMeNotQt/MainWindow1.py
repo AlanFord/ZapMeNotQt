@@ -5,6 +5,7 @@ import io
 
 import PyQt6.QtWidgets
 from PyQt6.QtWidgets import QDialog, QMessageBox, QFileDialog
+from PyQt6.QtGui import QCloseEvent
 
 from .DescriptionDialog import DescriptionDialog
 from .OutputDisplayDialog import OutputDisplayDialog
@@ -137,6 +138,12 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.saveAsSelected()
 
+    # Note:  The "Quit" menu item in the File menu will not appear when run under MacOS
+    #    The OS redirexts the exit functioin to the Python exit menu item and will
+    #    subsequently call this method.
+    def quitSelected(self) -> None:
+        self.close()
+
     def saveAsSelected(self) -> None:
         # Open the save file dialog
         filename, _ = QFileDialog.getSaveFileName(None,
@@ -152,6 +159,10 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             self.actionSave.setEnabled(True)
             self.file_name = filename
             self.setWindowTitle("ZapMeNotQt - " + os.path.basename(self.file_name))
+    
+    def closeEvent(self, a0: QCloseEvent) -> None:
+        print("we are closing")
+
 
     def __init__(self) -> None:
         super(MainWindow, self).__init__()
@@ -165,6 +176,7 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionSave_As.triggered.connect(self.saveAsSelected)
         self.actionSave.setEnabled(False)
         self.actionRun.triggered.connect(self.runSelected)
+        self.actionmondo.triggered.connect(self.quitSelected)
 
         # shield menu setup
         self.actionBox.triggered.connect(self.addBoxShieldSelected)

@@ -150,6 +150,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionRun"/>
+    <addaction name="actionmondo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Source"/>
@@ -361,6 +362,24 @@
   <action name="actionCase_Description">
    <property name="text">
     <string>Case Description ...</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionrando">
+   <property name="text">
+    <string>rando</string>
+   </property>
+  </action>
+  <action name="actionmondo">
+   <property name="text">
+    <string>Quit</string>
    </property>
   </action>
  </widget>
