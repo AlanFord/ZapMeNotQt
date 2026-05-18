@@ -1,4 +1,5 @@
 from .GenericBodyDialog import GenericBodyDialog
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -20,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class ShellDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Shell")
 
         self.groupBox_2.setVisible(False)

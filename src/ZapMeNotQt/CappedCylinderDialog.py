@@ -1,6 +1,5 @@
 from .GenericBodyDialog import GenericBodyDialog
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -22,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class CappedCylinderDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Capped Cylinder")
 
         self.groupBox_2.setTitle("Cylinder Start:")
@@ -50,4 +49,4 @@ class CappedCylinderDialog(GenericBodyDialog):
         shield.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        libraries.model.shield_dict[shield.name] = shield
+        self.model.shield_dict[shield.name] = shield

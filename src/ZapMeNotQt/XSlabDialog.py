@@ -1,7 +1,6 @@
 from .GenericBodyDialog import GenericBodyDialog
 from PyQt6.QtWidgets import QMessageBox
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -23,8 +22,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class XSlabDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Semi-infinite X Slab")
 
         self.groupBox_2.setVisible(False)
@@ -54,7 +53,7 @@ class XSlabDialog(GenericBodyDialog):
         shield.density = self.density.text()
         shield.radius1 = self.radius1.text()
         shield.radius2 = self.radius2.text()
-        libraries.model.shield_dict[shield.name] = shield
+        self.model.shield_dict[shield.name] = shield
 
     def accept(self) -> None:
         if float(self.radius2.text()) <= float(self.radius1.text()):

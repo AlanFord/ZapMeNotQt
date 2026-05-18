@@ -1,6 +1,5 @@
 from .SphereDialog import SphereDialog
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -22,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class SphereSourceDialog(SphereDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.name_field.hide()
         self.name_label.hide()
         # shrink the height of the dialog to fit the visible widgets
@@ -41,4 +40,4 @@ class SphereSourceDialog(SphereDialog):
             source.shell = self.shell
         else:
             source.shell = None
-        libraries.model.source = source
+        self.model.source = source

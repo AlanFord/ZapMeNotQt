@@ -2,7 +2,7 @@ import PyQt6.QtWidgets
 
 from .ui.OptionsProgenyDialog import Ui_Dialog
 
-from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -24,11 +24,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class OptionsProgenyDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
-    def __init__(self) -> None:
+    def __init__(self, model: dataStructures.Model) -> None:
         super(OptionsProgenyDialog, self).__init__()
         self.setupUi(self)
-        self.checkBox.setChecked(libraries.model.progeny)
+        self.model = model
+        self.checkBox.setChecked(self.model.progeny)
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self) -> None:
-        libraries.model.progeny = self.checkBox.isChecked()
+        self.model.progeny = self.checkBox.isChecked()

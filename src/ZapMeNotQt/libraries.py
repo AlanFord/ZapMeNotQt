@@ -1,11 +1,10 @@
 # here we create a set of global libraries used by several of the dialogs
-# and windows.  Each module should import libraries.py
+# and windows.
 
 # from typing import Optional
 # import pandas as pd
 #from enum import Enum
 # from dataStructures import ShieldData, Detector
-from .dataStructures import Model
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -26,7 +25,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 '''
 
 
-model = Model()
 
 # class Activity_Type(Enum):
 #     Curie = 1

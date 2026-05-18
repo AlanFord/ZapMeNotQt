@@ -1,5 +1,5 @@
+from ZapMeNotQt.dataStructures import Model
 from .GenericBodyDialog import GenericBodyDialog
-from . import libraries
 from . import dataStructures
 ''' '''
 '''
@@ -22,8 +22,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class LineSourceDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Line")
 
         self.name_field.setVisible(False)
@@ -51,4 +51,4 @@ class LineSourceDialog(GenericBodyDialog):
         source.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        libraries.model.source = source
+        self.model.source = source

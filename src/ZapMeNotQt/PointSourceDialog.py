@@ -1,6 +1,6 @@
+from ZapMeNotQt.dataStructures import Model
 from .GenericBodyDialog import GenericBodyDialog
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -22,10 +22,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class PointSourceDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Point")
-
         self.name_field.setVisible(False)
         self.name_label.setVisible(False)
         self.groupBox.setVisible(False)
@@ -51,4 +50,4 @@ class PointSourceDialog(GenericBodyDialog):
         source.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        libraries.model.source = source
+        self.model.source = source

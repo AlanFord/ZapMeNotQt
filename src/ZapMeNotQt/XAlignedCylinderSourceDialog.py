@@ -1,6 +1,5 @@
 from .XAlignedCylinderDialog import XAlignedCylinderDialog
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -22,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class XAlignedCylinderSourceDialog(XAlignedCylinderDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.name_field.hide()
         self.name_label.hide()
         # shrink the height of the dialog to fit the visible widgets
@@ -38,4 +37,4 @@ class XAlignedCylinderSourceDialog(XAlignedCylinderDialog):
         source.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        libraries.model.source = source
+        self.model.source = source

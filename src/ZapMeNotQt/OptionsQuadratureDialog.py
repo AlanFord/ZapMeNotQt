@@ -3,7 +3,7 @@ from PyQt6.QtGui import QIntValidator
 
 from .ui.OptionsQuadratureDialog import Ui_Dialog
 
-from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -25,9 +25,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class OptionsQuadratureDialog(QDialog, Ui_Dialog):
-    def __init__(self) -> None:
+    def __init__(self, model: dataStructures.Model) -> None:
         super().__init__()
         self.setupUi(self)
+        self.model = model
         self.accepted.connect(self.on_dialog_accepted)
         self.positive_validator = QIntValidator(self)
         self.positive_validator.setBottom(1)
@@ -59,6 +60,6 @@ class OptionsQuadratureDialog(QDialog, Ui_Dialog):
             super().accept()
 
     def on_dialog_accepted(self) -> None:
-        libraries.model.quadrature: list[str] = [self.triplet1X.text(),
+        self.model.quadrature: list[str] = [self.triplet1X.text(),
                                 self.triplet1Y.text(),
                                 self.triplet1Z.text()]

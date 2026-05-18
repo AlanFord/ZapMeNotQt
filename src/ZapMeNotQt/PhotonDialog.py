@@ -4,7 +4,7 @@ from PyQt6.QtGui import QValidator, QDoubleValidator
 
 from .ui.PhotonsDialog import Ui_Dialog
 
-from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -26,10 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class PhotonDialog(QDialog, Ui_Dialog):
-    def __init__(self) -> None:
+    def __init__(self, model: dataStructures.Model) -> None:
         super().__init__()
         self.setupUi(self)
-        self._data = libraries.model.photons  # list of lists
+        self.model = model
+        self._data = model.photons  # list of lists
         if len(self._data) == 0:
             self._data = [["", ""],
                           ["", ""],
@@ -54,7 +55,7 @@ class PhotonDialog(QDialog, Ui_Dialog):
 
     def on_dialog_accepted(self) -> None:
         # copy entries back into permanent storage
-        libraries.model.photons = self._data
+        self.model.photons = self._data
 
 # =================================================================
 

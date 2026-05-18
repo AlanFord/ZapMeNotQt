@@ -1,6 +1,6 @@
+from ZapMeNotQt.dataStructures import Model
 from .GenericBodyDialog import GenericBodyDialog
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -22,8 +22,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class ZAlignedAnnulusDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Z-Aligned Infinite Annulus")
 
         self.groupBox_2.setTitle("Annulus Center:")
@@ -49,4 +49,4 @@ class ZAlignedAnnulusDialog(GenericBodyDialog):
         shield.vector1 = [self.triplet1X.text(),
                           self.triplet1Y.text(),
                           self.triplet1Z.text()]
-        libraries.model.shield_dict[shield.name] = shield
+        self.model.shield_dict[shield.name] = shield

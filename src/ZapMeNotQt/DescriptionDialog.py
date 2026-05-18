@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QDialog
 from .ui.DescriptionDialog import Ui_Dialog
 
-from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -23,12 +23,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class DescriptionDialog(QDialog, Ui_Dialog):
-    def __init__(self):
+    def __init__(self, model: dataStructures.Model):
         super().__init__()
+        self.model = model
         self.setupUi(self)
-        self.lineEdit.setText(libraries.model.description)
+        self.lineEdit.setText(self.model.description)
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self) -> None:
         #record the description
-        libraries.model.description = self.lineEdit.text()
+        self.model.description = self.lineEdit.text()

@@ -4,7 +4,6 @@ from PyQt6.QtGui import QValidator, QDoubleValidator
 
 from .ui.ActivitiesDialog import Ui_Dialog
 
-from . import libraries 
 from . import dataStructures
 ''' '''
 '''
@@ -27,9 +26,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class ActivitiesDialog(QDialog, Ui_Dialog):
-    def __init__(self, master_library):
+    def __init__(self, master_library, model: dataStructures.Model):
         super().__init__()
         self.setupUi(self)
+        self.model = model
         self.master_library = master_library
         self._data = self.master_library.loc[self.master_library['active']]
         self._data = self._data.drop("active", axis=1)
@@ -41,9 +41,9 @@ class ActivitiesDialog(QDialog, Ui_Dialog):
     def on_dialog_accepted(self) -> None:
         # record the activity units
         if self.radioButton.isChecked():
-            libraries.model.activity_type = dataStructures.Activity_Type.Curie
+            self.model.activity_type = dataStructures.Activity_Type.Curie
         else:
-            libraries.model.activity_type = dataStructures.Activity_Type.Becquerel
+            self.model.activity_type = dataStructures.Activity_Type.Becquerel
 
         # copy entries from self._data to self.master_library
         for index in self._data.index:

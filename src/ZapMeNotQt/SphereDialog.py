@@ -2,7 +2,6 @@ from PyQt6.QtWidgets import QDialog
 from .GenericBodyDialog import GenericBodyDialog
 from .ShellDialog import ShellDialog
 from . import dataStructures
-from . import libraries
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -24,10 +23,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class SphereDialog(GenericBodyDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.setWindowTitle("Sphere")
-
         self.groupBox_2.setTitle("Sphere Center:")
         self.radius1Label.setText("Radius (cm):")
         self.shellCheckBox.setVisible(True)
@@ -45,7 +43,7 @@ class SphereDialog(GenericBodyDialog):
         self.shell = None
         self.shellButton.clicked.connect(self.the_shell_button_was_clicked)
         self.shellCheckBox.stateChanged.connect(self.shellCheckBox_changed)
-        self.shellDialog = ShellDialog()
+        self.shellDialog = ShellDialog(self.model)
         self.accepted.connect(self.on_dialog_accepted)
 
     def on_dialog_accepted(self) -> None:
@@ -62,7 +60,7 @@ class SphereDialog(GenericBodyDialog):
             sphere.shell = self.shell
         else:
             sphere.shell = None
-        libraries.model.shield_dict[sphere.name] = sphere
+        self.model.shield_dict[sphere.name] = sphere
 
     def the_shell_button_was_clicked(self) -> None:
         if self.shellDialog.exec() == QDialog.DialogCode.Accepted:
@@ -82,8 +80,8 @@ class SphereDialog(GenericBodyDialog):
     def on_name_selected(self) -> None:
         super().on_name_selected()
         new_name = self.name_field.currentText()
-        if new_name in libraries.model.shield_dict:
-            existing_shield = libraries.model.shield_dict[new_name]
+        if new_name in self.model.shield_dict:
+            existing_shield = self.model.shield_dict[new_name]
             # loading the existing shield data into the dialog
             if existing_shield.shell is not None:
                 index = self.shellDialog.material.findText(

@@ -1,9 +1,12 @@
 from PyQt6.QtWidgets import QDialog
-from zapmenot import model, source, shield
+import zapmenot.model
+import zapmenot.source
+import zapmenot.shield
+#from zapmenot import model, source, shield
 
 from .ui.GraphicsDialog import Ui_GraphicsDialog
 
-from . import libraries
+from . import dataStructures
 ''' '''
 '''
 ZapMeNotQt - a graphical user interface for ZapMeNot
@@ -25,28 +28,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class GraphicsDisplayDialog(QDialog, Ui_GraphicsDialog):
-    def __init__(self, text_list: str) -> None:
+    def __init__(self, text_list: str, data_model: dataStructures.Model) -> None:
         super().__init__()
         self.setupUi(self)
         # build a stripped-down ZapMeNot model sufficient for display
-        self.my_model = model.Model()
-        if libraries.model.detector is not None:
-            local_detector = libraries.model.detector.display_code()
-            self.my_model.add_detector(local_detector)
+        self.shielding_model = zapmenot.model.Model()
+        if data_model.detector is not None:
+            local_detector = data_model.detector.display_code()
+            self.shielding_model.add_detector(local_detector)
 
-        for shield_name in libraries.model.shield_dict.keys():
-            local_shield_list = libraries.model.shield_dict[shield_name].display_code()
+        for shield_name in data_model.shield_dict.keys():
+            local_shield_list = data_model.shield_dict[shield_name].display_code()
             for local_shield in local_shield_list:
-                self.my_model.add_shield(local_shield)
+                self.shielding_model.add_shield(local_shield)
 
-        if libraries.model.source is not None:
-            local_source_list = libraries.model.source.display_code()
+        if data_model.source is not None:
+            local_source_list = data_model.source.display_code()
             for local_source in local_source_list:
-                if isinstance(local_source, shield.Shell):
-                    self.my_model.add_shield(local_source)
-                if isinstance(local_source, source.Source):
-                    self.my_model.add_source(local_source)
+                if isinstance(local_source, zapmenot.shield.Shell):
+                    self.shielding_model.add_shield(local_source)
+                if isinstance(local_source, zapmenot.source.Source):
+                    self.shielding_model.add_source(local_source)
 
-        self.my_model._build_image(self.display_view)
+        self.shielding_model._build_image(self.display_view)
         self.pushButton.clicked.connect(self.close)
         # self.pushButton_2.clicked.connect(self.saveFile)

@@ -1,5 +1,4 @@
 from .BoxDialog import BoxDialog
-from . import libraries
 from . import dataStructures
 ''' '''
 '''
@@ -22,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 class BoxSourceDialog(BoxDialog):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, model: dataStructures.Model) -> None:
+        super().__init__(model)
         self.name_field.hide()
         self.name_label.hide()
         # shrink the height of the dialog to fit the visible widgets
@@ -39,4 +38,4 @@ class BoxSourceDialog(BoxDialog):
         source.vector2 = [self.triplet2X.text(),
                           self.triplet2Y.text(),
                           self.triplet2Z.text()]
-        libraries.model.source = source
+        self.model.source = source
