@@ -1,3 +1,4 @@
+from ZapMeNotQt.dataStructures import Energy_Grouping_Type
 import PyQt6.QtWidgets
 
 from .ui.OptionsGroupsDialog import Ui_Dialog
@@ -28,9 +29,9 @@ class OptionsGroupsDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
         super(OptionsGroupsDialog, self).__init__()
         self.setupUi(self)
         self.model = model
-        if self.model.groups == 0:
+        if self.model.groups == Energy_Grouping_Type.Hybrid:
             self.StandardButton.setChecked(True)
-        elif self.model.groups == 1:
+        elif self.model.groups == Energy_Grouping_Type.Fixed:
             self.ThirtyButton.setChecked(True)
         else:
             self.DiscreteButton.setChecked(True)
@@ -38,8 +39,8 @@ class OptionsGroupsDialog(PyQt6.QtWidgets.QDialog, Ui_Dialog):
 
     def on_dialog_accepted(self) -> None:
         if self.StandardButton.isChecked():
-            self.model.groups = 0
+            self.model.groups = Energy_Grouping_Type.Hybrid
         elif self.ThirtyButton.isChecked():
-            self.model.groups = 1
+            self.model.groups = Energy_Grouping_Type.Fixed
         else:
-            self.model.groups = 2
+            self.model.groups = Energy_Grouping_Type.Discrete

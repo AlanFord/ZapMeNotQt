@@ -361,9 +361,9 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             self.model.quadrature[2] + "]"
         script.append(code_line)
         # energy groups
-        if self.model.groups == 0:
+        if self.model.groups == dataStructures.Energy_Grouping_Type.Hybrid:
             code_line = 'my_source.grouping = "hybrid"'
-        elif self.model.groups == 1:
+        elif self.model.groups == dataStructures.Energy_Grouping_Type.Fixed:
             code_line = 'my_source.grouping = "group"'
         else:
             code_line = 'my_source.grouping = "discrete"'
@@ -535,9 +535,9 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, Ui_MainWindow):
             bodyText += "No\n\n"
 
         bodyText += "Energy Group Option:  "
-        if self.model.groups == 0:
+        if self.model.groups == dataStructures.Energy_Grouping_Type.Hybrid:
             bodyText += "Standard Hybrid Set\n\n"
-        elif self.model.groups == 1:
+        elif self.model.groups == dataStructures.Energy_Grouping_Type.Fixed:
             bodyText += "30 Linear Energy Groups\n\n"
         else:
             bodyText += "Discrete Photon Energies\n\n"

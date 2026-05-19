@@ -5,7 +5,8 @@ from pytestqt.qt_compat import qt_api
 from PyQt6.QtWidgets import QDialogButtonBox, QPushButton
 
 from ZapMeNotQt.OptionsGroupsDialog import OptionsGroupsDialog
-from ZapMeNotQt.dataStructures import Model
+from ZapMeNotQt.dataStructures import Model, Energy_Grouping_Type
+
 
 def test_groups_dialog(qtbot):
     assert qt_api.QtWidgets.QApplication.instance() is not None
@@ -29,4 +30,4 @@ def test_groups_dialog(qtbot):
     widget.buttonBox.button(QDialogButtonBox.StandardButton.Ok).click()
 
     # verify that the Model instance has been updated
-    assert model.groups == 2
+    assert model.groups == Energy_Grouping_Type.Discrete

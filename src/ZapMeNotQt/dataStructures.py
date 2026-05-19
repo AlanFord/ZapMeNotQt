@@ -31,6 +31,11 @@ class Activity_Type(Enum):
     Curie = 1
     Becquerel = 2
 
+class Energy_Grouping_Type(Enum):
+    Hybrid = 0   # standard hybrid
+    Fixed = 1    # 30 groups
+    Discrete = 2 # discrete
+
 
 class Model:
     def __init__(self) -> None:
@@ -51,10 +56,7 @@ class Model:
         self.filler_material: str = "None"
         self.filler_density: str = "0.0"
         self.progeny: bool = False
-        # 0=standard hybrid
-        # 1=30 groups
-        # 2=discrete
-        self.groups: int = 0
+        self.groups: Energy_Grouping_Type = Energy_Grouping_Type.Hybrid
         self.description = ""
 
 
